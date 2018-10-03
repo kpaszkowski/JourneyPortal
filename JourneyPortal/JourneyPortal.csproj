@@ -200,13 +200,19 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OffersController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\TripController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201810031748533_InitialCreate.cs" />
     <Compile Include="Migrations\201810031748533_InitialCreate.Designer.cs">
       <DependentUpon>201810031748533_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810031948093_createUserRoles.cs" />
+    <Compile Include="Migrations\201810031948093_createUserRoles.Designer.cs">
+      <DependentUpon>201810031948093_createUserRoles.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -276,6 +282,8 @@
     <Content Include="Views\Forum\Index.cshtml" />
     <Content Include="Views\Offers\Index.cshtml" />
     <Content Include="Views\Trip\Index.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -296,6 +304,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201810031748533_InitialCreate.resx">
       <DependentUpon>201810031748533_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810031948093_createUserRoles.resx">
+      <DependentUpon>201810031948093_createUserRoles.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
