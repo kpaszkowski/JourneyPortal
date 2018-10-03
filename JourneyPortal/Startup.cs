@@ -42,18 +42,45 @@ namespace JourneyPortal
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
                 role.Name = "User";
                 roleManager.Create(role);
+                var user = new ApplicationUser();
+                user.UserName = "user";
+                user.Email = "kpaszkowski1000@gmail.com";
+                string userPWD = "123456";
+                var chkUser = userManager.Create(user, userPWD);
+                if (chkUser.Succeeded)
+                {
+                    var result1 = userManager.AddToRole(user.Id, "User");
+                }
             }
             if (!roleManager.RoleExists("TravelAgency"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
                 role.Name = "TravelAgency";
                 roleManager.Create(role);
+                var user = new ApplicationUser();
+                user.UserName = "travelagency";
+                user.Email = "kpaszkowski1000@gmail.com";
+                string userPWD = "123456";
+                var chkUser = userManager.Create(user, userPWD);
+                if (chkUser.Succeeded)
+                {
+                    var result1 = userManager.AddToRole(user.Id, "TravelAgency");
+                }
             }
             if (!roleManager.RoleExists("Proprietor"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
                 role.Name = "Proprietor";
                 roleManager.Create(role);
+                var user = new ApplicationUser();
+                user.UserName = "proprietor";
+                user.Email = "kpaszkowski1000@gmail.com";
+                string userPWD = "123456";
+                var chkUser = userManager.Create(user, userPWD);
+                if (chkUser.Succeeded)
+                {
+                    var result1 = userManager.AddToRole(user.Id, "Proprietor");
+                }
             }
         }
     }
