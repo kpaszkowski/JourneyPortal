@@ -31,23 +31,36 @@ namespace JourneyPortal.Controllers
             return View(Roles);
         }
 
+        [HttpGet]
         public ActionResult Create()
         {
-            if (User.Identity.IsAuthenticated)
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(UserRoleViewModel model)
+        {
+            if (!ModelState.IsValid)
             {
-                if (!isAdminUser())
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
+                return View();
             }
 
             ApplicationDbContext context = new ApplicationDbContext();
-            var Roles = context.Roles.ToList();
-            return View(Roles);
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+
+            if (!roleManager.RoleExists(model.UserRole))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = model.UserRole;
+                roleManager.Create(role);
+                ViewBag.Message = string.Format("Pomyślnie stworzono rolę {0}", model.UserRole);
+            }
+            else
+            {
+                ViewBag.ValidationMessage = string.Format("Rola {0} już istnieje", model.UserRole);
+            }
+
+            return View();
         }
 
         private bool isAdminUser()

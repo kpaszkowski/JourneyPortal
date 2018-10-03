@@ -16,6 +16,13 @@ namespace JourneyPortal.Models
         public string ReturnUrl { get; set; }
     }
 
+    public class UserRoleViewModel
+    {
+        [Required(AllowEmptyStrings = false , ErrorMessage = "Pole Rola jest wymagane.")]
+        [Display(Name = "Rola")]
+        public string UserRole { get; set; }
+    }
+
     public class SendCodeViewModel
     {
         public string SelectedProvider { get; set; }
