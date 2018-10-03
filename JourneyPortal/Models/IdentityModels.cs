@@ -21,7 +21,7 @@ namespace JourneyPortal.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("JourneyPortalDB", throwIfV1Schema: false)
         {
         }
 
@@ -29,5 +29,6 @@ namespace JourneyPortal.Models
         {
             return new ApplicationDbContext();
         }
+
     }
 }

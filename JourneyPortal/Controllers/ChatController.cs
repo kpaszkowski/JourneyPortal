@@ -6,8 +6,9 @@ using System.Web.Mvc;
 
 namespace JourneyPortal.Controllers
 {
-    public class HomeController : Controller
+    public class ChatController : Controller
     {
+        // GET: Chat
         public ActionResult Index()
         {
             return View();

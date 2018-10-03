@@ -1,7 +1,7 @@
 ﻿@model JourneyPortal.Models.ManageLoginsViewModel
 @using Microsoft.Owin.Security
 @{
-    ViewBag.Title = "Manage your external logins";
+    ViewBag.Title = "Zarządzaj zewnętrzym logowaniem";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -21,7 +21,7 @@
     {
         if (Model.CurrentLogins.Count > 0)
         {
-            <h4>Registered Logins</h4>
+            <h4>Zarejestrowane logowania</h4>
             <table class="table">
                 <tbody>
                     @foreach (var account in Model.CurrentLogins)
@@ -37,7 +37,7 @@
                                         <div>
                                             @Html.Hidden("loginProvider", account.LoginProvider)
                                             @Html.Hidden("providerKey", account.ProviderKey)
-                                            <input type="submit" class="btn btn-default" value="Remove" title="Remove this @account.LoginProvider login from your account" />
+                                            <input type="submit" class="btn btn-default" value="Remove" title="Usuń @account.LoginProvider logowanie z twojego konta" />
                                         </div>
                                     }
                                 }
