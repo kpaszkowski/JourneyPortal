@@ -14,18 +14,10 @@ namespace JourneyPortal.Controllers
         // GET: Role
         public ActionResult Index()
         {
-            if(User.Identity.IsAuthenticated)
-            {
-                if (!isAdminUser())
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }   
-            else   
+            if (!isAdminUser())
             {
                 return RedirectToAction("Index", "Home");
             }
-
             ApplicationDbContext context = new ApplicationDbContext();
             var Roles = context.Roles.ToList();
             return View(Roles);
@@ -36,6 +28,30 @@ namespace JourneyPortal.Controllers
         {
             return View();
         }
+
+        
+        public ActionResult Delete(string Id)
+        {
+            if (!isAdminUser())
+            {
+                return RedirectToAction("Index", "Role");
+            }
+            ApplicationDbContext context = new ApplicationDbContext();
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+
+            var roleToRemove = context.Roles.FirstOrDefault(x => x.Id == Id);
+
+            if (roleManager.RoleExists(roleToRemove.Name))
+            {
+
+                roleManager.Delete(roleToRemove);
+            }
+
+            return RedirectToAction("Index", "Role");
+
+        }
+
+
 
         [HttpPost]
         public ActionResult Create(UserRoleViewModel model)

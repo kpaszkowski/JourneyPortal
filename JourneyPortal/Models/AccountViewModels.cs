@@ -72,7 +72,7 @@ namespace JourneyPortal.Models
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "UserRoles")]
+        [Display(Name = "Rola użytkownika")]
         public string UserRoles { get; set; }
 
         [Required]
@@ -81,7 +81,7 @@ namespace JourneyPortal.Models
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "UserName")]
+        [Display(Name = "Login")]
         public string UserName { get; set; }
 
         [Required]

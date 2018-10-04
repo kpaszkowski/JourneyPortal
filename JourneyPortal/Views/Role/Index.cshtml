@@ -14,13 +14,31 @@
         <td>
             <table id="tbrole" style="width:100%; border:dotted 1px; background-color:gainsboro; padding-left:10px;">
 
-                @foreach (var item in Model)
-                {
+                <thead>
                     <tr>
-                        <td style="width:100%; border:dotted 1px;">
-                            @item.Name
-                        </td>
-                    </tr>}
+                        <th>Nazwa</th>
+                        <th>Zmień</th>
+                        <th>Usuń</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="width:100%; border:dotted 1px;">
+                                @item.Name
+                            </td>
+
+                            <td>
+                                @*@Html.ac*@
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("Usuń", "Delete", "Role", new { Id = item.Id }, null)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </td>
         <td align="right" style="color:#FFFFFF;padding-right:10;">
