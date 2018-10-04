@@ -31,7 +31,7 @@ namespace JourneyPortal.Controllers
             {
                 ViewBag.Name = "Not Logged IN";
             }
-            return View();
+            return PartialView("~/Views/Users/Index.cshtml");
         }
 
         public Boolean isAdminUser()
