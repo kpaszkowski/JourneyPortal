@@ -4,14 +4,49 @@
     ViewBag.Title = "Index";
 }
 
+<h1>Witaj <b>@Model.Login</b></h1>
+<h2>Obecna rola - <b>@Model.Role</b></h2>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Login, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.Login, new { @class = "form-control", disabled = "disabled" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", disabled = "disabled" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(x=>x.Role, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(x=>x.Role , new { @class = "form-control", disabled = "disabled" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", disabled = "disabled" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", disabled = "disabled" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.DateOfBirth, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control datepicker", autocomplete = "off", disabled = "disabled" })
+    </div>
+</div>
+
 @if (ViewBag.displayMenu == "Yes")
 {
-    <h1>Obecna rola - Administrator. Teraz możesz twrzyć nowe role.</h1>
     <h3>
         <li>@Html.ActionLink("Zarządaj rolami", "Index", "Role")</li>
     </h3>
-}
-else
-{
-    <h2> Welcome <strong>@ViewBag.Name</strong> :) .We will add user module soon </h2>
 }  

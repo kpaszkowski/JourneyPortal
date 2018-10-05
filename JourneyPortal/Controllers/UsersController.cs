@@ -23,18 +23,12 @@ namespace JourneyPortal.Controllers
         // GET: Users
         public ActionResult Index()
         {
+            var cachedViewModel = new UserProfileInfo();
             if (User.Identity.IsAuthenticated)
             {
-                var cachedViewModel = new UserProfileInfo();
                 SessionCache.Set(cachedViewModel);
-
-
-                //var u = userManager.FindByName(User.Identity.ToString());
-
-                //cachedViewModel.Login = u.UserName;
-                //cachedViewModel.Email = u.Email;
-                
-
+                var u = userManager.FindByName(User.Identity.Name.ToString());
+                cachedViewModel.UpdateFromModel(u);
 
                 ViewBag.displayMenu = "No";
 
@@ -42,13 +36,13 @@ namespace JourneyPortal.Controllers
                 {
                     ViewBag.displayMenu = "Yes";
                 }
-                return View();
+                return PartialView("~/Views/Users/Index.cshtml",cachedViewModel);
             }
             else
             {
                 ViewBag.Name = "Not Logged IN";
             }
-            return PartialView("~/Views/Users/Index.cshtml");
+            return PartialView("~/Views/Users/Index.cshtml",cachedViewModel);
         }
 
         public Boolean isAdminUser()

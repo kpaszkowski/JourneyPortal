@@ -1,4 +1,6 @@
 ﻿using JourneyPortal.ViewModels.Shared;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -146,12 +148,26 @@ namespace JourneyPortal.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
         [Display(Name = "Data urodzenia")]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         [Display(Name = "Imię")]
         public string FirstName { get; set; }
         [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
         [Display(Name = "Rola")]
         public string Role { get; set; }
+
+        internal void UpdateFromModel(ApplicationUser u)
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            var userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(context));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            Login = u.UserName;
+            Email = u.Email;
+            FirstName = u.FirstName;
+            LastName = u.LastName;
+            DateOfBirth = u.DateOfBirth;
+            Role = System.Web.Security.Roles.GetRolesForUser(u.UserName).ToString();
+            
+        }
     }
 }

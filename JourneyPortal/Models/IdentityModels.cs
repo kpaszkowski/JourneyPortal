@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -18,14 +19,19 @@ namespace JourneyPortal.Models
             return userIdentity;
         }
 
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
 
+        public DateTime? DateOfBirth { get; set; }
 
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("JourneyPortalDB", throwIfV1Schema: false)
+            : base("JourneyPortalDBHome", throwIfV1Schema: false)
         {
         }
 
