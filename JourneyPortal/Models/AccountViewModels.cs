@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JourneyPortal.ViewModels.Shared;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -71,7 +72,7 @@ namespace JourneyPortal.Models
 
     public class RegisterViewModel
     {
-        [Required]
+        
         [Display(Name = "Rola użytkownika")]
         public string UserRoles { get; set; }
 
@@ -103,7 +104,7 @@ namespace JourneyPortal.Models
         [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
 
-        [DataType(DataType.Date)]
+
         [Display(Name = "Data urodzenia")]
         public DateTime DateOfBirth { get; set; }
 
@@ -136,5 +137,21 @@ namespace JourneyPortal.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+    }
+
+    public class UserProfileInfo : BaseFormViewModel
+    {
+        [Display(Name = "Login")]
+        public string Login { get; set; }
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+        [Display(Name = "Data urodzenia")]
+        public DateTime DateOfBirth { get; set; }
+        [Display(Name = "Imię")]
+        public string FirstName { get; set; }
+        [Display(Name = "Nazwisko")]
+        public string LastName { get; set; }
+        [Display(Name = "Rola")]
+        public string Role { get; set; }
     }
 }

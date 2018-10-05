@@ -38,7 +38,7 @@
     <div class="form-group">
         @Html.Label("Rola", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownList("UserRoles", (SelectList)ViewBag.Name, " ")
+            @Html.DropDownList("UserRoles", (SelectList)ViewBag.Name)
         </div>
     </div>
     <div class="form-group">
@@ -56,7 +56,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.DateOfBirth, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control datepicker" , autocomplete = "off" })
         </div>
     </div>
     <div class="form-group">
@@ -70,3 +70,11 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 
+<script>
+    $( function() {
+    $( ".datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true
+    });
+  } );
+</script>

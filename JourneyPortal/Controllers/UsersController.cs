@@ -1,4 +1,5 @@
 ﻿using JourneyPortal.Models;
+using JourneyPortal.Helpers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -11,13 +12,29 @@ namespace JourneyPortal.Controllers
 {
     public class UsersController : Controller
     {
+        ApplicationDbContext context;
+        UserManager<ApplicationUser> userManager;
+
+        public UsersController()
+        {
+            context = new ApplicationDbContext();
+            userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+        }
         // GET: Users
         public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
             {
-                var user = User.Identity;
-                ViewBag.Name = user.Name;
+                var cachedViewModel = new UserProfileInfo();
+                SessionCache.Set(cachedViewModel);
+
+
+                //var u = userManager.FindByName(User.Identity.ToString());
+
+                //cachedViewModel.Login = u.UserName;
+                //cachedViewModel.Email = u.Email;
+                
+
 
                 ViewBag.displayMenu = "No";
 
