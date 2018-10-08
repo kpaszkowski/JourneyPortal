@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using JourneyPortal.Models.Offer;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -26,6 +28,10 @@ namespace JourneyPortal.Models
 
         public DateTime? DateOfBirth { get; set; }
 
+        public virtual ICollection<Offers> AssignedOffers { get; set; }
+
+        public virtual ICollection<Offers> OwnerOffers { get; set; }
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -34,6 +40,8 @@ namespace JourneyPortal.Models
             : base("JourneyPortalDBHome", throwIfV1Schema: false)
         {
         }
+
+        public DbSet<Offers> Offers { get; set; }
 
         public static ApplicationDbContext Create()
         {
