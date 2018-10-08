@@ -220,6 +220,10 @@
     <Compile Include="Migrations\201810051352434_updateUserProfileData.Designer.cs">
       <DependentUpon>201810051352434_updateUserProfileData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810081926324_sampleOffers.cs" />
+    <Compile Include="Migrations\201810081926324_sampleOffers.Designer.cs">
+      <DependentUpon>201810081926324_sampleOffers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -366,6 +370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810051352434_updateUserProfileData.resx">
       <DependentUpon>201810051352434_updateUserProfileData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810081926324_sampleOffers.resx">
+      <DependentUpon>201810081926324_sampleOffers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

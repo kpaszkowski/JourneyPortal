@@ -21,6 +21,11 @@ namespace JourneyPortal.Models
             return userIdentity;
         }
 
+        public ApplicationUser() :base()
+        {
+            this.AssignedOffers = new HashSet<Offers>();
+        }
+
         [Required]
         public string FirstName { get; set; }
         [Required]
@@ -48,5 +53,18 @@ namespace JourneyPortal.Models
             return new ApplicationDbContext();
         }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Offers>()
+                        .HasRequired(x => x.TravelAgencyOwner)
+                        .WithMany(c => c.OwnerOffers)
+                        .HasForeignKey<string>(x => x.TravelAgencyOwnerId)
+                        .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Offers>()
+                        .HasMany<ApplicationUser>(s => s.AssignedUsers)
+                        .WithMany(x => x.AssignedOffers);
+
+        }
     }
 }

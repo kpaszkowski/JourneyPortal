@@ -8,6 +8,10 @@ namespace JourneyPortal.Models.Offer
 {
     public class Offers
     {
+        public Offers()
+        {
+            this.AssignedUsers = new HashSet<ApplicationUser>();
+        }
         [Key]
         public int Id { get; set; }
         [Display(Name="Nazwa")]
@@ -20,9 +24,6 @@ namespace JourneyPortal.Models.Offer
         [Display(Name = "Liczba miejsc")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać liczbę miejsc.")]
         public int NuberOfBooking { get; set; }
-
-        [Display(Name = "Biuro podróży")]
-        public ApplicationUser TravelAgencyOwner { get; set; }
 
         [Display(Name = "Data rozpoczęcia")]
         [DataType(DataType.Date)]
@@ -38,6 +39,11 @@ namespace JourneyPortal.Models.Offer
         [DataType(DataType.Currency)]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać koszt za osobę.")]
         public decimal Cost { get; set; }
+
+        public string TravelAgencyOwnerId { get; set; }
+
+        [Display(Name = "Biuro podróży")]
+        public ApplicationUser TravelAgencyOwner { get; set; }
 
         [Display(Name = "Przypisani użytkownicy")]
         public virtual ICollection<ApplicationUser> AssignedUsers { get; set; }
