@@ -1,21 +1,17 @@
-﻿using System;
+﻿using JourneyPortal.Models;
+using JourneyPortal.ViewModels.Shared;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace JourneyPortal.Models.Offer
+namespace JourneyPortal.ViewModels.Offers
 {
-    public class Offers
+    public class OfferDetail : BaseFormViewModel
     {
-        public Offers()
-        {
-            this.AssignedUsers = new HashSet<ApplicationUser>();
-        }
-        [Key]
-        public int Id { get; set; }
-        [Display(Name="Nazwa")]
-        [Required(AllowEmptyStrings = false , ErrorMessage = "Należy podać nazwę.")]
+        [Display(Name = "Nazwa")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać nazwę.")]
         public string Name { get; set; }
         [Display(Name = "Opis")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać opis.")]
@@ -40,7 +36,7 @@ namespace JourneyPortal.Models.Offer
         [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać datę stworzenia.")]
         public DateTime CreationDate { get; set; }
 
-        [Display(Name= "Koszt")]
+        [Display(Name = "Koszt")]
         [DataType(DataType.Currency)]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać koszt za osobę.")]
         public decimal Cost { get; set; }

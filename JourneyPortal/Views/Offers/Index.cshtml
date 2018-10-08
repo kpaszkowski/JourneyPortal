@@ -1,7 +1,28 @@
-﻿
-@{
-    ViewBag.Title = "Offers";
+﻿@model JourneyPortal.ViewModels.Offers.OffersViewModel
+@if (Model.IsTravelAgency)
+{
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Zarządzanie ofertami</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Dodaj nową ofertę", "AddNewOffert", "Offers")</li>
+                <li>@Html.ActionLink("Aktywne oferty", "GetOffers", "Offers")</li>
+            </ul>
+        </div>
+    </nav>
+}
+@if (Model.IsUser)
+{
+
 }
 
-<h2>Offers</h2>
-
+<div>
+    <ul>
+        @foreach(var item in Model.OffersList)
+        {
+            <li>@item.Name</li>
+        }
+    </ul>
+</div>
