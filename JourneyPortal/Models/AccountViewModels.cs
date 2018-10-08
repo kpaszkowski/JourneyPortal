@@ -4,6 +4,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
+using System.Linq;
 
 namespace JourneyPortal.Models
 {
@@ -147,6 +149,7 @@ namespace JourneyPortal.Models
         public string Login { get; set; }
         [Display(Name = "Email")]
         public string Email { get; set; }
+        [DataType(DataType.Date)]
         [Display(Name = "Data urodzenia")]
         public DateTime? DateOfBirth { get; set; }
         [Display(Name = "Imię")]
@@ -166,8 +169,21 @@ namespace JourneyPortal.Models
             FirstName = u.FirstName;
             LastName = u.LastName;
             DateOfBirth = u.DateOfBirth;
-            Role = System.Web.Security.Roles.GetRolesForUser(u.UserName).ToString();
+
+            var userRoles = (from user in context.Users
+                             where user.UserName == Login
+                             select new
+                             {
+                                 RoleNames = (from userRole in user.Roles
+                                              join role in context.Roles on userRole.RoleId
+                                              equals role.Id
+                                              select role.Name).ToList()
+                             }).ToList();
+            Role = userRoles.FirstOrDefault().RoleNames.FirstOrDefault();
+
             
+
         }
+
     }
 }

@@ -1,11 +1,10 @@
 ﻿@model JourneyPortal.Models.UserProfileInfo
 
 @{
-    ViewBag.Title = "Index";
+    string name = Model.FirstName + " " + Model.LastName;
 }
 
-<h1>Witaj <b>@Model.Login</b></h1>
-<h2>Obecna rola - <b>@Model.Role</b></h2>
+<h2>Witaj <b>@name</b></h2>
 
 <div class="form-group">
     @Html.LabelFor(m => m.Login, new { @class = "col-md-2 control-label" })
@@ -46,7 +45,6 @@
 
 @if (ViewBag.displayMenu == "Yes")
 {
-    <h3>
-        <li>@Html.ActionLink("Zarządaj rolami", "Index", "Role")</li>
-    </h3>
+    
+    <h4>@Html.ActionLink("Zarządaj rolami", "Index", "Role")</h4>
 }  

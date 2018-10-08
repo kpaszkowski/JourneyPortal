@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using JourneyPortal.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace JourneyPortal.Controllers
 {
@@ -66,6 +67,7 @@ namespace JourneyPortal.Controllers
             var userId = User.Identity.GetUserId();
             var model = new IndexViewModel
             {
+                IsAdmin = IsAdmin(userId),
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
@@ -73,6 +75,31 @@ namespace JourneyPortal.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
+        }
+
+        private bool IsAdmin(string userId)
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            var userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(context));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+
+            var userRoles = (from user in context.Users
+                             where user.Id == userId
+                             select new
+                             {
+                                 RoleNames = (from userRole in user.Roles
+                                              join role in context.Roles on userRole.RoleId
+                                              equals role.Id
+                                              select role.Name).ToList()
+                             }).ToList().FirstOrDefault().RoleNames.FirstOrDefault();
+            if (userRoles == "Admin")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         //

@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
+using System;
 
 [assembly: OwinStartupAttribute(typeof(JourneyPortal.Startup))]
 namespace JourneyPortal
@@ -30,6 +31,9 @@ namespace JourneyPortal
                 var user = new ApplicationUser();
                 user.UserName = "superadmin";
                 user.Email = "kpaszkowski1000@gmail.com";
+                user.FirstName = "krzycho";
+                user.LastName = "krzycho";
+                user.DateOfBirth = new DateTime(1995, 6, 1);
                 string userPWD = "123456";
                 var chkUser = userManager.Create(user, userPWD);
                 if (chkUser.Succeeded)
@@ -45,6 +49,9 @@ namespace JourneyPortal
                 var user = new ApplicationUser();
                 user.UserName = "user";
                 user.Email = "kpaszkowski1000@gmail.com";
+                user.FirstName = "jan";
+                user.LastName = "jan";
+                user.DateOfBirth = new DateTime(1993, 4, 15);
                 string userPWD = "123456";
                 var chkUser = userManager.Create(user, userPWD);
                 if (chkUser.Succeeded)
@@ -60,6 +67,9 @@ namespace JourneyPortal
                 var user = new ApplicationUser();
                 user.UserName = "travelagency";
                 user.Email = "kpaszkowski1000@gmail.com";
+                user.FirstName = "pjoter";
+                user.LastName = "pjoter";
+                user.DateOfBirth = new DateTime(1997, 11, 9);
                 string userPWD = "123456";
                 var chkUser = userManager.Create(user, userPWD);
                 if (chkUser.Succeeded)
@@ -75,6 +85,9 @@ namespace JourneyPortal
                 var user = new ApplicationUser();
                 user.UserName = "proprietor";
                 user.Email = "kpaszkowski1000@gmail.com";
+                user.FirstName = "franek";
+                user.LastName = "franek";
+                user.DateOfBirth = new DateTime(1992, 5, 26);
                 string userPWD = "123456";
                 var chkUser = userManager.Create(user, userPWD);
                 if (chkUser.Succeeded)

@@ -1,6 +1,8 @@
-﻿@{
+﻿@model JourneyPortal.Models.Modules.WebGridViewModel
+@{
     WebGrid grid = new WebGrid(null, rowsPerPage: @Model.PageSize);
     grid.Bind(Model.ListOfUser, autoSortAndPage: true, rowCount: @Model.PageSize);
+    
 }
 
 @grid.GetHtml(tableStyle: "table table-bordered",
@@ -11,9 +13,56 @@
  lastText: "Last >>",
     columns: grid.Columns(
     grid.Column("Id", " Id"),
-    grid.Column("UserName", "Login"),
+    grid.Column("Login", "Login"),
     grid.Column("Email", "Email"),
-    grid.Column("Roles", "Rola"),
+    grid.Column("FirstName", "Imię"),
+    grid.Column("LastName", "Nazwisko"),
+    grid.Column("DateOfBirth", "Data Urodzenia"),
+    grid.Column("Role", "Rola"),
     grid.Column(header: "Action",
-                format: @<a data-value="@item.Id" href="java{C}<!-- no -->script:void(0)">Edit</a>)
+                format: @<button onclick="changeRole('@item.Login');">Zmień Rolę</button>)
         ))
+<div id="dialog-form" title="Zmień rolę użytkownika">
+    <form>
+        @Html.DropDownList("UserRolesDropdown", (SelectList)ViewBag.dropdown)
+    </form>
+</div>
+<script>
+    var currentUserName;
+    $(function () {
+        $("#dialog-form").dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                "Zatwierdź": function () {
+                    var value = $('#UserRolesDropdown :selected').text();
+                    $.post("ChangeRoleForUser", { userName: currentUserName, newRole: value });
+                    $("#dialog-form").dialog("close");
+                    location.reload();
+                },
+                "Zamknij": function () {
+                    $("#dialog-form").dialog("close");
+                }
+            },
+            close: function () {
+                $("#dialog-form").dialog("close")
+            }
+        });
+
+    });
+    function changeRole(userName) {
+        currentUserName = userName;
+        $("#dialog-form").dialog("open");
+    }
+</script>
+<style>
+    label, input { display:block; }
+    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+    fieldset { padding:0; border:0; margin-top:25px; }
+    h1 { font-size: 1.2em; margin: .6em 0; }
+    div#users-contain { width: 350px; margin: 20px 0; }
+    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+    .ui-dialog .ui-state-error { padding: .3em; }
+    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+  </style>
