@@ -24,6 +24,19 @@ namespace JourneyPortal.Services
             return userManager.FindByName(name);
         }
 
+        internal string GetUserRole(string name)
+        {
+            return (from user in context.Users
+                    where user.UserName == name
+                    select new
+                    {
+                        RoleNames = (from userRole in user.Roles
+                                     join role in context.Roles on userRole.RoleId
+                                     equals role.Id
+                                     select role.Name).ToList()
+                    }).ToList().FirstOrDefault().RoleNames.FirstOrDefault();
+        }
+
 
 
         //public UserProfileInfo GetUserProfileInfo(string )

@@ -1,7 +1,25 @@
-﻿
+﻿@model JourneyPortal.ViewModels.Forum.ForumViewModel
 @{
-    ViewBag.Title = "Forum";
+
 }
 
-<h2>Forum</h2>
+<div class="container">
+    <div class="jumbotron">
+        <h1>Journey Portal - Forum</h1>
+        <p>
+            Witaj na naszym forum. Możesz tutaj skontaktować się z innymi użytkownikami , zobaczyć ich opinnie o trasach wycieczkowych czy ofertach biur podróży.
+            Posiadając konto w naszym serwisie masz dodatkowo możliwość samodzielnego zadawania pytań czy dzielenia się z innymi użytkownikami swoimi wrażeniami.
+        </p>
+    </div>
+    @if (Model.IsAdmin)
+    {
+        <h4>@Html.ActionLink("Zarządzaj kategoriami", "CreateNewCategory", "Forum")</h4>
+    }
+    @foreach (var item in Model.Categories)
+    {
+        <div class="well well-lg">@item.Name</div>
+    }
+</div>
+
+
 

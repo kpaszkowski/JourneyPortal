@@ -232,8 +232,16 @@
     <Compile Include="Migrations\201810091108302_fixRelationBetweenOffersAndUsers.Designer.cs">
       <DependentUpon>201810091108302_fixRelationBetweenOffersAndUsers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810091314328_createSampleForumModel.cs" />
+    <Compile Include="Migrations\201810091314328_createSampleForumModel.Designer.cs">
+      <DependentUpon>201810091314328_createSampleForumModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\Forum\Category.cs" />
+    <Compile Include="Models\Forum\Post.cs" />
+    <Compile Include="Models\Forum\Topic.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Modules\WebGridViewModel.cs" />
@@ -243,6 +251,10 @@
     <Compile Include="Services\OfferServices.cs" />
     <Compile Include="Services\UserServices.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\Forum\CategoryDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Forum\CategoryGridViewModel.cs" />
+    <Compile Include="ViewModels\Forum\CreateCategoryViewModel.cs" />
+    <Compile Include="ViewModels\Forum\ForumViewModel.cs" />
     <Compile Include="ViewModels\Offers\OfferDetailViewModel.cs" />
     <Compile Include="ViewModels\Offers\OffersViewModel.cs" />
     <Compile Include="ViewModels\Shared\BaseFromViewModel.cs" />
@@ -361,6 +373,7 @@
     <Content Include="Views\Users\GetTravelAgencyProfile.cshtml" />
     <Content Include="Views\Offers\OfferDetailInfo.cshtml" />
     <Content Include="Views\Offers\GetAssignedOffers.cshtml" />
+    <Content Include="Views\Forum\CreateNewCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -397,6 +410,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810091108302_fixRelationBetweenOffersAndUsers.resx">
       <DependentUpon>201810091108302_fixRelationBetweenOffersAndUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810091314328_createSampleForumModel.resx">
+      <DependentUpon>201810091314328_createSampleForumModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using JourneyPortal.Models.Forum;
 using JourneyPortal.Models.Offer;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -37,40 +38,9 @@ namespace JourneyPortal.Models
 
         public virtual ICollection<Offers> OwnerOffers { get; set; }
 
+        public virtual ICollection<Topic> Topics { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
+
     }
 
-
-
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public ApplicationDbContext()
-            : base("JourneyPortalDBWork", throwIfV1Schema: false)
-        {
-        }
-
-        public DbSet<Offers> Offers { get; set; }
-        public DbSet<OffersApplicationUsers> OffersApplicationUsers { get; set; }
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Offers>()
-                        .HasRequired(x => x.TravelAgencyOwner)
-                        .WithMany(c => c.OwnerOffers)
-                        .HasForeignKey<string>(x => x.TravelAgencyOwnerId)
-                        .WillCascadeOnDelete(false);
-            modelBuilder.Entity<Offers>()
-                .HasMany<OffersApplicationUsers>(x => x.OffersApplicationUsers)
-                .WithRequired(x => x.Offers)
-                .HasForeignKey<int>(x => x.OfferId);
-            modelBuilder.Entity<ApplicationUser>()
-                .HasMany<OffersApplicationUsers>(x => x.OffersApplicationUsers)
-                .WithRequired(x => x.ApplicationUser)
-                .HasForeignKey<string>(x => x.ApplicationUserId);
-        }
-    }
 }
