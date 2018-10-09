@@ -21,6 +21,7 @@ namespace JourneyPortal.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<OffersComment> OffersComments { get; set; }
 
         public static ApplicationDbContext Create()
         {

@@ -59,6 +59,8 @@ namespace JourneyPortal.Models.Offer
         [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać koszt za osobę.")]
         public decimal Cost { get; set; }
 
+        public int Rate { get; set; }
+
         public string TravelAgencyOwnerId { get; set; }
 
         [Display(Name = "Biuro podróży")]

@@ -80,6 +80,23 @@ namespace JourneyPortal.Services
             }
         }
 
+        internal void AddLike(int postId)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    context.Posts.FirstOrDefault(x => x.Id == postId).Like++;
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         internal List<TopicsGridViewModel> GetTopicsFor(int categoryId)
         {
             using (ApplicationDbContext context = new ApplicationDbContext())

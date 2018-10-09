@@ -110,7 +110,6 @@ namespace JourneyPortal.Models
         [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
 
-
         [Display(Name = "Data urodzenia")]
         public DateTime DateOfBirth { get; set; }
 
@@ -168,6 +167,8 @@ namespace JourneyPortal.Models
         public string LastName { get; set; }
         [Display(Name = "Rola")]
         public string Role { get; set; }
+
+        public byte[] Avatar { get; set; }
 
         internal void UpdateFromModel(ApplicationUser u)
         {

@@ -176,9 +176,9 @@ namespace JourneyPortal.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-                ViewBag.Name = new SelectList(context.Roles.Where(x => !x.Name.Contains("Admin")).ToList(), "Name", "Name");
-                AddErrors(result);
+            AddErrors(result);
             }
+            ViewBag.Name = new SelectList(context.Roles.Where(x => !x.Name.Contains("Admin")).ToList(), "Name", "Name");
 
             // If we got this far, something failed, redisplay form
             return View(model);

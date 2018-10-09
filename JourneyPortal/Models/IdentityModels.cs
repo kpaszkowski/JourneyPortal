@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -34,12 +35,18 @@ namespace JourneyPortal.Models
 
         public DateTime? DateOfBirth { get; set; }
 
+        [Column(TypeName = "image")]
+        public byte[] Avatar { get; set; }
+
         public virtual ICollection<OffersApplicationUsers> OffersApplicationUsers { get; set; }
 
         public virtual ICollection<Offers> OwnerOffers { get; set; }
 
         public virtual ICollection<Topic> Topics { get; set; }
+
         public virtual ICollection<Post> Posts { get; set; }
+
+        public virtual ICollection<OffersComment> OffersComments { get; set; }
 
     }
 

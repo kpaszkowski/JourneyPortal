@@ -49,6 +49,7 @@ namespace JourneyPortal.Controllers
         }
 
         [Authorize]
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult CreatePost(CreatePostViewModel model , int topicId , int categoryId)
         {
@@ -63,6 +64,15 @@ namespace JourneyPortal.Controllers
             forumService.PrepareCategoriesDetailsViewModel(model,categoryId);
             model.TopicsList = forumService.GetTopicsFor(categoryId);
             return View("~/Views/Forum/CategoryDetails.cshtml", model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult AddLike(int postId)
+        {
+            var model = new PostViewModel();
+            forumService.AddLike(postId);
+            return RedirectToAction("Index", "Forum");
         }
 
         [HttpGet]
