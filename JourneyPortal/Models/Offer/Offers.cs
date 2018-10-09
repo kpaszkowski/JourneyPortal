@@ -1,16 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
 namespace JourneyPortal.Models.Offer
 {
+    public class OffersApplicationUsers
+    {
+        [Key, Column(Order = 0)]
+        public int OfferId { get; set; }
+        [Key, Column(Order = 1)]
+        public string ApplicationUserId { get; set; }
+        
+        public int BookingCount { get; set; }
+
+        public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual Offers Offers { get; set; }
+
+    }
     public class Offers
     {
         public Offers()
         {
-            this.AssignedUsers = new HashSet<ApplicationUser>();
+            this.OffersApplicationUsers = new HashSet<OffersApplicationUsers>();
         }
         [Key]
         public int Id { get; set; }
@@ -51,6 +65,6 @@ namespace JourneyPortal.Models.Offer
         public ApplicationUser TravelAgencyOwner { get; set; }
 
         [Display(Name = "Przypisani użytkownicy")]
-        public virtual ICollection<ApplicationUser> AssignedUsers { get; set; }
+        public virtual ICollection<OffersApplicationUsers> OffersApplicationUsers { get; set; }
     }
 }

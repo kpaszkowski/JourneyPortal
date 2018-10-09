@@ -23,7 +23,7 @@ namespace JourneyPortal.Models
 
         public ApplicationUser() :base()
         {
-            this.AssignedOffers = new HashSet<Offers>();
+            this.OffersApplicationUsers = new HashSet<OffersApplicationUsers>();
         }
 
         [Required]
@@ -33,11 +33,13 @@ namespace JourneyPortal.Models
 
         public DateTime? DateOfBirth { get; set; }
 
-        public virtual ICollection<Offers> AssignedOffers { get; set; }
+        public virtual ICollection<OffersApplicationUsers> OffersApplicationUsers { get; set; }
 
         public virtual ICollection<Offers> OwnerOffers { get; set; }
 
     }
+
+
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -47,7 +49,7 @@ namespace JourneyPortal.Models
         }
 
         public DbSet<Offers> Offers { get; set; }
-
+        public DbSet<OffersApplicationUsers> OffersApplicationUsers { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
@@ -62,9 +64,13 @@ namespace JourneyPortal.Models
                         .HasForeignKey<string>(x => x.TravelAgencyOwnerId)
                         .WillCascadeOnDelete(false);
             modelBuilder.Entity<Offers>()
-                        .HasMany<ApplicationUser>(s => s.AssignedUsers)
-                        .WithMany(x => x.AssignedOffers);
-
+                .HasMany<OffersApplicationUsers>(x => x.OffersApplicationUsers)
+                .WithRequired(x => x.Offers)
+                .HasForeignKey<int>(x => x.OfferId);
+            modelBuilder.Entity<ApplicationUser>()
+                .HasMany<OffersApplicationUsers>(x => x.OffersApplicationUsers)
+                .WithRequired(x => x.ApplicationUser)
+                .HasForeignKey<string>(x => x.ApplicationUserId);
         }
     }
 }
