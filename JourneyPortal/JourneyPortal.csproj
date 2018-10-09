@@ -228,6 +228,10 @@
     <Compile Include="Migrations\201810081931476_addCreationDateField.Designer.cs">
       <DependentUpon>201810081931476_addCreationDateField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810091108302_fixRelationBetweenOffersAndUsers.cs" />
+    <Compile Include="Migrations\201810091108302_fixRelationBetweenOffersAndUsers.Designer.cs">
+      <DependentUpon>201810091108302_fixRelationBetweenOffersAndUsers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -352,10 +356,11 @@
     <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\WebGrid\UsersList.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Offers\GetOffers.cshtml" />
+    <Content Include="Views\Offers\GetYourOffers.cshtml" />
     <Content Include="Views\Offers\CreateNewOffert.cshtml" />
     <Content Include="Views\Users\GetTravelAgencyProfile.cshtml" />
     <Content Include="Views\Offers\OfferDetailInfo.cshtml" />
+    <Content Include="Views\Offers\GetAssignedOffers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -389,6 +394,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810081931476_addCreationDateField.resx">
       <DependentUpon>201810081931476_addCreationDateField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810091108302_fixRelationBetweenOffersAndUsers.resx">
+      <DependentUpon>201810091108302_fixRelationBetweenOffersAndUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

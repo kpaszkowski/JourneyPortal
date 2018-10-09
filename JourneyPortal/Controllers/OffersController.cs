@@ -32,12 +32,11 @@ namespace JourneyPortal.Controllers
             return View("~/Views/Offers/Index.cshtml",cachedViewModel);
         }
 
-        private List<OfferDetailViewModel> GetAllOffers()
+        private List<CreateOfferDetailViewModel> GetAllOffers()
         {
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                return context.Offers.Select(x => new OfferDetailViewModel
+                return context.Offers.Select(x => new CreateOfferDetailViewModel
                 {
                     ID = x.Id,
                     Cost = x.Cost,
@@ -54,23 +53,85 @@ namespace JourneyPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult BookTrip(int bookingCount)
+        public ActionResult BookTrip(int bookingCount , int offerId)
         {
-            
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                    var currentUser = userManager.FindByName(User.Identity.Name);
+                    var currentOffert = context.Offers.FirstOrDefault(x => x.Id == offerId);
+                    //update
+                    if (context.OffersApplicationUsers.Where(x=>x.ApplicationUserId == currentUser.Id && x.OfferId == currentOffert.Id).Any())
+                    {
+                        var offerApplicationUser = context.OffersApplicationUsers.FirstOrDefault(x => x.ApplicationUserId == currentUser.Id && x.OfferId == currentOffert.Id);
+                        offerApplicationUser.BookingCount += bookingCount;
+                    }
+                    //new
+                    else
+                    {
+                        var offerApplicationUser = new OffersApplicationUsers
+                        {
+                            ApplicationUser = currentUser,
+                            Offers = currentOffert,
+                            BookingCount = bookingCount,
+                        };
+                        context.OffersApplicationUsers.Add(offerApplicationUser);
+                    }
+                    currentOffert.NuberOfBooking -= bookingCount;
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
             return RedirectToAction("Index", "Offers");
+        }
+
+
+        [HttpGet]
+        public ActionResult GetAssignedOffers()
+        {
+            var cachedViewModel = new List<OfferDetailViewModel>();
+
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                cachedViewModel = context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name).OffersApplicationUsers.Select(x => x.Offers)
+                    .Select(x => new OfferDetailViewModel
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        StartDate = x.StartDate,
+                        EndDate = x.EndDate,
+                        Cost = x.Cost,
+                        TravelAgencyOwnerName = context.Users.FirstOrDefault(y => y.Id == x.TravelAgencyOwnerId).UserName,
+                    }).ToList();
+
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                ApplicationUser currentUser = userManager.FindByName(User.Identity.Name);
+                cachedViewModel.ForEach(x => x.NuberOfBooking = context.OffersApplicationUsers.FirstOrDefault(y => y.ApplicationUserId == currentUser.Id
+                   && y.OfferId == x.Id).BookingCount);
+
+            }
+
+            return View("~/Views/Offers/GetAssignedOffers.cshtml",cachedViewModel);
         }
 
         [HttpGet]
         public ActionResult CreateNewOffert()
         {
-            var cachedViewModel = new OfferDetailViewModel();
+            var cachedViewModel = new CreateOfferDetailViewModel();
 
             SessionCache.Set(cachedViewModel);
             return View("~/Views/Offers/CreateNewOffert.cshtml",cachedViewModel);
         }
 
         [HttpPost]
-        public ActionResult CreateNewOffert(OfferDetailViewModel model)
+        public ActionResult CreateNewOffert(CreateOfferDetailViewModel model)
         {
             try
             {
@@ -84,6 +145,7 @@ namespace JourneyPortal.Controllers
                         NuberOfBooking = model.NuberOfBooking,
                         StartDate = model.StartDate,
                         EndDate = model.EndDate,
+                        Cost = model.Cost,
                         CreationDate = DateTime.Now,
                         TravelAgencyOwner = userManager.FindByName(User.Identity.Name),
                     };
@@ -105,7 +167,7 @@ namespace JourneyPortal.Controllers
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
                 var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                List<OfferDetailViewModel> listWithOffers = context.Offers.Where(x=>x.TravelAgencyOwner.UserName == User.Identity.Name).Select(x => new OfferDetailViewModel
+                List<CreateOfferDetailViewModel> listWithOffers = context.Offers.Where(x=>x.TravelAgencyOwner.UserName == User.Identity.Name).Select(x => new CreateOfferDetailViewModel
                 {
                     ID = x.Id,
                     Cost = x.Cost,
@@ -117,7 +179,7 @@ namespace JourneyPortal.Controllers
                     StartDate = x.StartDate,
                 }).ToList();
 
-                return View("~/Views/Offers/GetOffers.cshtml",listWithOffers);
+                return View("~/Views/Offers/GetYourOffers.cshtml",listWithOffers);
             }
 
         }
@@ -127,10 +189,10 @@ namespace JourneyPortal.Controllers
         {
             var mainViewModel = SessionCache.Get<OffersViewModel>(parentSessionCacheKey);
 
-            var cachedViewModel = new OfferDetailViewModel();
+            var cachedViewModel = new CreateOfferDetailViewModel();
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                cachedViewModel = context.Offers.Where(x => x.Id == id).Select(x => new OfferDetailViewModel {
+                cachedViewModel = context.Offers.Where(x => x.Id == id).Select(x => new CreateOfferDetailViewModel {
                     ID = x.Id,
                     Name = x.Name,
                     Description = x.Description,

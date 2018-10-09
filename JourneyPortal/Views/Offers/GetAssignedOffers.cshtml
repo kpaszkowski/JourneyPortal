@@ -1,0 +1,32 @@
+﻿@model List<JourneyPortal.ViewModels.Offers.OfferDetailViewModel>
+@{
+
+ }
+<div class="container">
+    <h2>Zarezerwowane wycieczki</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Liczba miejsc</th>
+                <th>Data rozpoczęcia</th>
+                <th>Data zakończenia</th>
+                <th>Kosz całkowity</th>
+                <th>Nazwa biura podróży</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.NuberOfBooking</td>
+                <td>@item.StartDate</td>
+                <td>@item.EndDate</td>
+                <td>@(item.Cost * item.NuberOfBooking)</td>
+                <td>@item.TravelAgencyOwnerName</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

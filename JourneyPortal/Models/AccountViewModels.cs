@@ -150,7 +150,7 @@ namespace JourneyPortal.Models
         public string Name { get; set; }
         [Display(Name = "Email")]
         public string Email { get; set; }
-        public List<OfferDetailViewModel> OffersList { get; set; }
+        public List<CreateOfferDetailViewModel> OffersList { get; set; }
     }
 
     public class UserProfileInfo : BaseFormViewModel

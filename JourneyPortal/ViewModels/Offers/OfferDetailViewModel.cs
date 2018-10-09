@@ -14,7 +14,7 @@ namespace JourneyPortal.ViewModels.Offers
         public int NumberOfBooking { get; set; }
         public int OfferId { get; set; }
     }
-    public class OfferDetailViewModel : BaseFormViewModel
+    public class CreateOfferDetailViewModel : BaseFormViewModel
     {
         [Display(Name = "Nazwa")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać nazwę.")]
@@ -52,7 +52,30 @@ namespace JourneyPortal.ViewModels.Offers
         [Display(Name = "Biuro podróży")]
         public ApplicationUser TravelAgencyOwner { get; set; }
 
-        [Display(Name = "Przypisani użytkownicy")]
-        public virtual ICollection<ApplicationUser> AssignedUsers { get; set; }
+    }
+
+    public class OfferDetailViewModel
+    {
+        public int Id { get; set; }
+
+        [Display(Name = "Nazwa")]
+        public string Name { get; set; }
+
+        [Display(Name = "Liczba miejsc")]
+        public int NuberOfBooking { get; set; }
+
+        [Display(Name = "Data rozpoczęcia")]
+        [DataType(DataType.Date)]
+        public DateTime StartDate { get; set; }
+
+        [Display(Name = "Data zakończenia")]
+        [DataType(DataType.Date)]
+        public DateTime EndDate { get; set; }
+
+        [Display(Name = "Koszt")]
+        [DataType(DataType.Currency)]
+        public decimal Cost { get; set; }
+        [Display(Name = "Biuro podróży")]
+        public string TravelAgencyOwnerName { get; set; }
     }
 }

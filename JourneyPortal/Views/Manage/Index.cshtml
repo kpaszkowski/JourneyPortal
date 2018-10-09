@@ -15,6 +15,12 @@
         <h4>@Html.ActionLink("Zarządzaj użytkownikami", "WebGrid", "WebGrid")</h4>
     }
     <hr />
+    @if (true)
+    {
+        <h4>@Html.ActionLink("Przeglądaj zapisane oferty", "GetAssignedOffers","Offers")</h4>
+    }
+    <hr />
+    <h4>@Html.ActionLink("Zmień hasło", "ChangePassword")</h4>
     @if (Model.HasPassword)
     {
         <h4>@Html.ActionLink("Zmień hasło", "ChangePassword")</h4>

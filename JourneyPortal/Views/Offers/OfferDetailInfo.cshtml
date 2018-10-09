@@ -1,4 +1,4 @@
-﻿@model JourneyPortal.ViewModels.Offers.OfferDetailViewModel
+﻿@model JourneyPortal.ViewModels.Offers.CreateOfferDetailViewModel
 
 @{
     
@@ -57,6 +57,6 @@
     function bookTrip() {
 
         var bookingNum = $('#Liczba_rezerwacji').val();
-        $.post("/Offers/BookTrip", { bookingCount: bookingNum});
+        $.post("/Offers/BookTrip", { bookingCount: bookingNum , offerId : @Model.ID});
     }
 </script>

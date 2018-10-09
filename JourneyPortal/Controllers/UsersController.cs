@@ -80,7 +80,7 @@ namespace JourneyPortal.Controllers
                 {
                     Email = x.Email,
                     Name = x.UserName,
-                    OffersList = x.OwnerOffers.Select(y => new ViewModels.Offers.OfferDetailViewModel
+                    OffersList = x.OwnerOffers.Select(y => new ViewModels.Offers.CreateOfferDetailViewModel
                     {
                         Name = y.Name,
                         Description = y.Description,
