@@ -17,9 +17,29 @@
     }
     @foreach (var item in Model.Categories)
     {
-        <div class="well well-lg">@item.Name</div>
+        @Html.ActionLink("Przejdź do kategorii", "GetTopics", "Forum", new { categoryId = item.Id },null)
+        <div class="well well-lg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-9">
+                        @item.Id.@item.Name
+                        <br />
+                    </div>
+                    <div class="col-sm-3">
+                        <p>
+                            Ostatnia aktywność<br />
+                            @item.LastActivity
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 </div>
-
+<script>
+    function goToCathegory(id) {
+        $.get("/Forum/GetTopics", { categoryId: id })
+    }
+</script>
 
 

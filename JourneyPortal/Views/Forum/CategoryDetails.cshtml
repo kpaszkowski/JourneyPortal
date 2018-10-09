@@ -1,0 +1,34 @@
+﻿@model JourneyPortal.ViewModels.Forum.CategoryDetailsViewModel
+
+<div class="container">
+    <div class="jumbotron">
+        <h1>Journey Portal - @Model.Name</h1>
+        <p>
+            @Model.Description
+        </p>
+    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        @Html.ActionLink("Dodaj temat", "CreateNewTopic", "Forum", new { categoryId = Model.Id }, null)
+    }
+    @foreach (var item in Model.TopicsList)
+    {
+        <div class="well well-lg" onclick="goToTopic(@item.Id)">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <p>@item.Id.@item.Name</p>
+                        <p>Wyświetlania : @item.Views</p>
+                    </div>
+                    <div class="col-sm-7">
+                        @Html.ActionLink("Przejdź do tematu", "GetPosts", "Forum", new { topicId = item.Id, categoryId = item.CategoryId }, new { @class = "btn bg-primary" })
+                    </div>
+                    <div class="col-sm-3">
+                        <p>Ostatnia aktywność</p>
+                        <p>@item.LastActivity</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

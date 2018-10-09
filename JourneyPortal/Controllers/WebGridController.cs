@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace JourneyPortal.Controllers
 {
+    [Authorize]
     public class WebGridController : Controller
     {
         ApplicationDbContext context;

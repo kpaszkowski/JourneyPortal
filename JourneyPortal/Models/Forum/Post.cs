@@ -13,5 +13,7 @@ namespace JourneyPortal.Models.Forum
         public string Text { get; set; }
         public DateTime CreationDate { get; set; }
         public int Like { get; set; }
+        public ApplicationUser Author { get; set; }
+        public Topic Topic { get; set; }
     }
 }

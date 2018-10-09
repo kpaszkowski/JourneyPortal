@@ -1,0 +1,26 @@
+﻿@model JourneyPortal.ViewModels.Forum.TopicDetailsViewModel
+@{ 
+     
+}
+<div class="container">
+    <h2>@Model.Name</h2>
+    <p>The media object can also be top, middle or bottom-aligned with the "media-top", "media-middle" or "media-bottom" class:</p><br>
+    <div class="media">
+        @foreach (var item in Model.PostsList)
+        {
+            <div class="media-left media-top">
+                <img width="128" height="128" src="~/Content/Images/empytAvatar.png" class="media-object" style="width:80px">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">@item.AuthorName</h4>
+                <p>@item.CreationDate</p>
+                <p>@item.Text</p>
+                <hr />
+                <p>Like (@item.Likes)</p>
+            </div>
+            <br />
+        }
+        @Html.Partial("~/Views/Forum/CreatePost.cshtml", new JourneyPortal.ViewModels.Forum.CreatePostViewModel { Id = Model.Id , CategoryId = Model.CategoryId})
+    </div>
+    <hr>
+</div>

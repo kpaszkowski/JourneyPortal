@@ -26,6 +26,10 @@ namespace JourneyPortal.Services
 
         internal string GetUserRole(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return string.Empty;
+            }
             return (from user in context.Users
                     where user.UserName == name
                     select new

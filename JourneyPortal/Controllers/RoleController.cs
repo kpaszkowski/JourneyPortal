@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace JourneyPortal.Controllers
 {
+    [Authorize]
     public class RoleController : Controller
     {
         // GET: Role

@@ -11,7 +11,7 @@ namespace JourneyPortal.Migrations
                 "dbo.Categories",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Description = c.String(),
                         LastActivity = c.DateTime(nullable: false),
@@ -30,7 +30,7 @@ namespace JourneyPortal.Migrations
                         IsDisabled = c.Boolean(nullable: false),
                         Views = c.Int(nullable: false),
                         Author_Id = c.String(maxLength: 128),
-                        Category_Id = c.String(maxLength: 128),
+                        Category_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.Author_Id)

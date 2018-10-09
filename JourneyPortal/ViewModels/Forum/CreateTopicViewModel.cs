@@ -6,13 +6,14 @@ using System.Web;
 
 namespace JourneyPortal.ViewModels.Forum
 {
-    public class CreateCategoryViewModel
+    public class CreateTopicViewModel
     {
+        public int Id { get; set; }
         [Display(Name = "Nazwa")]
-        [Required(AllowEmptyStrings = false ,ErrorMessage = "Należy podać nazwę kategorii.")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać nazwę tematu.")]
         public string Name { get; set; }
         [Display(Name = "Opis")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać opis kategorii.")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać opis tematu.")]
         public string Description { get; set; }
     }
 }

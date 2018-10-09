@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace JourneyPortal.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         ApplicationDbContext context;
@@ -69,6 +70,7 @@ namespace JourneyPortal.Controllers
             return false;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult GetTravelAgencyProfile(string userName)
         {

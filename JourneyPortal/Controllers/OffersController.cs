@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace JourneyPortal.Controllers
 {
+    [Authorize]
     public class OffersController : Controller
     {
         UserServices userServices;
@@ -21,7 +22,7 @@ namespace JourneyPortal.Controllers
         {
             userServices = new UserServices();
         }
-
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var cachedViewModel = new OffersViewModel();
@@ -31,7 +32,7 @@ namespace JourneyPortal.Controllers
             cachedViewModel.OffersList = GetAllOffers();
             return View("~/Views/Offers/Index.cshtml",cachedViewModel);
         }
-
+        [AllowAnonymous]
         private List<CreateOfferDetailViewModel> GetAllOffers()
         {
             using (ApplicationDbContext context = new ApplicationDbContext())
@@ -92,7 +93,7 @@ namespace JourneyPortal.Controllers
             return RedirectToAction("Index", "Offers");
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult GetAssignedOffers()
         {
@@ -160,7 +161,7 @@ namespace JourneyPortal.Controllers
             }
             return RedirectToAction("Index", "Offers");
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult GetOffers()
         {
@@ -183,7 +184,7 @@ namespace JourneyPortal.Controllers
             }
 
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult GetOfferDetailInfo(int id , string parentSessionCacheKey)
         {
