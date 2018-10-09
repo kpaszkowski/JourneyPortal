@@ -11,7 +11,6 @@ namespace JourneyPortal.ViewModels.Offers
     {
         public bool IsUser { get; set; }
         public bool IsTravelAgency { get; set; }
-        public List<OfferDetail> OffersList { get; set; }
-        public List<OfferDetail> RecentOffersList { get; set; }
+        public List<OfferDetailViewModel> OffersList { get; set; }
     }
 }

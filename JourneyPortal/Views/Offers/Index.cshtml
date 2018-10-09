@@ -7,7 +7,7 @@
                 <a class="navbar-brand" href="#">Zarządzanie ofertami</a>
             </div>
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Dodaj nową ofertę", "AddNewOffert", "Offers")</li>
+                <li>@Html.ActionLink("Dodaj nową ofertę", "CreateNewOffert", "Offers")</li>
                 <li>@Html.ActionLink("Aktywne oferty", "GetOffers", "Offers")</li>
             </ul>
         </div>
@@ -20,9 +20,18 @@
 
 <div>
     <ul>
-        @foreach(var item in Model.OffersList)
+        @foreach (var item in Model.OffersList)
         {
-            <li>@item.Name</li>
+        <li>
+            <h3> @Html.ActionLink(item.Name, "GetOfferDetailInfo", "Offers", new { id = item.ID , parentSessionCacheKey = Model.SessionCacheKey }, null)</h3><br />
+            <span>@item.Description</span><br />
+            @item.StartDate - @item.EndDate<br />
+            Dodana @item.CreationDate<br />
+            @item.NuberOfBooking<br />
+            @item.CreationDate<br />
+            @item.Cost zł<br />
+            @Html.ActionLink(item.TravelAgencyOwner.UserName, "GetTravelAgencyProfile", "Users", new { userName = item.TravelAgencyOwner.UserName }, null)<br/>
+        </li>
         }
     </ul>
 </div>

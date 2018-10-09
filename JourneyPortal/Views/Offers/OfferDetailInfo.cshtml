@@ -1,0 +1,62 @@
+﻿@model JourneyPortal.ViewModels.Offers.OfferDetailViewModel
+
+@{
+    
+}
+
+<br />
+<div class="container">
+    <div class="media">
+        <div class="media-left media-top">
+            <img src="~/Content/Images/empytAvatar.png" class="media-object" style="width:320px" />
+        </div>
+        <div class="media-right media-top">
+            <h3 class="media-heading">@Model.Name</h3><br />
+            @Html.LabelFor(m => m.StartDate, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control", disabled = "disabled" })
+            </div>
+            @Html.LabelFor(m => m.EndDate, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control", disabled = "disabled" })
+            </div>
+            @Html.LabelFor(m => m.CreationDate, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.CreationDate, new { @class = "form-control", disabled = "disabled" })
+            </div>
+            @Html.LabelFor(m => m.Cost, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.Cost, new { @class = "form-control", disabled = "disabled" })
+            </div>
+            @Html.LabelFor(m => m.NuberOfBooking, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.NuberOfBooking, new { @class = "form-control", disabled = "disabled" })
+            </div>
+            @Html.Label("Nazwa biura", new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                <button id="getTravelAgencyInfo" class="btn btn-info">@Html.ActionLink(Model.TravelAgencyOwner.UserName, "GetTravelAgencyProfile", "Users", new { userName = Model.TravelAgencyOwner.UserName }, null)</button>
+            </div>
+
+            @Html.LabelFor(m => m.Description, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                <p>@Model.Description</p>
+            </div>
+            @if (User.Identity.IsAuthenticated && ViewBag.IsUser)
+            {
+                @Html.Label("Liczba rezerwacji", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("Liczba rezerwacji", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <button class="btn btn-success" onclick="bookTrip()">Zarezerwuj miejsca</button>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function bookTrip() {
+
+        var bookingNum = $('#Liczba_rezerwacji').val();
+        $.post("/Offers/BookTrip", { bookingCount: bookingNum});
+    }
+</script>

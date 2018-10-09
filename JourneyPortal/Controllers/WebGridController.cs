@@ -71,7 +71,10 @@ namespace JourneyPortal.Controllers
                                               select role.Name).ToList()
                              }).ToList().FirstOrDefault().RoleNames.FirstOrDefault();
 
-            var result = userManager.RemoveFromRole(currentUser.Id, currentRole);
+            if (currentRole != null)
+            {
+                var result = userManager.RemoveFromRole(currentUser.Id, currentRole);
+            }
             var result2 = userManager.AddToRole(currentUser.Id, newRole);
             return RedirectToAction("WebGrid", "WebGrid");
         }

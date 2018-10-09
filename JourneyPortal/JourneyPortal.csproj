@@ -239,7 +239,7 @@
     <Compile Include="Services\OfferServices.cs" />
     <Compile Include="Services\UserServices.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\Offers\OfferDetail.cs" />
+    <Compile Include="ViewModels\Offers\OfferDetailViewModel.cs" />
     <Compile Include="ViewModels\Offers\OffersViewModel.cs" />
     <Compile Include="ViewModels\Shared\BaseFromViewModel.cs" />
   </ItemGroup>
@@ -248,6 +248,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\empytAvatar.png" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -351,11 +352,14 @@
     <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\WebGrid\UsersList.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Offers\AddNewOffert.cshtml" />
     <Content Include="Views\Offers\GetOffers.cshtml" />
+    <Content Include="Views\Offers\CreateNewOffert.cshtml" />
+    <Content Include="Views\Users\GetTravelAgencyProfile.cshtml" />
+    <Content Include="Views\Offers\OfferDetailInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ViewModels\Users\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

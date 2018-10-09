@@ -1,4 +1,6 @@
-﻿using JourneyPortal.ViewModels.Shared;
+﻿using JourneyPortal.Models.Offer;
+using JourneyPortal.ViewModels.Offers;
+using JourneyPortal.ViewModels.Shared;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -141,6 +143,14 @@ namespace JourneyPortal.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+    }
+    public class TravelAgencyInfoViewModel : BaseFormViewModel
+    {
+        [Display(Name = "Nazwa")]
+        public string Name { get; set; }
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+        public List<OfferDetailViewModel> OffersList { get; set; }
     }
 
     public class UserProfileInfo : BaseFormViewModel

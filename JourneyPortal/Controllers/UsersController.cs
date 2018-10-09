@@ -69,5 +69,33 @@ namespace JourneyPortal.Controllers
             return false;
         }
 
+        [HttpGet]
+        public ActionResult GetTravelAgencyProfile(string userName)
+        {
+            var cachedViewModel = new TravelAgencyInfoViewModel();
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                cachedViewModel = context.Users.Where(x => x.UserName == userName).Select(x => new TravelAgencyInfoViewModel
+                {
+                    Email = x.Email,
+                    Name = x.UserName,
+                    OffersList = x.OwnerOffers.Select(y => new ViewModels.Offers.OfferDetailViewModel
+                    {
+                        Name = y.Name,
+                        Description = y.Description,
+                        StartDate = y.StartDate,
+                        EndDate = y.EndDate,
+                        CreationDate = y.CreationDate,
+                        Cost = y.Cost,
+                        NuberOfBooking = y.NuberOfBooking,
+                    }).ToList()
+                }).FirstOrDefault();
+
+            }
+
+            return View("~/Views/Users/GetTravelAgencyProfile.cshtml", cachedViewModel);
+        }
+
     }
 }

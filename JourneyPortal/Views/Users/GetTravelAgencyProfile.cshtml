@@ -1,14 +1,17 @@
-﻿@model List<JourneyPortal.ViewModels.Offers.OfferDetailViewModel>
-@{
+﻿@model JourneyPortal.Models.TravelAgencyInfoViewModel
 
+@{
+    ViewBag.Title = "GetTravelAgencyProfile";
 }
 
-
-<h3>Twoj oferty</h3>
+<h2>@Model.Name</h2>
 
 <div>
     <ul>
-        @foreach (var item in Model)
+
+
+
+        @foreach (var item in Model.OffersList)
         {
             <li>
                 <h3>@item.Name</h3><br />
@@ -18,9 +21,10 @@
                 @item.NuberOfBooking<br />
                 @item.CreationDate<br />
                 @item.Cost zł<br />
-
             </li>
         }
     </ul>
 </div>
-
+<p>
+    @Html.ActionLink("Back to List", "Index","Offers")
+</p>

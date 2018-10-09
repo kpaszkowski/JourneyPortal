@@ -8,7 +8,13 @@ using System.Web;
 
 namespace JourneyPortal.ViewModels.Offers
 {
-    public class OfferDetail : BaseFormViewModel
+    public class BookingFormViewModel :BaseFormViewModel
+    {
+        [Display(Name ="Liczba rezerwacji")]
+        public int NumberOfBooking { get; set; }
+        public int OfferId { get; set; }
+    }
+    public class OfferDetailViewModel : BaseFormViewModel
     {
         [Display(Name = "Nazwa")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać nazwę.")]
