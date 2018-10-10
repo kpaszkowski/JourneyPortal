@@ -12,7 +12,7 @@ namespace JourneyPortal.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("JourneyPortalDBHome", throwIfV1Schema: false)
+            : base("JourneyPortalDWork", throwIfV1Schema: false)
         {
         }
 
