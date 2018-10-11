@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
 using System;
+using System.Configuration;
 
 [assembly: OwinStartupAttribute(typeof(JourneyPortal.Startup))]
 namespace JourneyPortal
@@ -21,6 +22,8 @@ namespace JourneyPortal
             ApplicationDbContext context = new ApplicationDbContext();
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+
+            #region SeedBasicUsers
 
             if (!roleManager.RoleExists("Admin"))
             {
@@ -95,6 +98,20 @@ namespace JourneyPortal
                     var result1 = userManager.AddToRole(user.Id, "Proprietor");
                 }
             }
+
+            #endregion SeedBasicUsers
+
+            #region SeedSampleDatabaseData
+
+            bool seedSampleData = Boolean.Parse(ConfigurationManager.AppSettings["SeedDatabase"]);
+
+            if (seedSampleData)
+            {
+
+            }
+
+            #endregion SeedSampleDatabaseData
+
         }
     }
 }

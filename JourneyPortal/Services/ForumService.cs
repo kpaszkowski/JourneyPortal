@@ -80,13 +80,20 @@ namespace JourneyPortal.Services
             }
         }
 
-        internal void AddLike(int postId)
+        internal void AddLike(int postId,string userName)
         {
             try
             {
                 using (ApplicationDbContext context = new ApplicationDbContext())
                 {
-                    context.Posts.FirstOrDefault(x => x.Id == postId).Like++;
+                    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                    //var currentPost = context.Posts.FirstOrDefault(x => x.Id == postId);
+                    //var authorId = (from post in context.Posts
+                    //                 where post.Id == postId
+                    //                 select new
+                    //                 {
+                                         
+                    //                 }).ToList().FirstOrDefault().Author.FirstOrDefault();
                     context.SaveChanges();
                 }
             }

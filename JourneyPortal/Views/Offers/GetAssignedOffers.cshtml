@@ -1,32 +1,66 @@
-﻿@model List<JourneyPortal.ViewModels.Offers.OfferDetailViewModel>
+﻿@model PagedList.IPagedList<JourneyPortal.ViewModels.Offers.OfferDetailViewModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
 
- }
+}
 <div class="container">
     <h2>Zarezerwowane wycieczki</h2>
+    @using (Html.BeginForm("GetAssignedOffers", "Offers", FormMethod.Get))
+    {
+        <p>
+            Wyszukaj po nazwie  oferty / biura: @Html.TextBox("searchString")
+            <input type="submit" value="Wyszukaj" />
+        </p>
+    }
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Nazwa</th>
-                <th>Liczba miejsc</th>
-                <th>Data rozpoczęcia</th>
-                <th>Data zakończenia</th>
-                <th>Kosz całkowity</th>
-                <th>Nazwa biura podróży</th>
+                <th>@Html.ActionLink("Id", "GetAssignedOffers", new { sortOrder = ViewBag.IdSortParm })</th>
+                <th>@Html.ActionLink("Nazwa", "GetAssignedOffers", new { sortOrder = ViewBag.NameSortParm })</th>
+                <th>@Html.ActionLink("Liczba miejsc", "GetAssignedOffers", new { sortOrder = ViewBag.BookingNumber })</th>
+                <th>@Html.ActionLink("Data rozpoczęcia", "GetAssignedOffers", new { sortOrder = ViewBag.DateStartSortParm })</th>
+                <th>@Html.ActionLink("Data zakończenia", "GetAssignedOffers", new { sortOrder = ViewBag.DateEndSortParm })</th>
+                <th>@Html.ActionLink("Koszt całkowity", "GetAssignedOffers", new { sortOrder = ViewBag.Cost })</th>
+                <th>@Html.ActionLink("Nazwa biura podróży", "GetAssignedOffers", new { sortOrder = ViewBag.TravelAgencyName })</th>
+                <th>Wypisz się</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
             <tr>
+                <td>@item.Id</td>
                 <td>@item.Name</td>
                 <td>@item.NuberOfBooking</td>
                 <td>@item.StartDate</td>
                 <td>@item.EndDate</td>
                 <td>@(item.Cost * item.NuberOfBooking)</td>
                 <td>@item.TravelAgencyOwnerName</td>
+                <td>
+                    @using (Html.BeginForm("SignOff", "Offers", FormMethod.Post, new { id = "signOff-"+item.Id }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <a href="#" onclick="submitSignOff('@item.Id');">Wypisz się</a>
+                        @Html.Hidden("offerId",item.Id)
+                        @Html.Editor("numberOfBooking", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "1", @value = "0", @required = "required", @max = item.NuberOfBooking} })
+                        @Html.ValidationMessage("SignOffNumber", "", new { @class = "text-danger" })
+                    }
+                </td>
             </tr>
             }
         </tbody>
     </table>
+    <br />
+    Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.PageNumber - ViewBag.PageSize+1) : 0) - @(Math.Min((ViewBag.PageSize * Model.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber
+    <br />
+    Strona @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("GetAssignedOffers",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 </div>
+<script>
+    function submitSignOff(id) {
+        $('#signOff-' + id).submit();
+    }
+</script>
