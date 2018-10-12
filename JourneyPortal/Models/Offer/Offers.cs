@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -49,6 +50,9 @@ namespace JourneyPortal.Models.Offer
         public int Rate { get; set; }
 
         public string Country { get; set; }
+
+        [DefaultValue("true")]
+        public bool IsActive { get; set; }
 
         public string TravelAgencyOwnerId { get; set; }
 

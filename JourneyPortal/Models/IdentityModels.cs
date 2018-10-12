@@ -48,6 +48,8 @@ namespace JourneyPortal.Models
 
         public virtual ICollection<OffersComment> OffersComments { get; set; }
 
+        public virtual ICollection<PostsUsers> PostsUsers { get; set; }
+
     }
 
 }

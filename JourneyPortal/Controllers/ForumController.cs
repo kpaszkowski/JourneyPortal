@@ -79,7 +79,7 @@ namespace JourneyPortal.Controllers
         public ActionResult AddLike(int postId, int topicId, int categoryId)
         {
             var model = new PostViewModel();
-            forumService.AddLike(postId,User.Identity.Name);
+            var result = forumService.AddLike(postId,User.Identity.Name);
             return RedirectToAction("GetPosts", "Forum", new { topicId = topicId, categoryId = categoryId });
         }
 

@@ -44,6 +44,10 @@ namespace JourneyPortal.Services
         
         internal bool IsTravelAgency(string name)
         {
+            if (IsAdmin(name))
+            {
+                return true;
+            }
             if (GetUserRole(name) == Roles.TravelAgency.ToString())
             {
                 return true;
@@ -60,6 +64,10 @@ namespace JourneyPortal.Services
         }
         internal bool IsUser(string name)
         {
+            if (IsAdmin(name))
+            {
+                return true;
+            }
             if (GetUserRole(name) == Roles.User.ToString())
             {
                 return true;
@@ -68,6 +76,10 @@ namespace JourneyPortal.Services
         }
         internal bool IsProprietor(string name)
         {
+            if (IsAdmin(name))
+            {
+                return true;
+            }
             if (GetUserRole(name) == Roles.Proprietor.ToString())
             {
                 return true;

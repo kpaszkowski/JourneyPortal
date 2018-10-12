@@ -267,11 +267,16 @@
     <Compile Include="Migrations\201810120925163_offersRefactor.Designer.cs">
       <DependentUpon>201810120925163_offersRefactor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810121359428_addLikedPostsTable.cs" />
+    <Compile Include="Migrations\201810121359428_addLikedPostsTable.Designer.cs">
+      <DependentUpon>201810121359428_addLikedPostsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Forum\Category.cs" />
     <Compile Include="Models\Forum\Post.cs" />
+    <Compile Include="Models\Forum\PostsUsers.cs" />
     <Compile Include="Models\Forum\Topic.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -304,6 +309,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\empytAvatar.png" />
+    <Content Include="Content\Images\like.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\summernote\summernote-bs4.css" />
     <Content Include="Content\summernote\summernote-lite.css" />
@@ -532,6 +538,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810120925163_offersRefactor.resx">
       <DependentUpon>201810120925163_offersRefactor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810121359428_addLikedPostsTable.resx">
+      <DependentUpon>201810121359428_addLikedPostsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

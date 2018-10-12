@@ -17,17 +17,19 @@
                 <p>@Html.Raw(item.Text)</p>
                 <hr />
                 <p>
-                    @if (true)
+                    @if (Request.IsAuthenticated)
                     {
                         using (Html.BeginForm("AddLike", "Forum", new { postId = item.Id, topicId = Model.Id, categoryId = Model.CategoryId }, FormMethod.Post, new { id = "addLike-" + item.Id }))
                         {
                             @Html.AntiForgeryToken()
-                            <a href="#" onclick="submitAddLike('@item.Id');">Like(@item.Likes)</a>
+                            <a href="#" onclick="submitAddLike('@item.Id');"><img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)</a>
                         }
                     }
                     else
                     {
-                        <div>Like (@item.Likes)</div>
+                            <div>
+                                <img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)
+                            </div>
                     }</p>
             </div>
             <br />
