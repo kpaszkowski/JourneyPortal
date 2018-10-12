@@ -1,4 +1,4 @@
-﻿@model List<JourneyPortal.ViewModels.Offers.CreateOfferDetailViewModel>
+﻿@model List<JourneyPortal.ViewModels.Offers.OffersGridViewModel>
 @{
 
 }
@@ -12,13 +12,12 @@
         {
             <li>
                 <h3>@item.Name</h3><br />
-                <span>@item.Description</span><br />
+                <span>@Html.Raw(item.Description)</span><br />
                 @item.StartDate - @item.EndDate<br />
                 Dodana @item.CreationDate<br />
-                @item.NuberOfBooking<br />
                 @item.CreationDate<br />
                 @item.Cost zł<br />
-
+                @item.Country<br/>
             </li>
         }
     </ul>

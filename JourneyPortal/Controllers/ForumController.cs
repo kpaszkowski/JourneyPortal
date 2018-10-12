@@ -25,7 +25,7 @@ namespace JourneyPortal.Controllers
         public ActionResult Index()
         {
             var model = new ForumViewModel();
-            if (userServices.GetUserRole(User.Identity.Name) == "Admin")
+            if (userServices.IsAdmin(User.Identity.Name))
             {
                 model.IsAdmin = true;
             }

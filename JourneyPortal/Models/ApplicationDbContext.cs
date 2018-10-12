@@ -14,8 +14,9 @@ namespace JourneyPortal.Models
         public ApplicationDbContext()
             : base("JourneyPortalDWork", throwIfV1Schema: false)
         {
+            this.Configuration.ProxyCreationEnabled = true;
+            this.Configuration.LazyLoadingEnabled = true;
         }
-
         public DbSet<Offers> Offers { get; set; }
         public DbSet<OffersApplicationUsers> OffersApplicationUsers { get; set; }
         public DbSet<Category> Categories { get; set; }

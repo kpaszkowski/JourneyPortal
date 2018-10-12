@@ -10,13 +10,11 @@ namespace JourneyPortal.ViewModels.Shared
     {
         public long ID { get; set; }
 
-        public bool IsEdit { get; set; }
-
         #region ControllerNames
 
-        public virtual string ControllerName { get; set; }
+        //public virtual string ControllerName { get; set; }
 
-        public virtual string AreaName { get; set; }
+        //public virtual string AreaName { get; set; }
 
         #endregion
 

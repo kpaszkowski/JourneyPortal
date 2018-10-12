@@ -87,13 +87,10 @@ namespace JourneyPortal.Services
                 using (ApplicationDbContext context = new ApplicationDbContext())
                 {
                     var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                    //var currentPost = context.Posts.FirstOrDefault(x => x.Id == postId);
-                    //var authorId = (from post in context.Posts
-                    //                 where post.Id == postId
-                    //                 select new
-                    //                 {
-                                         
-                    //                 }).ToList().FirstOrDefault().Author.FirstOrDefault();
+                    if (context.Posts.Where(x=>x.Id == postId).Select(x=>x.Author.Id).FirstOrDefault() != userManager.FindByName(userName).Id)
+                    {
+                        context.Posts.FirstOrDefault(x => x.Id == postId).Like++;
+                    }
                     context.SaveChanges();
                 }
             }

@@ -1,5 +1,5 @@
 ﻿@model JourneyPortal.ViewModels.Offers.OffersViewModel
-@if (Model.IsTravelAgency)
+@if (Model.IsTravelAgency || Model.IsAdmin)
 {
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
@@ -8,14 +8,10 @@
             </div>
             <ul class="nav navbar-nav">
                 <li>@Html.ActionLink("Dodaj nową ofertę", "CreateNewOffert", "Offers")</li>
-                <li>@Html.ActionLink("Twoje oferty", "GetOffers", "Offers")</li>
+                <li>@Html.ActionLink("Twoje oferty", "GetYourOffers", "Offers")</li>
             </ul>
         </div>
     </nav>
-}
-@if (Model.IsUser)
-{
-
 }
 
 <div>
@@ -23,14 +19,13 @@
         @foreach (var item in Model.OffersList)
         {
         <li>
-            <h3> @Html.ActionLink(item.Name, "GetOfferDetailInfo", "Offers", new { id = item.ID , parentSessionCacheKey = Model.SessionCacheKey }, null)</h3><br />
-            <span>@item.Description</span><br />
+            <h3> @Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</h3><br />
+            <span>@Html.Raw(item.Description)</span><br />
             @item.StartDate - @item.EndDate<br />
             Dodana @item.CreationDate<br />
-            @item.NuberOfBooking<br />
             @item.CreationDate<br />
             @item.Cost zł<br />
-            @Html.ActionLink(item.TravelAgencyOwner.UserName, "GetTravelAgencyProfile", "Users", new { userName = item.TravelAgencyOwner.UserName }, null)<br/>
+            @Html.ActionLink(item.TravelAgencyOwnerName, "GetTravelAgencyProfile", "Users", new { userName = item.TravelAgencyOwnerName }, null)<br/>
         </li>
         }
     </ul>

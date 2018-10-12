@@ -29,86 +29,42 @@ namespace JourneyPortal.Controllers
         public ActionResult Index()
         {
             var cachedViewModel = new OffersViewModel();
-            SessionCache.Set(cachedViewModel);
-            cachedViewModel.IsTravelAgency = isTravelAgencyRole();
-            cachedViewModel.IsUser = isUserRole();
-            cachedViewModel.OffersList = GetAllOffers();
+            string currentUserName = User.Identity.Name;
+            cachedViewModel.IsTravelAgency = userServices.IsTravelAgency(currentUserName);
+            cachedViewModel.IsAdmin= userServices.IsAdmin(currentUserName);
+            cachedViewModel.IsUser = userServices.IsUser(currentUserName);
+            cachedViewModel.OffersList =  offerServices.GetAllOffers();
             return View("~/Views/Offers/Index.cshtml", cachedViewModel);
         }
-        [AllowAnonymous]
-        private List<CreateOfferDetailViewModel> GetAllOffers()
+        [HttpGet]
+        public ActionResult CreateNewOffert()
         {
-            using (ApplicationDbContext context = new ApplicationDbContext())
-            {
-                return context.Offers.Select(x => new CreateOfferDetailViewModel
-                {
-                    ID = x.Id,
-                    Cost = x.Cost,
-                    CreationDate = x.CreationDate,
-                    Description = x.Description,
-                    EndDate = x.EndDate,
-                    Name = x.Name,
-                    NuberOfBooking = x.NuberOfBooking,
-                    StartDate = x.StartDate,
-                    TravelAgencyOwner = x.TravelAgencyOwner
-                }).ToList();
-            }
-
+            var cachedViewModel = new CreateOfferDetailViewModel();
+            return View("~/Views/Offers/CreateNewOffert.cshtml", cachedViewModel);
         }
 
         [HttpPost]
-        public ActionResult BookTrip(int bookingCount, int offerId)
+        [ValidateInput(false)]
+        public ActionResult CreateNewOffert(CreateOfferDetailViewModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                using (ApplicationDbContext context = new ApplicationDbContext())
-                {
-                    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                    var currentUser = userManager.FindByName(User.Identity.Name);
-                    var currentOffert = context.Offers.FirstOrDefault(x => x.Id == offerId);
-                    //update
-                    if (context.OffersApplicationUsers.Where(x => x.ApplicationUserId == currentUser.Id && x.OfferId == currentOffert.Id).Any())
-                    {
-                        var offerApplicationUser = context.OffersApplicationUsers.FirstOrDefault(x => x.ApplicationUserId == currentUser.Id && x.OfferId == currentOffert.Id);
-                        offerApplicationUser.BookingCount += bookingCount;
-                    }
-                    //new
-                    else
-                    {
-                        var offerApplicationUser = new OffersApplicationUsers
-                        {
-                            ApplicationUser = currentUser,
-                            Offers = currentOffert,
-                            BookingCount = bookingCount,
-                        };
-                        context.OffersApplicationUsers.Add(offerApplicationUser);
-                    }
-                    currentOffert.NuberOfBooking -= bookingCount;
-                    context.SaveChanges();
-                }
+                bool success = offerServices.CreateNewOffert(model,User.Identity.Name);
             }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
             return RedirectToAction("Index", "Offers");
         }
 
-        [HttpPost]
-        public ActionResult SignOff(int offerId, int? numberOfBooking)
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult GetYourOffers()
         {
-            if (numberOfBooking != null && numberOfBooking != 0)
-            {
-                var userName = User.Identity.Name;
-                bool result = offerServices.SignOff(offerId, numberOfBooking,userName);
-            }
-            return RedirectToAction("GetAssignedOffers");
+            var model = offerServices.GetOffersForTravelAgency(User.Identity.Name);
+            return View("~/Views/Offers/GetYourOffers.cshtml", model);
+
         }
 
         [HttpGet]
-        public ViewResult GetAssignedOffers(string sortOrder, string currentFilter, string searchString, int? page)
+        public ViewResult GetOffersForUser(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var cachedViewModel = new List<OfferDetailViewModel>();
 
@@ -215,36 +171,41 @@ namespace JourneyPortal.Controllers
             return View("~/Views/Offers/GetAssignedOffers.cshtml", cachedViewModel.ToPagedList(pageNumber,pageSize));
         }
 
-        [HttpGet]
-        public ActionResult CreateNewOffert()
-        {
-            var cachedViewModel = new CreateOfferDetailViewModel();
-
-            SessionCache.Set(cachedViewModel);
-            return View("~/Views/Offers/CreateNewOffert.cshtml", cachedViewModel);
-        }
-
         [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult CreateNewOffert(CreateOfferDetailViewModel model)
+        public ActionResult BookTrip(string sessionCacheKey ,int bookingCount, int offerId)
         {
+            var cachedViewModel = SessionCache.Get<CreateOfferDetailViewModel>(sessionCacheKey);
+            ViewBag.IsUser = userServices.IsUser(User.Identity.Name);
+            if (bookingCount <1 || bookingCount > cachedViewModel.NuberOfBooking)
+            {
+                ModelState.AddModelError("bookingCount", "Podana liczba miejsc jest nieprawidłowa!");
+                return View("~/Views/Offers/OfferDetailInfo.cshtml", cachedViewModel);
+            }
             try
             {
                 using (ApplicationDbContext context = new ApplicationDbContext())
                 {
                     var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                    Offers newOffert = new Offers()
+                    var currentUser = userManager.FindByName(User.Identity.Name);
+                    var currentOffert = context.Offers.FirstOrDefault(x => x.Id == offerId);
+                    //update
+                    if (context.OffersApplicationUsers.Where(x => x.ApplicationUserId == currentUser.Id && x.OfferId == currentOffert.Id).Any())
                     {
-                        Name = model.Name,
-                        Description = model.Description,
-                        NuberOfBooking = model.NuberOfBooking,
-                        StartDate = model.StartDate,
-                        EndDate = model.EndDate,
-                        Cost = model.Cost,
-                        CreationDate = DateTime.Now,
-                        TravelAgencyOwner = userManager.FindByName(User.Identity.Name),
-                    };
-                    context.Offers.Add(newOffert);
+                        var offerApplicationUser = context.OffersApplicationUsers.FirstOrDefault(x => x.ApplicationUserId == currentUser.Id && x.OfferId == currentOffert.Id);
+                        offerApplicationUser.BookingCount += bookingCount;
+                    }
+                    //new
+                    else
+                    {
+                        var offerApplicationUser = new OffersApplicationUsers
+                        {
+                            ApplicationUser = currentUser,
+                            Offers = currentOffert,
+                            BookingCount = bookingCount,
+                        };
+                        context.OffersApplicationUsers.Add(offerApplicationUser);
+                    }
+                    currentOffert.NuberOfBooking -= bookingCount;
                     context.SaveChanges();
                 }
             }
@@ -253,102 +214,31 @@ namespace JourneyPortal.Controllers
 
                 throw ex;
             }
-            return RedirectToAction("Index", "Offers");
+
+            
+            return RedirectToAction("GetOfferDetailInfo", "Offers");
         }
+
+        [HttpPost]
+        public ActionResult SignOff(int offerId, int? numberOfBooking)
+        {
+            if (numberOfBooking != null && numberOfBooking != 0)
+            {
+                var userName = User.Identity.Name;
+                bool result = offerServices.SignOff(offerId, numberOfBooking,userName);
+            }
+            return RedirectToAction("GetOffersForUser");
+        }
+
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult GetOffers()
+        public ActionResult GetOffersDetail(int id)
         {
-            using (ApplicationDbContext context = new ApplicationDbContext())
-            {
-                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                List<CreateOfferDetailViewModel> listWithOffers = context.Offers.Where(x => x.TravelAgencyOwner.UserName == User.Identity.Name).Select(x => new CreateOfferDetailViewModel
-                {
-                    ID = x.Id,
-                    Cost = x.Cost,
-                    CreationDate = x.CreationDate,
-                    Description = x.Description,
-                    EndDate = x.EndDate,
-                    Name = x.Name,
-                    NuberOfBooking = x.NuberOfBooking,
-                    StartDate = x.StartDate,
-                }).ToList();
-
-                return View("~/Views/Offers/GetYourOffers.cshtml", listWithOffers);
-            }
-
-        }
-        [AllowAnonymous]
-        [HttpGet]
-        public ActionResult GetOfferDetailInfo(int id, string parentSessionCacheKey)
-        {
-            var mainViewModel = SessionCache.Get<OffersViewModel>(parentSessionCacheKey);
-
-            var cachedViewModel = new CreateOfferDetailViewModel();
-            using (ApplicationDbContext context = new ApplicationDbContext())
-            {
-                cachedViewModel = context.Offers.Where(x => x.Id == id).Select(x => new CreateOfferDetailViewModel
-                {
-                    ID = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
-                    StartDate = x.StartDate,
-                    EndDate = x.EndDate,
-                    CreationDate = x.CreationDate,
-                    NuberOfBooking = x.NuberOfBooking,
-                    TravelAgencyOwner = x.TravelAgencyOwner,
-                    Cost = x.Cost,
-
-                }).FirstOrDefault();
-                ViewBag.IsUser = mainViewModel.IsUser;
-                ViewBag.IsTravelAgency = mainViewModel.IsTravelAgency;
-                return View("~/Views/Offers/OfferDetailInfo.cshtml", cachedViewModel);
-            }
-        }
-
-        public Boolean isUserRole()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = User.Identity;
-                ApplicationDbContext context = new ApplicationDbContext();
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s.Any())
-                {
-                    if (s[0].ToString() == "User" || s[0].ToString() == "Admin")
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            return false;
-        }
-        public Boolean isTravelAgencyRole()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = User.Identity;
-                ApplicationDbContext context = new ApplicationDbContext();
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s.Any())
-                {
-                    if (s[0].ToString() == "TravelAgency" || s[0].ToString() == "Admin")
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            return false;
+            var model = offerServices.GetOfferDetail(id);
+            string userName = User.Identity.Name;
+            model.IsUser = userServices.IsUser(userName);
+            model.IsTravelAgency= userServices.IsTravelAgency(userName);
+            return View("~/Views/Offers/OfferDetailInfo.cshtml", model);
         }
     }
 }

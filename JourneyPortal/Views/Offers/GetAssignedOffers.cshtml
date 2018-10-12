@@ -6,7 +6,7 @@
 }
 <div class="container">
     <h2>Zarezerwowane wycieczki</h2>
-    @using (Html.BeginForm("GetAssignedOffers", "Offers", FormMethod.Get))
+    @using (Html.BeginForm("GetOffersForUser", "Offers", FormMethod.Get))
     {
         <p>
             Wyszukaj po nazwie  oferty / biura: @Html.TextBox("searchString")
@@ -16,13 +16,13 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>@Html.ActionLink("Id", "GetAssignedOffers", new { sortOrder = ViewBag.IdSortParm })</th>
-                <th>@Html.ActionLink("Nazwa", "GetAssignedOffers", new { sortOrder = ViewBag.NameSortParm })</th>
-                <th>@Html.ActionLink("Liczba miejsc", "GetAssignedOffers", new { sortOrder = ViewBag.BookingNumber })</th>
-                <th>@Html.ActionLink("Data rozpoczęcia", "GetAssignedOffers", new { sortOrder = ViewBag.DateStartSortParm })</th>
-                <th>@Html.ActionLink("Data zakończenia", "GetAssignedOffers", new { sortOrder = ViewBag.DateEndSortParm })</th>
-                <th>@Html.ActionLink("Koszt całkowity", "GetAssignedOffers", new { sortOrder = ViewBag.Cost })</th>
-                <th>@Html.ActionLink("Nazwa biura podróży", "GetAssignedOffers", new { sortOrder = ViewBag.TravelAgencyName })</th>
+                <th>@Html.ActionLink("Id", "GetOffersForUser", new { sortOrder = ViewBag.IdSortParm })</th>
+                <th>@Html.ActionLink("Nazwa", "GetOffersForUser", new { sortOrder = ViewBag.NameSortParm })</th>
+                <th>@Html.ActionLink("Liczba miejsc", "GetOffersForUser", new { sortOrder = ViewBag.BookingNumber })</th>
+                <th>@Html.ActionLink("Data rozpoczęcia", "GetOffersForUser", new { sortOrder = ViewBag.DateStartSortParm })</th>
+                <th>@Html.ActionLink("Data zakończenia", "GetOffersForUser", new { sortOrder = ViewBag.DateEndSortParm })</th>
+                <th>@Html.ActionLink("Koszt całkowity", "GetOffersForUser", new { sortOrder = ViewBag.Cost })</th>
+                <th>@Html.ActionLink("Nazwa biura podróży", "GetOffersForUser", new { sortOrder = ViewBag.TravelAgencyName })</th>
                 <th>Wypisz się</th>
             </tr>
         </thead>
@@ -56,7 +56,7 @@
     <br />
     Strona @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("GetAssignedOffers",
+    @Html.PagedListPager(Model, page => Url.Action("GetOffersForUser",
         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 </div>
 <script>
