@@ -25,7 +25,7 @@ namespace JourneyPortal.Controllers
         public ActionResult Index()
         {
             var model = new ForumViewModel();
-            if (userServices.GetUserRole(User.Identity.Name) == "Admin")
+            if (userServices.IsAdmin(User.Identity.Name))
             {
                 model.IsAdmin = true;
             }
@@ -44,8 +44,12 @@ namespace JourneyPortal.Controllers
         [HttpPost]
         public ActionResult CreateNewCategory(CreateCategoryViewModel model)
         {
-            forumService.CreateNewCategory(model);
-            return RedirectToAction("Index", "Forum");
+            if (ModelState.IsValid)
+            {
+                forumService.CreateNewCategory(model);
+                return RedirectToAction("Index", "Forum");
+            }
+            return View(model);
         }
 
         [Authorize]
@@ -53,8 +57,12 @@ namespace JourneyPortal.Controllers
         [HttpPost]
         public ActionResult CreatePost(CreatePostViewModel model , int topicId , int categoryId)
         {
-            forumService.CreatePost(model,topicId,categoryId,User.Identity.Name);
-            return RedirectToAction("Index", "Forum");
+            
+            if (ModelState.IsValid)
+            {
+                forumService.CreatePost(model,topicId,categoryId,User.Identity.Name);
+            }
+            return RedirectToAction("GetPosts","Forum",new { topicId = topicId , categoryId = categoryId});
         }
 
         [HttpGet]
@@ -68,11 +76,11 @@ namespace JourneyPortal.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult AddLike(int postId)
+        public ActionResult AddLike(int postId, int topicId, int categoryId)
         {
             var model = new PostViewModel();
-            forumService.AddLike(postId);
-            return RedirectToAction("Index", "Forum");
+            var result = forumService.AddLike(postId,User.Identity.Name);
+            return RedirectToAction("GetPosts", "Forum", new { topicId = topicId, categoryId = categoryId });
         }
 
         [HttpGet]
@@ -95,8 +103,12 @@ namespace JourneyPortal.Controllers
         [HttpPost]
         public ActionResult CreateNewTopic(CreateTopicViewModel model , int categoryId)
         {
-            forumService.CreateNewTopic(model, categoryId);
-            return RedirectToAction("Index", "Forum");
+            if (ModelState.IsValid)
+            {
+                forumService.CreateNewTopic(model, categoryId);
+                return RedirectToAction("GetTopics", "Forum", new { categoryId = categoryId });
+            }
+            return View(model);
         }
     }
 }

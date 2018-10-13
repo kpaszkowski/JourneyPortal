@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using static JourneyPortal.Enums.Enums;
 
 namespace JourneyPortal.Services
 {
@@ -40,12 +41,50 @@ namespace JourneyPortal.Services
                                      select role.Name).ToList()
                     }).ToList().FirstOrDefault().RoleNames.FirstOrDefault();
         }
-
-
-
-        //public UserProfileInfo GetUserProfileInfo(string )
-        //{
-
-        //}
+        
+        internal bool IsTravelAgency(string name)
+        {
+            if (IsAdmin(name))
+            {
+                return true;
+            }
+            if (GetUserRole(name) == Roles.TravelAgency.ToString())
+            {
+                return true;
+            }
+            return false;
+        }
+        internal bool IsAdmin(string name)
+        {
+            if (GetUserRole(name) == Roles.Admin.ToString())
+            {
+                return true;
+            }
+            return false;
+        }
+        internal bool IsUser(string name)
+        {
+            if (IsAdmin(name))
+            {
+                return true;
+            }
+            if (GetUserRole(name) == Roles.User.ToString())
+            {
+                return true;
+            }
+            return false;
+        }
+        internal bool IsProprietor(string name)
+        {
+            if (IsAdmin(name))
+            {
+                return true;
+            }
+            if (GetUserRole(name) == Roles.Proprietor.ToString())
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

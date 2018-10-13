@@ -17,12 +17,20 @@
                 <p>@Html.Raw(item.Text)</p>
                 <hr />
                 <p>
-                    @using (Html.BeginForm("AddLike", "Forum", new { postId = item.Id }, FormMethod.Post,new { id = "addLike" }))
+                    @if (Request.IsAuthenticated)
                     {
-                        @Html.AntiForgeryToken()
-                        <a href="#" onclick="$('#addLike').submit();">Like(@item.Likes)</a>
+                        using (Html.BeginForm("AddLike", "Forum", new { postId = item.Id, topicId = Model.Id, categoryId = Model.CategoryId }, FormMethod.Post, new { id = "addLike-" + item.Id }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <a href="#" onclick="submitAddLike('@item.Id');"><img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)</a>
+                        }
                     }
-                </p>
+                    else
+                    {
+                            <div>
+                                <img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)
+                            </div>
+                    }</p>
             </div>
             <br />
         }
@@ -33,3 +41,8 @@
     </div>
     <hr>
 </div>
+<script>
+    function submitAddLike(id) {
+        $('#addLike-' + id).submit();
+    }
+</script>

@@ -80,14 +80,37 @@ namespace JourneyPortal.Services
             }
         }
 
-        internal void AddLike(int postId)
+        internal bool AddLike(int postId,string userName)
         {
             try
             {
                 using (ApplicationDbContext context = new ApplicationDbContext())
                 {
-                    context.Posts.FirstOrDefault(x => x.Id == postId).Like++;
+                    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                    var userId = userManager.FindByName(userName).Id;
+                    if (!context.PostsUsers.Where(x=>x.PostId==postId && x.ApplicationUserId == userId).Any())
+                    {
+                        if (context.Posts.Where(x => x.Id == postId).Select(x => x.Author.Id).FirstOrDefault() != userId)
+                        {
+                            context.Posts.FirstOrDefault(x => x.Id == postId).Like++;
+                            PostsUsers postsUsers = new PostsUsers
+                            {
+                                ApplicationUserId = userId,
+                                PostId = postId,
+                            };
+                            context.PostsUsers.Add(postsUsers);
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
                     context.SaveChanges();
+                    return true;
                 }
             }
             catch (Exception ex)

@@ -1,4 +1,4 @@
-﻿@model JourneyPortal.ViewModels.Offers.CreateOfferDetailViewModel
+﻿@model JourneyPortal.ViewModels.Offers.OfferDetailViewModel
 
 @{
     
@@ -34,29 +34,42 @@
             </div>
             @Html.Label("Nazwa biura", new { @class = "col-md-4 control-label" })
             <div class="col-md-8">
-                <button id="getTravelAgencyInfo" class="btn btn-info">@Html.ActionLink(Model.TravelAgencyOwner.UserName, "GetTravelAgencyProfile", "Users", new { userName = Model.TravelAgencyOwner.UserName }, null)</button>
+                <button id="getTravelAgencyInfo" class="btn btn-info">@Html.ActionLink(Model.TravelAgencyOwnerName, "GetTravelAgencyProfile", "Users", new { userName = Model.TravelAgencyOwnerName }, null)</button>
             </div>
 
             @Html.LabelFor(m => m.Description, new { @class = "col-md-4 control-label" })
             <div class="col-md-8">
-                <p>@Model.Description</p>
+                <p>@Html.Raw(Model.Description)</p>
             </div>
-            @if (User.Identity.IsAuthenticated && ViewBag.IsUser)
+            @if (User.Identity.IsAuthenticated && Model.IsUser)
             {
-                @Html.Label("Liczba rezerwacji", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.Editor("Liczba rezerwacji", new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-                <button class="btn btn-success" onclick="bookTrip()">Zarezerwuj miejsca</button>
+                using (Html.BeginForm("BookTrip", "Offers", FormMethod.Post))
+                {
+                    @Html.Hidden("offerId",Model.Id)
+                    @Html.Label("Liczba rezerwacji", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking} })
+                        @Html.ValidationMessage("bookingCount", "", new { @class = "text-danger" })
+                    </div>
+                    <button class="btn btn-success" type="submit">Zarezerwuj miejsca</button>
+                }
+
             }
         </div>
     </div>
 </div>
 
-<script>
+@*<script>
     function bookTrip() {
 
         var bookingNum = $('#Liczba_rezerwacji').val();
-        $.post("/Offers/BookTrip", { bookingCount: bookingNum , offerId : @Model.ID});
+        var form = $('#signOffForm').serialize();
+        if (bookingNum < 1 || bookingNum > @Model.NuberOfBooking) {
+
+            //handle error
+        }
+        else {
+            $.post("/Offers/BookTrip", { bookingCount: bookingNum, offerId: @Model.ID});
+        }
     }
-</script>
+</script>*@

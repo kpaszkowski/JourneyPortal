@@ -49,10 +49,11 @@ namespace JourneyPortal.ViewModels.Offers
 
         public byte[] Avatar { get; set; }
 
-        public string TravelAgencyOwnerId { get; set; }
+        [Display(Name = "Kraj")]
+        public string Country { get; set; }
 
         [Display(Name = "Biuro podróży")]
-        public ApplicationUser TravelAgencyOwner { get; set; }
+        public string TravelAgencyOwnerName { get; set; }
 
     }
 
@@ -62,6 +63,9 @@ namespace JourneyPortal.ViewModels.Offers
 
         [Display(Name = "Nazwa")]
         public string Name { get; set; }
+
+        [Display(Name = "Opis")]
+        public string Description { get; set; }
 
         [Display(Name = "Liczba miejsc")]
         public int NuberOfBooking { get; set; }
@@ -74,10 +78,25 @@ namespace JourneyPortal.ViewModels.Offers
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
+        [Display(Name = "Data stworzenia oferty")]
+        [DataType(DataType.Date)]
+        public DateTime CreationDate { get; set; }
+
         [Display(Name = "Koszt")]
         [DataType(DataType.Currency)]
         public decimal Cost { get; set; }
+
+        [Display(Name = "Kraj")]
+        public string Country { get; set; }
+
+        [Display(Name = "Popularność")]
+        public int Rate { get; set; }
+
         [Display(Name = "Biuro podróży")]
         public string TravelAgencyOwnerName { get; set; }
+
+        public bool IsUser { get; set; }
+        public bool IsTravelAgency { get; set; }
+
     }
 }

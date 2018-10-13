@@ -17,13 +17,15 @@
     }
     @foreach (var item in Model.Categories)
     {
-        @Html.ActionLink("Przejdź do kategorii", "GetTopics", "Forum", new { categoryId = item.Id },null)
         <div class="well well-lg">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-9">
+                    <div class="col-sm-2">
                         @item.Id.@item.Name
                         <br />
+                    </div>
+                    <div class="col-sm-7">
+                        @Html.ActionLink("Przejdź do kategorii", "GetTopics", "Forum", new { categoryId = item.Id }, new { @class = "btn bg-primary" })
                     </div>
                     <div class="col-sm-3">
                         <p>
