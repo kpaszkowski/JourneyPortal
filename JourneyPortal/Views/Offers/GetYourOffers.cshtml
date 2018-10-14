@@ -4,22 +4,40 @@
 }
 
 
-<h3>Twoj oferty</h3>
+<h3>Twoje oferty</h3>
 
 <div>
     <ul>
         @foreach (var item in Model)
         {
             <li>
-                <h3>@item.Name</h3><br />
+                <h3>@Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</h3><br />
                 <span>@Html.Raw(item.Description)</span><br />
                 @item.StartDate - @item.EndDate<br />
                 Dodana @item.CreationDate<br />
                 @item.CreationDate<br />
                 @item.Cost zł<br />
                 @item.Country<br/>
+                @if (item.IsActive)
+                {
+                     using (Html.BeginForm("DisableOffer", "Offers", new { offerId = item.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit">Wyłącz</button>
+                        }
+                }
+                else
+                {
+                     using (Html.BeginForm("EnableOffer", "Offers", new { offerId = item.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit"> Aktywuj</button>
+                        }
+                }
+                <button>Usuń</button><br />
             </li>
         }
     </ul>
+   @Html.Action("GetAssignedUsers")
 </div>
 

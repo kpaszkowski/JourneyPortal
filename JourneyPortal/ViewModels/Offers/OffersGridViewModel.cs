@@ -36,5 +36,7 @@ namespace JourneyPortal.ViewModels.Offers
         [Display(Name = "Biuro podróży")]
         public string TravelAgencyOwnerName { get; set; }
 
+        public bool IsActive { get; set; }
+
     }
 }

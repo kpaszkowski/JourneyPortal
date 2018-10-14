@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using JourneyPortal.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using JourneyPortal.Services;
 
 namespace JourneyPortal.Controllers
 {
@@ -16,9 +17,11 @@ namespace JourneyPortal.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        public UserServices userServices { get; set; }
 
         public ManageController()
         {
+            userServices = new UserServices();
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -65,9 +68,12 @@ namespace JourneyPortal.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var userName = User.Identity.Name;
             var model = new IndexViewModel
             {
                 IsAdmin = IsAdmin(userId),
+                IsUser = userServices.IsUser(userName),
+                IsTravelAgency = userServices.IsTravelAgency(userName),
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),

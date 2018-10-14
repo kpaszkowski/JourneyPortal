@@ -20,7 +20,7 @@ namespace JourneyPortal.Migrations
                 .Index(t => t.PostId)
                 .Index(t => t.ApplicationUserId);
             
-            AddColumn("dbo.Offers", "IsActive", c => c.Boolean(nullable: false , defaultValue : true));
+            AddColumn("dbo.Offers", "IsActive", c => c.Boolean(nullable: false));
         }
         
         public override void Down()

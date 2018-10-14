@@ -61,7 +61,9 @@ namespace JourneyPortal.Services
                     Name = x.Name,
                     StartDate = x.StartDate,
                     Country = x.Country,
-                    TravelAgencyOwnerName = x.TravelAgencyOwner.UserName
+                    TravelAgencyOwnerName = x.TravelAgencyOwner.UserName,
+                    Rate = x.Rate,
+                    IsActive = x.IsActive,
                 }).ToList();
             }
         }
@@ -114,7 +116,9 @@ namespace JourneyPortal.Services
                     Name = x.Name,
                     StartDate = x.StartDate,
                     Country = x.Country,
-                    TravelAgencyOwnerName = x.TravelAgencyOwner.UserName
+                    TravelAgencyOwnerName = x.TravelAgencyOwner.UserName,
+                    IsActive = x.IsActive,
+                    Rate = x.Rate,
                 }).ToList();
             }
         }
@@ -139,6 +143,51 @@ namespace JourneyPortal.Services
 
                 }).FirstOrDefault();
             }
+        }
+
+        internal bool DisableOffer(int offerId)
+        {
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                context.Offers.FirstOrDefault(x => x.Id == offerId).IsActive = false;
+                context.SaveChanges();
+            }
+            return true;
+        }
+
+        internal bool EnableOffer(int offerId)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    context.Offers.FirstOrDefault(x => x.Id == offerId).IsActive = true;
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return true;
+        }
+
+        internal bool RemoveOffer(int offerId)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var offerToRemove = context.Offers.FirstOrDefault(x => x.Id == offerId);
+                    context.Offers.Remove(offerToRemove);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return true;
         }
     }
 }

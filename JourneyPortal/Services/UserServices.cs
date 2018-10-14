@@ -86,5 +86,11 @@ namespace JourneyPortal.Services
             }
             return false;
         }
+
+        internal bool IsOwner(int offerId, string name)
+        {
+            var currentUser = userManager.FindByName(name);
+            return context.Offers.Where(x => x.Id == offerId && x.TravelAgencyOwnerId == currentUser.Id).Any();
+        }
     }
 }

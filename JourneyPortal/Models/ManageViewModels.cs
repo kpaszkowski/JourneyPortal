@@ -8,6 +8,8 @@ namespace JourneyPortal.Models
     public class IndexViewModel
     {
         public bool IsAdmin { get; set; }
+        public bool IsUser { get; set; }
+        public bool IsTravelAgency { get; set; }
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }

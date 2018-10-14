@@ -15,7 +15,7 @@
         <h4>@Html.ActionLink("Zarządzaj użytkownikami", "WebGrid", "WebGrid")</h4>
     }
     <hr />
-    @if (true)
+    @if (Model.IsUser)
     {
         <h4>@Html.ActionLink("Przeglądaj zapisane oferty", "GetOffersForUser", "Offers")</h4>
     }

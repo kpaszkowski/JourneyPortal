@@ -51,7 +51,6 @@ namespace JourneyPortal.Models.Offer
 
         public string Country { get; set; }
 
-        [DefaultValue("true")]
         public bool IsActive { get; set; }
 
         public string TravelAgencyOwnerId { get; set; }

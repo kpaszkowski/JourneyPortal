@@ -16,7 +16,7 @@
 
 <div>
     <ul>
-        @foreach (var item in Model.OffersList)
+        @foreach (var item in Model.OffersList.Where(x=>x.IsActive))
         {
         <li>
             <h3> @Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</h3><br />
