@@ -51,7 +51,7 @@ namespace JourneyPortal.Controllers
             if (ModelState.IsValid)
             {
                 bool success = offerServices.CreateNewOffert(model,User.Identity.Name);
-                return RedirectToAction("Index", "Offers");
+                return RedirectToAction("GetYourOffers");
             }
             return View("~/Views/Offers/CreateNewOffert.cshtml", model);
         }
@@ -490,6 +490,7 @@ namespace JourneyPortal.Controllers
             model = offerServices.GetOfferDetail(offerId);
             return View("~/Views/Offers/EditOffer.cshtml",model);
         }
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult EditOfferSubmit(OfferDetailViewModel model)
         {

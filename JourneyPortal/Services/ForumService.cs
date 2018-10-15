@@ -147,6 +147,7 @@ namespace JourneyPortal.Services
                     Id = x.Id,
                     Text = x.Text,
                     AuthorName = x.Author.UserName,
+                    AuthorAvatar = x.Author.Avatar,
                     Likes = x.Like,
                     CreationDate = x.CreationDate
                 }).ToList();

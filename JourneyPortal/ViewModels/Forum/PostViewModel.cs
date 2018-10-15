@@ -18,5 +18,7 @@ namespace JourneyPortal.ViewModels.Forum
         public int Likes { get; set; }
         [Display(Name = "Autor")]
         public string AuthorName { get; set; }
+        [Display(Name = "Avatar")]
+        public string AuthorAvatar { get; set; }
     }
 }

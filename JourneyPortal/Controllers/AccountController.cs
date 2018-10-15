@@ -9,6 +9,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using JourneyPortal.Models;
+using JourneyPortal.Services;
+using System.IO;
+using System.Diagnostics;
+
 
 namespace JourneyPortal.Controllers
 {
@@ -18,16 +22,19 @@ namespace JourneyPortal.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext context;
+        private UserServices userServices; 
 
         public AccountController()
         {
             context = new ApplicationDbContext();
+            userServices = new UserServices();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+
         }
 
         public ApplicationSignInManager SignInManager
@@ -77,6 +84,7 @@ namespace JourneyPortal.Controllers
             // This doesn't count login failures towards account lockout   
             // To enable password failures to trigger account lockout, change to shouldLockout: true   
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            Session["IsTravelAgency"] = userServices.IsTravelAgency(model.UserName);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -150,7 +158,7 @@ namespace JourneyPortal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model , HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
@@ -162,6 +170,32 @@ namespace JourneyPortal.Controllers
                     LastName = model.LastName,
                     DateOfBirth = model.DateOfBirth
                 };
+
+                Image image = new Image();
+                var allowedExtensions = new[] {
+                    ".Jpg", ".png", ".jpg", "jpeg"
+                };
+
+                image.ImageUrl = file.ToString();
+                image.Name = user.UserName + "-avatar";
+                var fileName = Path.GetFileName(file.FileName);
+                var ext = Path.GetExtension(file.FileName);  
+                if (allowedExtensions.Contains(ext))
+                {
+                    string name = Path.GetFileNameWithoutExtension(fileName);
+                    string myfile = name + "_" + image.Name + ext; 
+                    var path = Path.Combine(Server.MapPath("~/Content/Images"), myfile);
+                    image.ImageUrl = path;
+                    context.Images.Add(image);
+                    context.SaveChanges();
+                    file.SaveAs(path);
+                    user.Avatar = image.ImageUrl;
+                }
+                else
+                {
+                    ModelState.AddModelError("Załaduj inny avatar", "");
+                    return View(model);
+                }
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -176,7 +210,6 @@ namespace JourneyPortal.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-            AddErrors(result);
             }
             ViewBag.Name = new SelectList(context.Roles.Where(x => !x.Name.Contains("Admin")).ToList(), "Name", "Name");
 
@@ -404,6 +437,7 @@ namespace JourneyPortal.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session["IsTravelAgency"] = false;
             return RedirectToAction("Index", "Home");
         }
 

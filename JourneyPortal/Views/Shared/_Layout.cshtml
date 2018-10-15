@@ -30,21 +30,27 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Strona domowa", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Oferty", "Index", "Offers")</li>
+                    @if (Session["IsTravelAgency"] != null && (bool)Session["IsTravelAgency"])
+                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                Zarządzanie ofertami
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Oferty", "Index", "Offers")</li>
+                                <li>@Html.ActionLink("Dodaj nową ofertę", "CreateNewOffert", "Offers")</li>
+                                <li>@Html.ActionLink("Twoje oferty", "GetYourOffers", "Offers")</li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Oferty", "Index", "Offers")</li>
+                    }
                     <li>@Html.ActionLink("Własna wycieczka", "Index", "Trip")</li>
                     <li>@Html.ActionLink("Czat", "Index", "Chat")</li>
                     <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
-
-                    <li @*style="display:none;"*@ class="dropdown" id="travelagencyMenu">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            Zarządzanie ofertami
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Dodaj nową ofertę", "CreateNewOffert", "Offers")</li>
-                            <li>@Html.ActionLink("Twoje oferty", "GetYourOffers", "Offers")</li>
-                        </ul>
-                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

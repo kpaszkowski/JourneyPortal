@@ -8,6 +8,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
+using JourneyPortal.ViewModels.Users;
+using JourneyPortal.Services;
+using System.IO;
 
 namespace JourneyPortal.Controllers
 {
@@ -16,11 +19,13 @@ namespace JourneyPortal.Controllers
     {
         ApplicationDbContext context;
         UserManager<ApplicationUser> userManager;
+        UserServices userServices;
 
         public UsersController()
         {
             context = new ApplicationDbContext();
             userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            userServices = new UserServices();
         }
         // GET: Users
         public ActionResult Index()
@@ -113,6 +118,53 @@ namespace JourneyPortal.Controllers
             }
 
             return Json(new { isTravelAgency = isTravelAgency },JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult EditProfileData()
+        {
+            var model = new EditUserProfileViewModel();
+            model = userServices.PrepareEditUserProfile(User.Identity.Name);
+            return View("~/Views/Users/EditProfileData.cshtml", model);
+        }
+
+        [HttpPost]
+        public ActionResult EditProfileData(EditUserProfileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = userServices.EditUserProfile(model);
+                return RedirectToAction("Index", "Manage");
+            }
+            return View("~/Views/Users/EditProfileData.cshtml", model);
+        }
+
+        [HttpPost]
+        public ActionResult EditAvatar(HttpPostedFileBase file)
+        {
+            
+            Image image = new Image();
+            var allowedExtensions = new[] {
+                    ".Jpg", ".png", ".jpg", "jpeg",".ico"
+                };
+            var userManagers = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            ApplicationUser currentUser = userManagers.FindByName(User.Identity.Name);
+            image.ImageUrl = file.ToString();
+            image.Name = currentUser.UserName + "-avatar";
+            var fileName = Path.GetFileName(file.FileName);
+            var ext = Path.GetExtension(file.FileName);
+            if (allowedExtensions.Contains(ext))
+            {
+                string name = Path.GetFileNameWithoutExtension(fileName);
+                string myfile = name + "_" + image.Name + ext;
+                var path = Path.Combine(Server.MapPath("~/Content/Images"), myfile);
+                image.ImageUrl = path;
+                context.Images.Add(image);
+                currentUser.Avatar = image.ImageUrl;
+                context.SaveChanges();
+                file.SaveAs(path);
+            }
+            return RedirectToAction("Index", "Manage");
         }
 
     }

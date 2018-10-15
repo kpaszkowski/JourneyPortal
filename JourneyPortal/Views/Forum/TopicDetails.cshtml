@@ -8,9 +8,16 @@
     <div class="media">
         @foreach (var item in Model.PostsList)
         {
-            <div class="media-left media-top">
+        <div class="media-left media-top">
+            @if (item.AuthorAvatar != null)
+            {
+                <img width="128" height="128" src="@Url.Content("~/Content/Images/" + @Path.GetFileName(item.AuthorAvatar))" class="media-object" style="width:80px">
+            }
+            else
+            {
                 <img width="128" height="128" src="~/Content/Images/empytAvatar.png" class="media-object" style="width:80px">
-            </div>
+            }
+        </div>
             <div class="media-body">
                 <h4 class="media-heading">@item.AuthorName</h4>
                 <p>@item.CreationDate</p>

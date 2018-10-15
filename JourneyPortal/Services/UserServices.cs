@@ -1,11 +1,14 @@
 ﻿using JourneyPortal.Models;
+using JourneyPortal.ViewModels.Users;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using static JourneyPortal.Enums.Enums;
+
 
 namespace JourneyPortal.Services
 {
@@ -91,6 +94,56 @@ namespace JourneyPortal.Services
         {
             var currentUser = userManager.FindByName(name);
             return context.Offers.Where(x => x.Id == offerId && x.TravelAgencyOwnerId == currentUser.Id).Any();
+        }
+
+        internal EditUserProfileViewModel PrepareEditUserProfile(string userName)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var userManagers = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                    ApplicationUser currentUser = userManagers.FindByName(userName);
+
+                    return context.Users.Where(x => x.Id == currentUser.Id).Select(x => new EditUserProfileViewModel
+                    {
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        Email = x.Email,
+                        DateOfBirth = x.DateOfBirth,
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        internal bool EditUserProfile(EditUserProfileViewModel model)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+
+
+                    var user = context.Users.FirstOrDefault(x => x.Id == model.Id);
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.Email = model.Email;
+                    user.DateOfBirth = model.DateOfBirth;
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

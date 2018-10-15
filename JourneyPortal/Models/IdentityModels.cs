@@ -35,8 +35,7 @@ namespace JourneyPortal.Models
 
         public DateTime? DateOfBirth { get; set; }
 
-        [Column(TypeName = "image")]
-        public byte[] Avatar { get; set; }
+        public string Avatar { get; set; }
 
         public virtual ICollection<OffersApplicationUsers> OffersApplicationUsers { get; set; }
 

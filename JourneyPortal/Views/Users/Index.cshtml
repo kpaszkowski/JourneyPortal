@@ -19,9 +19,9 @@
     </div>
 </div>
 <div class="form-group">
-    @Html.LabelFor(x=>x.Role, new { @class = "col-md-2 control-label" })
+    @Html.LabelFor(x => x.Role, new { @class = "col-md-2 control-label" })
     <div class="col-md-10">
-        @Html.TextBoxFor(x=>x.Role , new { @class = "form-control", disabled = "disabled" })
+        @Html.TextBoxFor(x => x.Role, new { @class = "form-control", disabled = "disabled" })
     </div>
 </div>
 <div class="form-group">
@@ -45,6 +45,41 @@
 
 @if (ViewBag.displayMenu == "Yes")
 {
-    
+
     <h4>@Html.ActionLink("Zarządaj rolami", "Index", "Role")</h4>
-}  
+}
+<h4>@Html.ActionLink("Zmień dane", "EditProfileData", "Users")</h4>
+
+@using (Html.BeginForm("EditAvatar", "Users", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    <div>
+        @if (Model.Avatar != null)
+            {
+                <img id="user_img" width="128" height="128" src="@Url.Content("~/Content/Images/" + @Path.GetFileName(Model.Avatar))" class="media-object" style="width:80px">
+            }
+            else
+            {
+                <img id="user_img" width="128" height="128" src="~/Content/Images/empytAvatar.png" class="media-object" style="width:80px">
+            }
+    </div>
+    <div>
+        <input type="file" title="search image" id="file" name="file" onchange="show(this)" />
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Zapisz" />
+        </div>
+    </div>
+}
+<script>
+    function show(input) {
+        if (input.files && input.files[0]) {
+            var filerdr = new FileReader();
+            filerdr.onload = function (e) {
+                $('#user_img').attr('src', e.target.result);
+            }
+            filerdr.readAsDataURL(input.files[0]);
+        }
+    }
+
+</script>

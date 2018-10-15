@@ -15,7 +15,7 @@
         {
             <li>
                 <h3>@Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</h3><br />
-                <span>@item.Description</span><br />
+                <span>@Html.Raw(item.Description)</span><br />
                 @item.StartDate - @item.EndDate<br />
                 Dodana @item.CreationDate<br />
                 @item.NuberOfBooking<br />
@@ -25,6 +25,3 @@
         }
     </ul>
 </div>
-<p>
-    @Html.ActionLink("Back to List", "Index","Offers")
-</p>

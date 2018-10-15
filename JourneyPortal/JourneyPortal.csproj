@@ -271,6 +271,14 @@
     <Compile Include="Migrations\201810121359428_addLikedPostsTable.Designer.cs">
       <DependentUpon>201810121359428_addLikedPostsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810151509407_addImageTable.cs" />
+    <Compile Include="Migrations\201810151509407_addImageTable.Designer.cs">
+      <DependentUpon>201810151509407_addImageTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810151522450_modifyImageConnectionIntoUserProfile.cs" />
+    <Compile Include="Migrations\201810151522450_modifyImageConnectionIntoUserProfile.Designer.cs">
+      <DependentUpon>201810151522450_modifyImageConnectionIntoUserProfile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -279,6 +287,7 @@
     <Compile Include="Models\Forum\PostsUsers.cs" />
     <Compile Include="Models\Forum\Topic.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Modules\WebGridViewModel.cs" />
     <Compile Include="Models\Offer\Offers.cs" />
@@ -304,6 +313,7 @@
     <Compile Include="ViewModels\Shared\BaseFromViewModel.cs" />
     <Compile Include="ViewModels\Users\AssignedUsersGridViewModel.cs" />
     <Compile Include="ViewModels\Users\AssignedUserViewModel.cs" />
+    <Compile Include="ViewModels\Users\EditUserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -475,7 +485,6 @@
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\WebGrid\UsersList.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Offers\GetYourOffers.cshtml" />
     <Content Include="Views\Offers\CreateNewOffert.cshtml" />
     <Content Include="Views\Users\GetTravelAgencyProfile.cshtml" />
@@ -488,6 +497,8 @@
     <Content Include="Views\Forum\CreatePost.cshtml" />
     <Content Include="Views\Offers\AssignedUsers.cshtml" />
     <Content Include="Views\Offers\EditOffer.cshtml" />
+    <Content Include="Views\Users\EditProfileData.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -547,6 +558,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810121359428_addLikedPostsTable.resx">
       <DependentUpon>201810121359428_addLikedPostsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810151509407_addImageTable.resx">
+      <DependentUpon>201810151509407_addImageTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810151522450_modifyImageConnectionIntoUserProfile.resx">
+      <DependentUpon>201810151522450_modifyImageConnectionIntoUserProfile.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
