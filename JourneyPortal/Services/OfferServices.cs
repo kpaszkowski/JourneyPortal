@@ -1,10 +1,12 @@
-﻿using JourneyPortal.Models;
+﻿using JourneyPortal.Controllers;
+using JourneyPortal.Models;
 using JourneyPortal.Models.Offer;
 using JourneyPortal.ViewModels.Offers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -76,13 +78,15 @@ namespace JourneyPortal.Services
             }
         }
 
-        internal bool CreateNewOffert(CreateOfferDetailViewModel model, string userName)
+        internal bool CreateNewOffert(CreateOfferDetailViewModel model, string userName, HttpPostedFileBase file,OffersController offersController)
         {
             try
             {
                 using (ApplicationDbContext context = new ApplicationDbContext())
                 {
+
                     var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
                     Offers newOffert = new Offers()
                     {
                         Name = model.Name,
@@ -95,6 +99,26 @@ namespace JourneyPortal.Services
                         Country = model.Country,
                         TravelAgencyOwner = userManager.FindByName(userName),
                     };
+
+                    Image image = new Image();
+                    var allowedExtensions = new[] {
+                    ".Jpg", ".png", ".jpg", "jpeg",".ico"
+                    };
+                    Guid id = Guid.NewGuid();
+                    image.ImageUrl = file.ToString();
+                    image.Name = newOffert.Name + id + "-image";
+                    var fileName = Path.GetFileName(file.FileName);
+                    var ext = Path.GetExtension(file.FileName);
+                    if (allowedExtensions.Contains(ext))
+                    {
+                        string name = Path.GetFileNameWithoutExtension(fileName);
+                        string myfile = name + "_" + image.Name + ext;
+                        var path = Path.Combine(offersController.Server.MapPath("~/Content/OffersImages"), myfile);
+                        image.ImageUrl = path;
+                        context.Images.Add(image);
+                        file.SaveAs(path);
+                    }
+                    newOffert.Image = image.ImageUrl;
                     context.Offers.Add(newOffert);
                     context.SaveChanges();
                     return true;
@@ -124,6 +148,8 @@ namespace JourneyPortal.Services
                     Cost = x.Cost,
                     Country = x.Country,
                     Rate = x.Rate,
+                    Image = x.Image,
+                    
 
                 }).FirstOrDefault();
             }
@@ -212,6 +238,33 @@ namespace JourneyPortal.Services
                     currentOffer.Country = model.Country;
                     context.SaveChanges();
                     return true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        internal void CreateComment(CreateCommentToOfferViewModel model, int offerId, string name)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var comments = new OffersComment
+                    {
+                        Text = model.Text,
+                        Like = 0,
+                        Author = context.Users.FirstOrDefault(x => x.UserName == name),
+                        CreationDate = DateTime.Now,
+                        Rate = model.Rate,
+                        Offers = context.Offers.FirstOrDefault(x=>x.Id == offerId),
+                        
+                    };
+                    context.OffersComments.Add(comments);
+                    context.SaveChanges();
                 }
             }
             catch (Exception ex)

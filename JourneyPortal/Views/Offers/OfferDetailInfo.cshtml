@@ -8,7 +8,15 @@
 <div class="container">
     <div class="media">
         <div class="media-left media-top">
-            <img src="~/Content/Images/empytAvatar.png" class="media-object" style="width:320px" />
+            @if (Model.Image != null)
+            {
+                <img width="256" height="256" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(Model.Image))" class="media-object">
+            }
+            else
+            {
+                <img src="~/Content/Images/empytAvatar.png" class="media-object" style="width:320px" />
+
+            }
         </div>
         <div class="media-right media-top">
             <h3 class="media-heading">@Model.Name</h3><br />
@@ -70,6 +78,13 @@
             }
         </div>
     </div>
+
+    <div id="commentsList">
+        @*@Html.Action("GetComments", new { offerId = Model.Id });*@
+        
+        @Html.Partial("~/Views/Offers/CreateComment.cshtml", new JourneyPortal.ViewModels.Offers.CreateCommentToOfferViewModel { OfferId = Model.Id, })
+    </div>
+
     @if (Model.IsTravelAgency && Model.IsOwner)
     {
         <div id="usersGridList">

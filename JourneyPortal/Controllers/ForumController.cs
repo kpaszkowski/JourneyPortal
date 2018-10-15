@@ -57,7 +57,6 @@ namespace JourneyPortal.Controllers
         [HttpPost]
         public ActionResult CreatePost(CreatePostViewModel model , int topicId , int categoryId)
         {
-            
             if (ModelState.IsValid)
             {
                 forumService.CreatePost(model,topicId,categoryId,User.Identity.Name);
@@ -88,6 +87,7 @@ namespace JourneyPortal.Controllers
         {
             var model = new TopicDetailsViewModel();
             forumService.PrepareTopicsDetailsViewModel(model, topicId ,categoryId);
+            model.isAdmin = userServices.IsAdmin(User.Identity.Name);
             model.PostsList = forumService.GetPostsFor(topicId);
             return View("~/Views/Forum/TopicDetails.cshtml", model);
         }
@@ -109,6 +109,17 @@ namespace JourneyPortal.Controllers
                 return RedirectToAction("GetTopics", "Forum", new { categoryId = categoryId });
             }
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult RemovePost(int postId, int topicId, int categoryId)
+        {
+            bool isAdmin = userServices.IsAdmin(User.Identity.Name);
+            if (isAdmin)
+            {
+                var result = forumService.RemovePost(postId);
+            }
+            return RedirectToAction("GetPosts", "Forum", new { topicId = topicId, categoryId = categoryId });
         }
     }
 }

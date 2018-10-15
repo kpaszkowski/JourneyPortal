@@ -14,5 +14,7 @@ namespace JourneyPortal.Models.Offer
         public DateTime CreationDate { get; set; }
         public int Like { get; set; }
         public ApplicationUser Author { get; set; }
+        public int Rate { get; set; }
+        public Offers Offers { get; set; }
     }
 }

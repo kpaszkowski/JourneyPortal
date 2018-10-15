@@ -120,6 +120,24 @@ namespace JourneyPortal.Services
             }
         }
 
+        internal object RemovePost(int postId)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var postToRemove = context.Posts.FirstOrDefault(x => x.Id == postId);
+                    context.Posts.Remove(postToRemove);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return true;
+        }
+
         internal List<TopicsGridViewModel> GetTopicsFor(int categoryId)
         {
             using (ApplicationDbContext context = new ApplicationDbContext())

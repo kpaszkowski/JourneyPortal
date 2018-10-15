@@ -53,11 +53,15 @@ namespace JourneyPortal.Models.Offer
 
         public bool IsActive { get; set; }
 
+        public string Image { get; set; }
+
         public string TravelAgencyOwnerId { get; set; }
 
         public ApplicationUser TravelAgencyOwner { get; set; }
 
         public virtual ICollection<OffersApplicationUsers> OffersApplicationUsers { get; set; }
+
+        public virtual ICollection<OffersComment> OffersComments { get; set; }
 
         internal void Update(Offers offerToDuplicate)
         {

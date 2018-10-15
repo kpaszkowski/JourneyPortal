@@ -38,6 +38,16 @@
                                 <img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)
                             </div>
                     }</p>
+                @if (Model.isAdmin)
+                {
+                <p>
+                    @using (Html.BeginForm("RemovePost", "Forum", new { postId = item.Id , topicId = Model.Id, categoryId = Model.CategoryId }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button class="btn btn-danger" type="submit"> Usuń</button>
+                    }
+                </p>
+                }
             </div>
             <br />
         }

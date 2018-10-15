@@ -105,6 +105,10 @@ namespace JourneyPortal.ViewModels.Offers
         [Display(Name = "Popularność")]
         public int Rate { get; set; }
 
+        public List<CommentsViewModel> Comments { get; set; }
+
+        public string Image { get; set; }
+
         [Display(Name = "Biuro podróży")]
         public string TravelAgencyOwnerName { get; set; }
 

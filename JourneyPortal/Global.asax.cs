@@ -17,5 +17,14 @@ namespace JourneyPortal
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+        public void Session_OnEnd()
+        {
+            
+        }
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            var app = (MvcApplication)sender;
+            Exception ex = app.Server.GetLastError();
+        }
     }
 }
