@@ -1,53 +1,85 @@
-﻿@model PagedList.IPagedList<JourneyPortal.ViewModels.Users.AssignedUserViewModel>
+﻿@model JourneyPortal.ViewModels.Users.AssignedUsersGridViewModel
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-@{
 
-}
 <div class="container">
     <h2>Zapisani użytkownicy</h2>
-    @using (Html.BeginForm("GetAssignedUsers", "Offers", FormMethod.Get))
-    {
         <p>
-            Wyszukaj po nazwie  oferty / biura: @Html.TextBox("searchString")
-            <input type="submit" value="Wyszukaj" />
+            Wyszukaj: @Html.TextBox("searchString")
+            <input type="button" onclick="sortBy()" value="Wyszukaj" />
         </p>
-    }
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>@Html.ActionLink("Id", "GetAssignedUsers", new { sortOrder = ViewBag.IdSortParm })</th>
-                <th>@Html.ActionLink("Imię", "GetAssignedUsers", new { sortOrder = ViewBag.FirstNameSortParm })</th>
-                <th>@Html.ActionLink("Nazwisko", "GetAssignedUsers", new { sortOrder = ViewBag.LastNameSortParm })</th>
-                <th>@Html.ActionLink("Email", "GetAssignedUsers", new { sortOrder = ViewBag.EmailSortParm })</th>>
-                <th>@Html.ActionLink("Liczba miejsc", "GetAssignedUsers", new { sortOrder = ViewBag.BookingNumber })</th>
-                <th>@Html.ActionLink("Nazwa oferty", "GetAssignedUsers", new { sortOrder = ViewBag.OfferName })</th>
+                @*<th>@Html.ActionLink("Id", "GetAssignedUsers", new { sortOrder = ViewBag.IdSortParm })</th>*@
+                <th><a onclick="sortBy('userName');">Nazwa użytkownika</a></th>
+                <th><a onclick="sortBy('firstName');">Imię</a></th>
+                <th><a onclick="sortBy('lastName');">Nazwisko</a></th>
+                <th><a onclick="sortBy('email');">Email</a></th>
+                <th><a onclick="sortBy('booking');">Liczba miejsc</a></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.AssignedUserList)
             {
                 <tr>
-                    <td>@item.Id</td>
+                    <td>@item.UserName</td>
                     <td>@item.FirstName</td>
                     <td>@item.LastName</td>
                     <td>@item.Email</td>
                     <td>@item.NumberOfBooking</td>
-                    <td>@item.OfferName</td>
                 </tr>
             }
         </tbody>
     </table>
     <br />
-    Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.PageNumber - ViewBag.PageSize + 1) : 0) - @(Math.Min((ViewBag.PageSize * Model.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber
+    Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.AssignedUserList.PageNumber - ViewBag.PageSize + 1) : 0) - @(Math.Min((ViewBag.PageSize * Model.AssignedUserList.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber
     <br />
-    Strona @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z @Model.PageCount
+    Strona @(Model.AssignedUserList.PageCount < Model.AssignedUserList.PageNumber ? 0 : Model.AssignedUserList.PageNumber) z @Model.AssignedUserList.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("GetOffersForUser",
+    @Html.PagedListPager(Model.AssignedUserList, page => Url.Action("GetOffersForUser",
             new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 </div>
 <script>
     function submitSignOff(id) {
         $('#signOff-' + id).submit();
+    }
+    function sortBy(kind) {
+        var sortOrderKind;
+        switch (kind) {
+            case 'userName':
+                {
+                    sortOrderKind = '@ViewBag.UserNameSortParm';
+                    break;
+                }
+            case 'firstName':
+                {
+                    sortOrderKind = '@ViewBag.FirstNameSortParm';
+                    break;
+                }
+            case 'lastName':
+                {
+                    sortOrderKind = '@ViewBag.LastNameSortParm';
+                    break;
+                }
+            case 'email':
+                {
+                    sortOrderKind = '@ViewBag.EmailSortParm';
+                    break;
+                }
+            case 'booking':
+                {
+                    sortOrderKind = '@ViewBag.BookingNumber';
+                    break;
+                }
+            default:
+                {
+                    var searchValue = $('#searchString').val();
+                    break;
+                }
+        }
+        $.get('/Offers/GetAssignedUsers', { offerId: @Model.OfferId, sortOrder: sortOrderKind, searchString: searchValue }, function (data) {
+            $('#usersGridList').html(data);
+        });
     }
 </script>

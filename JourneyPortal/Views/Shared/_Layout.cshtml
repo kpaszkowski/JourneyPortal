@@ -13,6 +13,8 @@
     <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
     <script src="~/Scripts/summernote/summernote.js"></script>
     <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Content/GlobalScripts.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -32,6 +34,17 @@
                     <li>@Html.ActionLink("Własna wycieczka", "Index", "Trip")</li>
                     <li>@Html.ActionLink("Czat", "Index", "Chat")</li>
                     <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
+
+                    <li @*style="display:none;"*@ class="dropdown" id="travelagencyMenu">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Zarządzanie ofertami
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Dodaj nową ofertę", "CreateNewOffert", "Offers")</li>
+                            <li>@Html.ActionLink("Twoje oferty", "GetYourOffers", "Offers")</li>
+                        </ul>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

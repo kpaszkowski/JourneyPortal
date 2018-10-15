@@ -8,7 +8,10 @@ namespace JourneyPortal.ViewModels.Users
 {
     public class AssignedUserViewModel
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+
+        [Display(Name = "Login")]
+        public string UserName { get; set; }
 
         [Display(Name = "Imię")]
         public string FirstName { get; set; }
@@ -21,9 +24,6 @@ namespace JourneyPortal.ViewModels.Users
 
         [Display(Name = "Liczba zarezerwowanych miejsc")]
         public int NumberOfBooking { get; set; }
-
-        [Display(Name = "Nazwa oferty")]
-        public string OfferName { get; set; }
 
         public int OfferId { get; set; }
     }

@@ -58,5 +58,18 @@ namespace JourneyPortal.Models.Offer
         public ApplicationUser TravelAgencyOwner { get; set; }
 
         public virtual ICollection<OffersApplicationUsers> OffersApplicationUsers { get; set; }
+
+        internal void Update(Offers offerToDuplicate)
+        {
+            Name = offerToDuplicate.Name;
+            Description = offerToDuplicate.Description;
+            NuberOfBooking = offerToDuplicate.NuberOfBooking;
+            StartDate = offerToDuplicate.StartDate;
+            EndDate = offerToDuplicate.EndDate;
+            CreationDate = DateTime.Now;
+            Cost = offerToDuplicate.Cost;
+            Country = offerToDuplicate.Country;
+            TravelAgencyOwnerId = offerToDuplicate.TravelAgencyOwnerId;
+        }
     }
 }

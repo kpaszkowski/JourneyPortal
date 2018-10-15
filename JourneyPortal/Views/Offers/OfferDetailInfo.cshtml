@@ -45,31 +45,37 @@
             {
                 using (Html.BeginForm("BookTrip", "Offers", FormMethod.Post))
                 {
-                    @Html.Hidden("offerId",Model.Id)
+                    @Html.Hidden("offerId", Model.Id)
                     @Html.Label("Liczba rezerwacji", htmlAttributes: new { @class = "control-label col-md-2" })
-                        
-                        if (Model.NuberOfBooking == 0)
-                        {
-                            <div class="col-md-10">
-                                <button class="btn btn-success" disabled ="disabled" type="submit">Zarezerwuj miejsca</button>
-                            </div>
-                            @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking, disabled = "disabled" } })
-                        }
-                        else
-                        {
-                            <div class="col-md-10">
-                                <button class="btn btn-success" type="submit">Zarezerwuj miejsca</button>
-                            </div>
-                            @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking} })
 
-                        }
-                        @Html.ValidationMessage("bookingCount", "", new { @class = "text-danger" })
-                    
+                    if (Model.NuberOfBooking == 0)
+                    {
+                        <div class="col-md-10">
+                            <button class="btn btn-success" disabled="disabled" type="submit">Zarezerwuj miejsca</button>
+                        </div>
+                        @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking, disabled = "disabled" } })
+                    }
+                    else
+                    {
+                        <div class="col-md-10">
+                            <button class="btn btn-success" type="submit">Zarezerwuj miejsca</button>
+                        </div>
+                        @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking } })
+
+                    }
+                    @Html.ValidationMessage("bookingCount", "", new { @class = "text-danger" })
+
                 }
 
             }
         </div>
     </div>
+    @if (Model.IsTravelAgency && Model.IsOwner)
+    {
+        <div id="usersGridList">
+            @Html.Action("GetAssignedUsers",new { offerId = Model.Id });
+        </div>
+    }
 </div>
 
 @*<script>

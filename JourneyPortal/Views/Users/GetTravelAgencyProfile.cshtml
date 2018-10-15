@@ -11,10 +11,10 @@
 
 
 
-        @foreach (var item in Model.OffersList)
+        @foreach (var item in Model.OffersList.Where(x=>x.IsActive))
         {
             <li>
-                <h3>@item.Name</h3><br />
+                <h3>@Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</h3><br />
                 <span>@item.Description</span><br />
                 @item.StartDate - @item.EndDate<br />
                 Dodana @item.CreationDate<br />

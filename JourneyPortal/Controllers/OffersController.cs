@@ -51,16 +51,117 @@ namespace JourneyPortal.Controllers
             if (ModelState.IsValid)
             {
                 bool success = offerServices.CreateNewOffert(model,User.Identity.Name);
+                return RedirectToAction("Index", "Offers");
             }
-            return RedirectToAction("Index", "Offers");
+            return View("~/Views/Offers/CreateNewOffert.cshtml", model);
         }
 
-        [AllowAnonymous]
         [HttpGet]
-        public ActionResult GetYourOffers()
+        public ActionResult GetYourOffers(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var model = offerServices.GetOffersForTravelAgency(User.Identity.Name);
-            return View("~/Views/Offers/GetYourOffers.cshtml", model);
+            var cachedViewModel = new OffersGridViewModel();
+
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                ApplicationUser currentUser = userManager.FindByName(User.Identity.Name);
+                 var query = currentUser.OwnerOffers.Select(x => new OfferDetailViewModel
+                     {
+                         Id = x.Id,
+                         Name = x.Name,
+                         StartDate = x.StartDate,
+                         EndDate = x.EndDate,
+                         Cost = x.Cost,
+                         Rate = x.Rate,
+                         Country = x.Country,
+                         NuberOfBooking = x.NuberOfBooking,
+                         IsActive = x.IsActive,
+                     });
+
+                #region Sort Search
+
+                if (searchString != null)
+                {
+                    page = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+
+                ViewBag.ItemNumber = query.Count();
+                ViewBag.CurrentFilter = searchString;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    query = query.Where(s => s.Name.ToLower().Contains(searchString.ToLower())
+                                           || s.Country.ToLower().Contains(searchString.ToLower()));
+                }
+
+                ViewBag.CurrentSort = sortOrder;
+                ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) || sortOrder == "idDesc" ? "Id" : "idDesc";
+                ViewBag.NameSortParm = sortOrder == "name" ? "name_desc" : "name";
+                ViewBag.DateStartSortParm = sortOrder == "startDate" ? "startDateDesc" : "startDate";
+                ViewBag.DateEndSortParm = sortOrder == "endDate" ? "endDateDesc" : "endDate";
+                ViewBag.BookingNumber = sortOrder == "bookingNumber" ? "bookingNumberDesc" : "bookingNumber";
+                ViewBag.Cost = sortOrder == "cost" ? "costDesc" : "cost";
+                ViewBag.TravelAgencyName = sortOrder == "travelAgencyName" ? "travelAgencyNameDesc" : "travelAgencyName";
+                switch (sortOrder)
+                {
+                    case "Id":
+                        query = query.OrderBy(s => s.Id);
+                        break;
+                    case "name":
+                        query = query.OrderBy(s => s.Name);
+                        break;
+                    case "name_desc":
+                        query = query.OrderByDescending(s => s.Name);
+                        break;
+                    case "startDate":
+                        query = query.OrderBy(s => s.StartDate);
+                        break;
+                    case "startDateDesc":
+                        query = query.OrderByDescending(s => s.StartDate);
+                        break;
+                    case "endDate":
+                        query = query.OrderBy(s => s.EndDate);
+                        break;
+                    case "endDateDesc":
+                        query = query.OrderByDescending(s => s.EndDate);
+                        break;
+                    case "bookingNumber":
+                        query = query.OrderBy(s => s.NuberOfBooking);
+                        break;
+                    case "bookingNumberDesc":
+                        query = query.OrderByDescending(s => s.NuberOfBooking);
+                        break;
+                    case "cost":
+                        query = query.OrderBy(s => s.Cost);
+                        break;
+                    case "costDesc":
+                        query = query.OrderByDescending(s => s.Cost);
+                        break;
+                    case "travelAgencyName":
+                        query = query.OrderBy(s => s.TravelAgencyOwnerName);
+                        break;
+                    case "travelAgencyNameDesc":
+                        query = query.OrderByDescending(s => s.TravelAgencyOwnerName);
+                        break;
+                    default:
+                        query = query.OrderByDescending(s => s.Id);
+                        break;
+                }
+
+                #endregion Sort Search
+
+                int pageSize = 4;
+                int pageNumber = (page ?? 1);
+                ViewBag.PageSize = pageSize;
+                var tempList = query.ToList();
+                cachedViewModel.OfferDetailList = tempList.ToPagedList(pageNumber, pageSize);
+            }
+
+            return View("~/Views/Offers/GetYourOffers.cshtml", cachedViewModel);
 
         }
 
@@ -173,27 +274,26 @@ namespace JourneyPortal.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAssignedUsers(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult GetAssignedUsers(int offerId ,string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var cachedViewModel = new List<AssignedUserViewModel>();
+            var cachedViewModel = new AssignedUsersGridViewModel();
 
-            int id = 1;
+            cachedViewModel.OfferId = offerId;
+
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                ApplicationUser currentUser = userManager.FindByName(User.Identity.Name);
 
-                var query = context.Offers.Where(x => x.Id == id).Select(x => x.OffersApplicationUsers.Select(y => y.ApplicationUser).Select(i => new AssignedUserViewModel
+                var linkedTable = context.OffersApplicationUsers.Where(x => x.OfferId == offerId);
+
+                var query = linkedTable.Select(x => x.ApplicationUser).Select(x => new AssignedUserViewModel
                 {
-                    Id = i.Id,
-                    FirstName = i.FirstName,
-                    LastName = i.LastName,
-                    Email = i.Email,
-                    NumberOfBooking = context.OffersApplicationUsers.FirstOrDefault(y => y.ApplicationUserId == currentUser.Id && y.OfferId == x.Id).BookingCount,
-                    OfferId = 5,
-                })).ToList();
+                    UserName = x.UserName,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Email = x.Email,
+                    NumberOfBooking = linkedTable.FirstOrDefault(y=>y.ApplicationUserId == x.Id).BookingCount,
+                });
 
-                ViewBag.ItemNumber = query.Count();
                 #region Sort Search
 
                 if (searchString != null)
@@ -206,77 +306,69 @@ namespace JourneyPortal.Controllers
                 }
 
                 ViewBag.CurrentFilter = searchString;
-
+                ViewBag.ItemNumber = query.Count();
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     query = query.Where(s => s.FirstName.ToLower().Contains(searchString.ToLower())
-                                           || s.LastName.ToLower().Contains(searchString.ToLower()));
+                                           || s.LastName.ToLower().Contains(searchString.ToLower())
+                                           || s.UserName.ToLower().Contains(searchString.ToLower()));
                 }
 
                 ViewBag.CurrentSort = sortOrder;
-                ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) || sortOrder == "idDesc" ? "Id" : "idDesc";
-                ViewBag.NameSortParm = sortOrder == "name" ? "name_desc" : "name";
-                ViewBag.DateStartSortParm = sortOrder == "startDate" ? "startDateDesc" : "startDate";
-                ViewBag.DateEndSortParm = sortOrder == "endDate" ? "endDateDesc" : "endDate";
+                ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) || sortOrder == "IdDesc" ? "Id" : "IdDesc";
+                ViewBag.FirstNameSortParm = sortOrder == "firstName" ? "firstName_desc" : "firstName";
+                ViewBag.UserNameSortParm = sortOrder == "userName" ? "userNameDesc" : "userName";
+                ViewBag.LastNameSortParm = sortOrder == "lastName" ? "lastNameDesc" : "lastName";
+                ViewBag.EmailSortParm = sortOrder == "email" ? "emailDesc" : "email";
                 ViewBag.BookingNumber = sortOrder == "bookingNumber" ? "bookingNumberDesc" : "bookingNumber";
-                ViewBag.Cost = sortOrder == "cost" ? "costDesc" : "cost";
-                ViewBag.TravelAgencyName = sortOrder == "travelAgencyName" ? "travelAgencyNameDesc" : "travelAgencyName";
-                //switch (sortOrder)
-                //{
-                //    case "Id":
-                //        query = query.OrderBy(s => s.Id);
-                //        break;
-                //    case "name":
-                //        query = query.OrderBy(s => s.Name);
-                //        break;
-                //    case "name_desc":
-                //        query = query.OrderByDescending(s => s.Name);
-                //        break;
-                //    case "startDate":
-                //        query = query.OrderBy(s => s.StartDate);
-                //        break;
-                //    case "startDateDesc":
-                //        query = query.OrderByDescending(s => s.StartDate);
-                //        break;
-                //    case "endDate":
-                //        query = query.OrderBy(s => s.EndDate);
-                //        break;
-                //    case "endDateDesc":
-                //        query = query.OrderByDescending(s => s.EndDate);
-                //        break;
-                //    case "bookingNumber":
-                //        query = query.OrderBy(s => s.NuberOfBooking);
-                //        break;
-                //    case "bookingNumberDesc":
-                //        query = query.OrderByDescending(s => s.NuberOfBooking);
-                //        break;
-                //    case "cost":
-                //        query = query.OrderBy(s => s.Cost);
-                //        break;
-                //    case "costDesc":
-                //        query = query.OrderByDescending(s => s.Cost);
-                //        break;
-                //    case "travelAgencyName":
-                //        query = query.OrderBy(s => s.TravelAgencyOwnerName);
-                //        break;
-                //    case "travelAgencyNameDesc":
-                //        query = query.OrderByDescending(s => s.TravelAgencyOwnerName);
-                //        break;
-                //    default:
-                //        query = query.OrderByDescending(s => s.Id);
-                //        break;
-                //}
+                switch (sortOrder)
+                {
+                    case "userName":
+                        query = query.OrderBy(s => s.UserName);
+                        break;
+                    case "userNameDesc":
+                        query = query.OrderByDescending(s => s.UserName);
+                        break;
+                    case "firstName":
+                        query = query.OrderBy(s => s.FirstName);
+                        break;
+                    case "firstName_desc":
+                        query = query.OrderByDescending(s => s.FirstName);
+                        break;
+                    case "lastName":
+                        query = query.OrderBy(s => s.LastName);
+                        break;
+                    case "lastNameDesc":
+                        query = query.OrderByDescending(s => s.LastName);
+                        break;
+                    case "email":
+                        query = query.OrderBy(s => s.Email);
+                        break;
+                    case "emailDesc":
+                        query = query.OrderByDescending(s => s.Email);
+                        break;
+                    case "bookingNumber":
+                        query = query.OrderBy(s => s.NumberOfBooking);
+                        break;
+                    case "bookingNumberDesc":
+                        query = query.OrderByDescending(s => s.NumberOfBooking);
+                        break;
+                    default:
+                        query = query.OrderByDescending(s => s.UserName);
+                        break;
+                }
 
                 #endregion Sort Search
 
-                cachedViewModel = query.ToList();
-
+                int pageSize = 4;
+                int pageNumber = (page ?? 1);
+                ViewBag.PageSize = pageSize;
+                var tempList = query.ToList();
+                cachedViewModel.AssignedUserList = tempList.ToPagedList(pageNumber, pageSize);
+                ViewBag.ItemNumber = cachedViewModel.AssignedUserList.Count();
             }
 
-            int pageSize = 3;
-            int pageNumber = (page ?? 1);
-            ViewBag.PageSize = pageSize;
-            return View("~/Views/Offers/AssignedUsers.cshtml", cachedViewModel.ToPagedList(pageNumber,pageSize));
+            return View("~/Views/Offers/AssignedUsers.cshtml", cachedViewModel);
         }
 
         [HttpPost]
@@ -343,6 +435,10 @@ namespace JourneyPortal.Controllers
             string userName = User.Identity.Name;
             model.IsUser = userServices.IsUser(userName);
             model.IsTravelAgency= userServices.IsTravelAgency(userName);
+            if (model.IsTravelAgency)
+            {
+                model.IsOwner = userServices.IsOwner(id, User.Identity.Name);
+            }
             return View("~/Views/Offers/OfferDetailInfo.cshtml", model);
         }
 
@@ -375,6 +471,35 @@ namespace JourneyPortal.Controllers
                 var result = offerServices.RemoveOffer(offerId);
             }
             return RedirectToAction("GetYourOffers");
+        }
+        [HttpPost]
+        public ActionResult DuplicateOffer(int offerId)
+        {
+            bool isOwner = userServices.IsOwner(offerId, User.Identity.Name);
+            if (isOwner)
+            {
+                var result = offerServices.DuplicateOffer(offerId);
+            }
+            return RedirectToAction("GetYourOffers");
+        }
+        [HttpPost]
+        public ActionResult EditOffer(int offerId)
+        {
+            bool isOwner = userServices.IsOwner(offerId, User.Identity.Name);
+            OfferDetailViewModel model = new OfferDetailViewModel();
+            model = offerServices.GetOfferDetail(offerId);
+            return View("~/Views/Offers/EditOffer.cshtml",model);
+        }
+        [HttpPost]
+        public ActionResult EditOfferSubmit(OfferDetailViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                bool success = offerServices.EditOffer(model, User.Identity.Name);
+                return RedirectToAction("GetYourOffers");
+            }
+            return View("~/Views/Offers/EditOffer.cshtml", model);
         }
     }
 }

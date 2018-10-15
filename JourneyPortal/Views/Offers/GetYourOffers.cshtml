@@ -1,43 +1,126 @@
-﻿@model List<JourneyPortal.ViewModels.Offers.OffersGridViewModel>
-@{
+﻿@model JourneyPortal.ViewModels.Offers.OffersGridViewModel
+@using PagedList.Mvc;
 
-}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-
-<h3>Twoje oferty</h3>
-
-<div>
-    <ul>
-        @foreach (var item in Model)
-        {
-            <li>
-                <h3>@Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</h3><br />
-                <span>@Html.Raw(item.Description)</span><br />
-                @item.StartDate - @item.EndDate<br />
-                Dodana @item.CreationDate<br />
-                @item.CreationDate<br />
-                @item.Cost zł<br />
-                @item.Country<br/>
-                @if (item.IsActive)
-                {
-                     using (Html.BeginForm("DisableOffer", "Offers", new { offerId = item.Id }, FormMethod.Post))
+<div class="container">
+    <h2>Twoje oferty</h2>
+    <p>
+        Wyszukaj: @Html.TextBox("searchString")
+        <input type="button" onclick="sortBy()" value="Wyszukaj" />
+    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><a onclick="sortBy('userName');">Nazwa oferty</a></th>
+                <th><a onclick="sortBy('userName');">Data rozpoczęcia</a></th>
+                <th><a onclick="sortBy('userName');">Data zakończenia</a></th>
+                <th><a onclick="sortBy('userName');">Liczba biletów</a></th>
+                <th><a onclick="sortBy('userName');">Kraj</a></th>
+                <th><a onclick="sortBy('userName');">Koszt</a></th>
+                <th>Aktywne</th>
+                <th>Duplikuj</th>
+                <th>Edytuj</th>
+                <th>Usuń</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OfferDetailList)
+            {
+                <tr>
+                    <td>@Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</td>
+                    <td>@item.StartDate</td>
+                    <td>@item.EndDate</td>
+                    <td>@item.NuberOfBooking</td>
+                    <td>@item.Country</td>
+                    <td>@item.Cost</td>
+                    <td>
+                        @if (item.IsActive)
+                        {
+                            using (Html.BeginForm("DisableOffer", "Offers", new { offerId = item.Id }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-warning" type="submit">Wyłącz</button>
+                            }
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("EnableOffer", "Offers", new { offerId = item.Id }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-success" type="submit"> Aktywuj</button>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("DuplicateOffer", "Offers", new { offerId = item.Id }, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
-                            <button type="submit">Wyłącz</button>
+                            <button class="btn btn-info" type="submit">Powiel</button>
                         }
-                }
-                else
-                {
-                     using (Html.BeginForm("EnableOffer", "Offers", new { offerId = item.Id }, FormMethod.Post))
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("EditOffer", "Offers", new { offerId = item.Id },FormMethod.Post))
+                        {
+                            <button class="btn btn-default" type="submit"> Edytuj</button>
+                        }
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("RemoveOffer", "Offers", new { offerId = item.Id }, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
-                            <button type="submit"> Aktywuj</button>
+                            <button class="btn btn-danger" type="submit"> Usuń</button>
                         }
-                }
-                <button>Usuń</button><br />
-            </li>
-        }
-    </ul>
-   @Html.Action("GetAssignedUsers")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.OfferDetailList.PageNumber - ViewBag.PageSize + 1) : 0) - @(Math.Min((ViewBag.PageSize * Model.OfferDetailList.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber
+    <br />
+    Strona @(Model.OfferDetailList.PageCount < Model.OfferDetailList.PageNumber ? 0 : Model.OfferDetailList.PageNumber) z @Model.OfferDetailList.PageCount
+
+    @Html.PagedListPager(Model.OfferDetailList, page => Url.Action("GetYourOffers",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 </div>
-
+<script>
+    function sortBy(kind) {
+        var sortOrderKind;
+        switch (kind) {
+            case 'userName':
+                {
+                    sortOrderKind = '@ViewBag.UserNameSortParm';
+                    break;
+                }
+            case 'firstName':
+                {
+                    sortOrderKind = '@ViewBag.FirstNameSortParm';
+                    break;
+                }
+            case 'lastName':
+                {
+                    sortOrderKind = '@ViewBag.LastNameSortParm';
+                    break;
+                }
+            case 'email':
+                {
+                    sortOrderKind = '@ViewBag.EmailSortParm';
+                    break;
+                }
+            case 'booking':
+                {
+                    sortOrderKind = '@ViewBag.BookingNumber';
+                    break;
+                }
+            default:
+                {
+                    var searchValue = $('#searchString').val();
+                    break;
+                }
+        }
+        $.get('/Offers/GetYourOffers', { offerId: @Model.OfferId, sortOrder: sortOrderKind, searchString: searchValue }, function (data) {
+            $('#usersGridList').html(data);
+        });
+    }
+</script>

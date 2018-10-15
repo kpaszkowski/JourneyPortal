@@ -47,24 +47,32 @@ namespace JourneyPortal.Services
 
         }
 
-        internal List<OffersGridViewModel> GetAllOffers()
+        internal List<OfferDetailViewModel> GetAllOffers()
         {
-            using (ApplicationDbContext context = new ApplicationDbContext())
+            try
             {
-                return context.Offers.Select(x => new OffersGridViewModel
+                using (ApplicationDbContext context = new ApplicationDbContext())
                 {
-                    Id = x.Id,
-                    Cost = x.Cost,
-                    CreationDate = x.CreationDate,
-                    Description = x.Description,
-                    EndDate = x.EndDate,
-                    Name = x.Name,
-                    StartDate = x.StartDate,
-                    Country = x.Country,
-                    TravelAgencyOwnerName = x.TravelAgencyOwner.UserName,
-                    Rate = x.Rate,
-                    IsActive = x.IsActive,
-                }).ToList();
+                    return context.Offers.Select(x => new OfferDetailViewModel
+                    {
+                        Id = x.Id,
+                        Cost = x.Cost,
+                        CreationDate = x.CreationDate,
+                        Description = x.Description,
+                        EndDate = x.EndDate,
+                        Name = x.Name,
+                        StartDate = x.StartDate,
+                        Country = x.Country,
+                        TravelAgencyOwnerName = x.TravelAgencyOwner.UserName,
+                        Rate = x.Rate,
+                        IsActive = x.IsActive,
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 
@@ -96,30 +104,6 @@ namespace JourneyPortal.Services
             {
 
                 throw ex;
-            }
-        }
-
-        internal List<OffersGridViewModel> GetOffersForTravelAgency(string name)
-        {
-            using (ApplicationDbContext context = new ApplicationDbContext())
-            {
-                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                var user = userManager.FindByName(name);
-
-                return context.Offers.Where(x=>x.TravelAgencyOwnerId == user.Id).Select(x => new OffersGridViewModel
-                {
-                    Id = x.Id,
-                    Cost = x.Cost,
-                    CreationDate = x.CreationDate,
-                    Description = x.Description,
-                    EndDate = x.EndDate,
-                    Name = x.Name,
-                    StartDate = x.StartDate,
-                    Country = x.Country,
-                    TravelAgencyOwnerName = x.TravelAgencyOwner.UserName,
-                    IsActive = x.IsActive,
-                    Rate = x.Rate,
-                }).ToList();
             }
         }
 
@@ -188,6 +172,53 @@ namespace JourneyPortal.Services
                 throw ex;
             }
             return true;
+        }
+
+        internal object DuplicateOffer(int offerId)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var offerToDuplicate = context.Offers.FirstOrDefault(x => x.Id == offerId);
+                    Offers offer = new Offers();
+                    offer.Update(offerToDuplicate);
+                    context.Offers.Add(offer);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return true;
+        }
+
+        internal bool EditOffer(OfferDetailViewModel model, string name)
+        {
+
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                    var currentOffer = context.Offers.FirstOrDefault(x => x.Id == model.Id);
+                    currentOffer.Name = model.Name;
+                    currentOffer.Description = model.Description;
+                    currentOffer.NuberOfBooking = model.NuberOfBooking;
+                    currentOffer.StartDate = model.StartDate;
+                    currentOffer.EndDate = model.EndDate;
+                    currentOffer.Cost = model.Cost;
+                    currentOffer.Country = model.Country;
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

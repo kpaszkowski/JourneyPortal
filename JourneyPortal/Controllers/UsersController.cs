@@ -82,8 +82,9 @@ namespace JourneyPortal.Controllers
                 {
                     Email = x.Email,
                     Name = x.UserName,
-                    OffersList = x.OwnerOffers.Select(y => new ViewModels.Offers.CreateOfferDetailViewModel
+                    OffersList = x.OwnerOffers.Select(y => new ViewModels.Offers.OfferDetailViewModel
                     {
+                        Id = y.Id,
                         Name = y.Name,
                         Description = y.Description,
                         StartDate = y.StartDate,
@@ -91,12 +92,27 @@ namespace JourneyPortal.Controllers
                         CreationDate = y.CreationDate,
                         Cost = y.Cost,
                         NuberOfBooking = y.NuberOfBooking,
+                        IsActive = y.IsActive,
                     }).ToList()
                 }).FirstOrDefault();
 
             }
 
             return View("~/Views/Users/GetTravelAgencyProfile.cshtml", cachedViewModel);
+        }
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult IsTravelAgency()
+        {
+            bool isTravelAgency;
+
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                isTravelAgency = userManager.IsInRole(User.Identity.GetUserId(),"TravelAgency");
+            }
+
+            return Json(new { isTravelAgency = isTravelAgency },JsonRequestBehavior.AllowGet);
         }
 
     }

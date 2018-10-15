@@ -302,6 +302,7 @@
     <Compile Include="ViewModels\Offers\OffersGridViewModel.cs" />
     <Compile Include="ViewModels\Offers\OffersViewModel.cs" />
     <Compile Include="ViewModels\Shared\BaseFromViewModel.cs" />
+    <Compile Include="ViewModels\Users\AssignedUsersGridViewModel.cs" />
     <Compile Include="ViewModels\Users\AssignedUserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -309,6 +310,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\GlobalScripts.js" />
     <Content Include="Content\Images\empytAvatar.png" />
     <Content Include="Content\Images\like.png" />
     <Content Include="Content\PagedList.css" />
@@ -376,6 +378,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -483,6 +487,7 @@
     <Content Include="Views\Forum\CreateNewTopic.cshtml" />
     <Content Include="Views\Forum\CreatePost.cshtml" />
     <Content Include="Views\Offers\AssignedUsers.cshtml" />
+    <Content Include="Views\Offers\EditOffer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

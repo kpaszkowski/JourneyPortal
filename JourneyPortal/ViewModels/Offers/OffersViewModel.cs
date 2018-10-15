@@ -13,6 +13,6 @@ namespace JourneyPortal.ViewModels.Offers
         public bool IsTravelAgency { get; set; }
 
         public bool IsAdmin { get; set; }
-        public List<OffersGridViewModel> OffersList { get; set; }
+        public List<OfferDetailViewModel> OffersList { get; set; }
     }
 }
