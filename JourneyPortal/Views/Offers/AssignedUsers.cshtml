@@ -37,8 +37,8 @@
     <br />
     Strona @(Model.AssignedUserList.PageCount < Model.AssignedUserList.PageNumber ? 0 : Model.AssignedUserList.PageNumber) z @Model.AssignedUserList.PageCount
 
-    @Html.PagedListPager(Model.AssignedUserList, page => Url.Action("GetOffersForUser",
-            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    @Html.PagedListPager(Model.AssignedUserList, page => Url.Action("GetAssignedUsers",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter ,offerId = Model.OfferId}))
 </div>
 <script>
     function submitSignOff(id) {

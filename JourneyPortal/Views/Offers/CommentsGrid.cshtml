@@ -1,2 +1,42 @@
 ﻿@model JourneyPortal.ViewModels.Offers.ComentsGridViewModel
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<style>
+    .mycontent {
+        border-right: 1px solid #333;
+    }
+</style>
+<div class="container">
+    <h2>Opinie</h2>
+    <ul class="list-group">
+        @foreach (var item in Model.CommentsList)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-2 mycontent">
+                            <span class="badge badge-primary badge-pill">@item.AuthorName</span><br />
+                            <span class="badge badge-primary badge-pill">@item.CreationDate</span>
+                        </div>
+                        <div class="col-sm-8 mycontent">@item.Text</div>
+                        <div class="col-sm-2">
+                            <span>
+                                @for (int i = 0; i < item.Rate; i++)
+                                {
+                                    <img width="16" height="16" src="~/Content/Images/star.ico" />
+                                }
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
 
+    Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.CommentsList.PageNumber - ViewBag.PageSize + 1) : 0) - @(Math.Min((ViewBag.PageSize * Model.CommentsList.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber
+    <br />
+    Strona @(Model.CommentsList.PageCount < Model.CommentsList.PageNumber ? 0 : Model.CommentsList.PageNumber) z @Model.CommentsList.PageCount
+
+    @Html.PagedListPager(Model.CommentsList, page => Url.Action("GetComments",
+            new { page, offerId = Model.OfferId }))
+</div><hr/>

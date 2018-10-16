@@ -273,95 +273,38 @@ namespace JourneyPortal.Controllers
             return View("~/Views/Offers/GetAssignedOffers.cshtml", cachedViewModel.ToPagedList(pageNumber,pageSize));
         }
 
+
         
-        //[HttpGet]
-        //public ActionResult GetComments(int offerId, string sortOrder, string currentFilter, string searchString, int? page)
-        //{
-        //    var cachedViewModel = new ComentsGridViewModel();
+        [HttpGet]
+        public ActionResult GetComments(int offerId, int? page)
+        {
+            var cachedViewModel = new ComentsGridViewModel();
 
-        //    cachedViewModel.OfferId = offerId;
+            cachedViewModel.OfferId = offerId;
 
-        //    using (ApplicationDbContext context = new ApplicationDbContext())
-        //    {
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
 
-        //        var query = context.OffersComments.Where(x=>x.Id == )
+                var query = context.OffersComments.Where(x => x.Offers.Id == offerId).Select(x=> new CommentsViewModel
+                {
+                    Id = x.Id,
+                    Text = x.Text,
+                    AuthorName = x.Author.UserName,
+                    AuthorAvatar = x.Author.Avatar,
+                    CreationDate = DateTime.Now,
+                    Rate = x.Rate
+                });
 
-        //        #region Sort Search
+                int pageSize = 4;
+                int pageNumber = (page ?? 1);
+                ViewBag.PageSize = pageSize;
+                var tempList = query.ToList();
+                cachedViewModel.CommentsList = tempList.ToPagedList(pageNumber, pageSize);
+                ViewBag.ItemNumber = cachedViewModel.CommentsList.Count();
+            }
 
-        //        if (searchString != null)
-        //        {
-        //            page = 1;
-        //        }
-        //        else
-        //        {
-        //            searchString = currentFilter;
-        //        }
-
-        //        ViewBag.CurrentFilter = searchString;
-        //        ViewBag.ItemNumber = query.Count();
-        //        if (!String.IsNullOrEmpty(searchString))
-        //        {
-        //            query = query.Where(s => s.FirstName.ToLower().Contains(searchString.ToLower())
-        //                                   || s.LastName.ToLower().Contains(searchString.ToLower())
-        //                                   || s.UserName.ToLower().Contains(searchString.ToLower()));
-        //        }
-
-        //        ViewBag.CurrentSort = sortOrder;
-        //        ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) || sortOrder == "IdDesc" ? "Id" : "IdDesc";
-        //        ViewBag.FirstNameSortParm = sortOrder == "firstName" ? "firstName_desc" : "firstName";
-        //        ViewBag.UserNameSortParm = sortOrder == "userName" ? "userNameDesc" : "userName";
-        //        ViewBag.LastNameSortParm = sortOrder == "lastName" ? "lastNameDesc" : "lastName";
-        //        ViewBag.EmailSortParm = sortOrder == "email" ? "emailDesc" : "email";
-        //        ViewBag.BookingNumber = sortOrder == "bookingNumber" ? "bookingNumberDesc" : "bookingNumber";
-        //        switch (sortOrder)
-        //        {
-        //            case "userName":
-        //                query = query.OrderBy(s => s.UserName);
-        //                break;
-        //            case "userNameDesc":
-        //                query = query.OrderByDescending(s => s.UserName);
-        //                break;
-        //            case "firstName":
-        //                query = query.OrderBy(s => s.FirstName);
-        //                break;
-        //            case "firstName_desc":
-        //                query = query.OrderByDescending(s => s.FirstName);
-        //                break;
-        //            case "lastName":
-        //                query = query.OrderBy(s => s.LastName);
-        //                break;
-        //            case "lastNameDesc":
-        //                query = query.OrderByDescending(s => s.LastName);
-        //                break;
-        //            case "email":
-        //                query = query.OrderBy(s => s.Email);
-        //                break;
-        //            case "emailDesc":
-        //                query = query.OrderByDescending(s => s.Email);
-        //                break;
-        //            case "bookingNumber":
-        //                query = query.OrderBy(s => s.NumberOfBooking);
-        //                break;
-        //            case "bookingNumberDesc":
-        //                query = query.OrderByDescending(s => s.NumberOfBooking);
-        //                break;
-        //            default:
-        //                query = query.OrderByDescending(s => s.UserName);
-        //                break;
-        //        }
-
-        //        #endregion Sort Search
-
-        //        int pageSize = 4;
-        //        int pageNumber = (page ?? 1);
-        //        ViewBag.PageSize = pageSize;
-        //        var tempList = query.ToList();
-        //        cachedViewModel.CommentsList = tempList.ToPagedList(pageNumber, pageSize);
-        //        ViewBag.ItemNumber = cachedViewModel.CommentsList.Count();
-        //    }
-
-        //    return View("~/Views/Offers/AssignedUsers.cshtml", cachedViewModel);
-        //}
+            return PartialView("~/Views/Offers/CommentsGrid.cshtml", cachedViewModel);
+        }
 
         [HttpGet]
         public ActionResult GetAssignedUsers(int offerId ,string sortOrder, string currentFilter, string searchString, int? page)

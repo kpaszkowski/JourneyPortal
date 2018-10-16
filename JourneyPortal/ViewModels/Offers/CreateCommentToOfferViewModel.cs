@@ -8,6 +8,7 @@ namespace JourneyPortal.ViewModels.Offers
 {
     public class CreateCommentToOfferViewModel
     {
+        
         public int OfferId { get; set; }
         [Display(Name = "Tekst")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Tekst jest wymagany!")]

@@ -4,6 +4,7 @@
 {
     @Html.AntiForgeryToken()
 
+    <br />
     <div class="form-horizontal">
         <h4>Dodaj Komentarz</h4>
         <hr />
@@ -12,7 +13,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" ,required = "required" } })
                 @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -20,14 +21,21 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Rate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = "5" } })
                 @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="col-md-offset-2 col-md-1">
+                @if (Request.IsAuthenticated)
+                {
+                    <input type="submit" value="Dodaj opinię" class="btn btn-default" />
+                }
+                else
+                {
+                    <input disabled="disabled" type="submit" value="Dodaj opinię" class="btn btn-default" />
+                }
             </div>
         </div>
     </div>
