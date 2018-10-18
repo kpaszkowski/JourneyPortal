@@ -52,7 +52,7 @@
         </tbody>
     </table>
     <br />
-    Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.PageNumber - ViewBag.PageSize+1) : 0) - @(Math.Min((ViewBag.PageSize * Model.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber
+    @*Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.PageNumber - ViewBag.PageSize+1) : 0) - @(Math.Min((ViewBag.PageSize * Model.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber*@
     <br />
     Strona @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z @Model.PageCount
 

@@ -77,7 +77,7 @@
         </tbody>
     </table>
     <br />
-    Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.OfferDetailList.PageNumber - ViewBag.PageSize + 1) : 0) - @(Math.Min((ViewBag.PageSize * Model.OfferDetailList.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber
+    @*Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.OfferDetailList.PageNumber - ViewBag.PageSize + 1) : 0) - @(Math.Min((ViewBag.PageSize * Model.OfferDetailList.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber*@
     <br />
     Strona @(Model.OfferDetailList.PageCount < Model.OfferDetailList.PageNumber ? 0 : Model.OfferDetailList.PageNumber) z @Model.OfferDetailList.PageCount
 

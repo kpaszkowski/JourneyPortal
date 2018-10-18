@@ -33,10 +33,9 @@
         }
     </ul>
 
-    Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.CommentsList.PageNumber - ViewBag.PageSize + 1) : 0) - @(Math.Min((ViewBag.PageSize * Model.CommentsList.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber
+    @*Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.CommentsList.PageNumber - ViewBag.PageSize + 1) : 0) - @(Math.Min((ViewBag.PageSize * Model.CommentsList.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber*@
     <br />
     Strona @(Model.CommentsList.PageCount < Model.CommentsList.PageNumber ? 0 : Model.CommentsList.PageNumber) z @Model.CommentsList.PageCount
 
-    @Html.PagedListPager(Model.CommentsList, page => Url.Action("GetComments",
-            new { page, offerId = Model.OfferId }))
+    @Html.PagedListPager(Model.CommentsList, page => Url.Action("GetComments",new { page, offerId = Model.OfferId } ), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "commentsGridList" }))
 </div><hr/>

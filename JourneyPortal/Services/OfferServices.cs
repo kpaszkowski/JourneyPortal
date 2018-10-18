@@ -68,6 +68,7 @@ namespace JourneyPortal.Services
                         TravelAgencyOwnerName = x.TravelAgencyOwner.UserName,
                         Rate = x.Rate,
                         IsActive = x.IsActive,
+                        Image = x.Image,
                     }).ToList();
                 }
             }
@@ -131,10 +132,17 @@ namespace JourneyPortal.Services
             }
         }
 
-        internal OfferDetailViewModel GetOfferDetail(int id)
+        internal OfferDetailViewModel GetOfferDetail(int id,string userName)
         {
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
+                int n = 0;
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var currentUser = userManager.FindByName(userName);
+                if (currentUser != null)
+                {
+                    n = context.OffersApplicationUsers.Where(y => y.ApplicationUserId == currentUser.Id && y.OfferId == id).Select(x=>x.BookingCount).FirstOrDefault();
+                }
                 return context.Offers.Where(x => x.Id == id).Select(x => new OfferDetailViewModel
                 {
                     Id = x.Id,
@@ -149,8 +157,7 @@ namespace JourneyPortal.Services
                     Country = x.Country,
                     Rate = x.Rate,
                     Image = x.Image,
-                    
-
+                    NumberOfUserCurrentBooking = n,
                 }).FirstOrDefault();
             }
         }

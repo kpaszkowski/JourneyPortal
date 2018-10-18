@@ -33,12 +33,12 @@
         </tbody>
     </table>
     <br />
-    Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.AssignedUserList.PageNumber - ViewBag.PageSize + 1) : 0) - @(Math.Min((ViewBag.PageSize * Model.AssignedUserList.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber
+    @*Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.AssignedUserList.PageNumber - ViewBag.PageSize + 1) : 0) - @(Math.Min((ViewBag.PageSize * Model.AssignedUserList.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber*@
     <br />
     Strona @(Model.AssignedUserList.PageCount < Model.AssignedUserList.PageNumber ? 0 : Model.AssignedUserList.PageNumber) z @Model.AssignedUserList.PageCount
 
     @Html.PagedListPager(Model.AssignedUserList, page => Url.Action("GetAssignedUsers",
-            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter ,offerId = Model.OfferId}))
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter ,offerId = Model.OfferId}), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "usersGridList" }))
 </div>
 <script>
     function submitSignOff(id) {

@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using JourneyPortal.ViewModels.Users;
+using System.IO;
 
 namespace JourneyPortal.Controllers
 {
@@ -34,9 +35,22 @@ namespace JourneyPortal.Controllers
             cachedViewModel.IsTravelAgency = userServices.IsTravelAgency(currentUserName);
             cachedViewModel.IsAdmin= userServices.IsAdmin(currentUserName);
             cachedViewModel.IsUser = userServices.IsUser(currentUserName);
-            cachedViewModel.OffersList =  offerServices.GetAllOffers();
+            int pageSize = 6;
+            int pageNumber = 1;
+            cachedViewModel.OffersList =  offerServices.GetAllOffers().ToPagedList(pageNumber,pageSize);
             return View("~/Views/Offers/Index.cshtml", cachedViewModel);
         }
+
+        [AllowAnonymous]
+        public ActionResult IndexGetAllOffers(int? page)
+        {
+            var cachedViewModel = new OffersViewModel();
+            int pageSize = 6;
+            int pageNumber = (page ?? 1);
+            cachedViewModel.OffersList = offerServices.GetAllOffers().ToPagedList(pageNumber, pageSize);
+            return PartialView("~/Views/Offers/Index.cshtml", cachedViewModel);
+        }
+
         [HttpGet]
         public ActionResult CreateNewOffert()
         {
@@ -273,8 +287,47 @@ namespace JourneyPortal.Controllers
             return View("~/Views/Offers/GetAssignedOffers.cshtml", cachedViewModel.ToPagedList(pageNumber,pageSize));
         }
 
+        [HttpPost]
+        public ActionResult EditImage(HttpPostedFileBase file, int offerId)
+        {
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                var currentOffer = context.Offers.FirstOrDefault(x => x.Id == offerId);
 
-        
+                Guid id = Guid.NewGuid();
+                if (file != null)
+                {
+                    Image image = new Image();
+                    var allowedExtensions = new[] {
+                    ".Jpg", ".png", ".jpg", "jpeg",".ico"
+                    };
+                    image.ImageUrl = file.ToString();
+                    image.Name = currentOffer.Name + id + "-image";
+                    var fileName = Path.GetFileName(file.FileName);
+                    var ext = Path.GetExtension(file.FileName);
+                    if (allowedExtensions.Contains(ext))
+                    {
+                        string name = Path.GetFileNameWithoutExtension(fileName);
+                        string myfile = name + "_" + image.Name + ext;
+                        var path = Path.Combine(Server.MapPath("~/Content/OffersImages"), myfile);
+                        image.ImageUrl = path;
+                        context.Images.Add(image);
+                        file.SaveAs(path);
+                    }
+                    currentOffer.Image = image.ImageUrl;
+                }
+                else
+                {
+                    var image = context.Images.FirstOrDefault(x => x.ImageUrl == currentOffer.Image);
+                    context.Images.Remove(image);
+                    currentOffer.Image = null;
+                }
+                context.SaveChanges();
+            }
+            return RedirectToAction("GetOffersDetail", "Offers", new { id = offerId });
+        }
+
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult GetComments(int offerId, int? page)
         {
@@ -291,10 +344,10 @@ namespace JourneyPortal.Controllers
                     Text = x.Text,
                     AuthorName = x.Author.UserName,
                     AuthorAvatar = x.Author.Avatar,
-                    CreationDate = DateTime.Now,
+                    CreationDate = x.CreationDate,
                     Rate = x.Rate
                 });
-
+                ViewBag.ItemNumber = query.Count();
                 int pageSize = 4;
                 int pageNumber = (page ?? 1);
                 ViewBag.PageSize = pageSize;
@@ -401,7 +454,7 @@ namespace JourneyPortal.Controllers
                 ViewBag.ItemNumber = cachedViewModel.AssignedUserList.Count();
             }
 
-            return View("~/Views/Offers/AssignedUsers.cshtml", cachedViewModel);
+            return PartialView("~/Views/Offers/AssignedUsers.cshtml", cachedViewModel);
         }
 
         [HttpPost]
@@ -464,7 +517,7 @@ namespace JourneyPortal.Controllers
         [HttpGet]
         public ActionResult GetOffersDetail(int id)
         {
-            var model = offerServices.GetOfferDetail(id);
+            var model = offerServices.GetOfferDetail(id,User.Identity.Name);
             string userName = User.Identity.Name;
             model.IsUser = userServices.IsUser(userName);
             model.IsTravelAgency= userServices.IsTravelAgency(userName);
@@ -520,7 +573,7 @@ namespace JourneyPortal.Controllers
         {
             bool isOwner = userServices.IsOwner(offerId, User.Identity.Name);
             OfferDetailViewModel model = new OfferDetailViewModel();
-            model = offerServices.GetOfferDetail(offerId);
+            model = offerServices.GetOfferDetail(offerId,User.Identity.Name);
             return View("~/Views/Offers/EditOffer.cshtml",model);
         }
         [ValidateInput(false)]
