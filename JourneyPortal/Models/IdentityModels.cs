@@ -37,6 +37,8 @@ namespace JourneyPortal.Models
 
         public string Avatar { get; set; }
 
+        public virtual ICollection<Trip> MyProperty { get; set; }
+
         public virtual ICollection<OffersApplicationUsers> OffersApplicationUsers { get; set; }
 
         public virtual ICollection<Offers> OwnerOffers { get; set; }

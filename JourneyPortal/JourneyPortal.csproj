@@ -304,6 +304,8 @@
     <Compile Include="Models\Modules\WebGridViewModel.cs" />
     <Compile Include="Models\Offer\Offers.cs" />
     <Compile Include="Models\Offer\OffersComment.cs" />
+    <Compile Include="Models\Trips\TouristFacility.cs" />
+    <Compile Include="Models\Trips\Trip.cs" />
     <Compile Include="PreApplicationStart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ForumService.cs" />
