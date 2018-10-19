@@ -287,6 +287,10 @@
     <Compile Include="Migrations\201810151937095_addLinkBetweenOffersAndCOmments.Designer.cs">
       <DependentUpon>201810151937095_addLinkBetweenOffersAndCOmments.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810191053209_changeRateFieldOnOffers.cs" />
+    <Compile Include="Migrations\201810191053209_changeRateFieldOnOffers.Designer.cs">
+      <DependentUpon>201810191053209_changeRateFieldOnOffers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -336,6 +340,7 @@
     <Content Include="Content\Images\empytAvatar.png" />
     <Content Include="Content\Images\like.png" />
     <Content Include="Content\Images\star.ico" />
+    <Content Include="Content\Images\star_empty.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\summernote\summernote-bs4.css" />
     <Content Include="Content\summernote\summernote-lite.css" />
@@ -586,6 +591,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810151937095_addLinkBetweenOffersAndCOmments.resx">
       <DependentUpon>201810151937095_addLinkBetweenOffersAndCOmments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810191053209_changeRateFieldOnOffers.resx">
+      <DependentUpon>201810191053209_changeRateFieldOnOffers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

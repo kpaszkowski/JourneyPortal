@@ -103,7 +103,7 @@ namespace JourneyPortal.ViewModels.Offers
         public string Country { get; set; }
 
         [Display(Name = "Popularność")]
-        public int Rate { get; set; }
+        public double Rate { get; set; }
 
         [Display(Name = "Aktualna liczba rezerwacji")]
         public int NumberOfUserCurrentBooking { get; set; }

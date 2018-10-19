@@ -44,6 +44,22 @@
                             <div class="col-xs-12 col-md-6">
                                 @Html.ActionLink(item.TravelAgencyOwnerName, "GetTravelAgencyProfile", "Users", new { userName = item.TravelAgencyOwnerName }, null)
                             </div>
+                            <span>
+                                @if (item.Rate>0)
+	                            {
+                                    for (int i = 0; i < 5; i++)
+                                    {
+                                        if (i<=item.Rate)
+                                        {
+                                            <img width="16" height="16" src="~/Content/Images/star.ico" />
+                                        }
+                                        else
+                                        {
+                                            <img width="16" height="16" src="~/Content/Images/star_empty.png" />
+                                        }
+                                    }
+	                            }   
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -47,7 +47,7 @@ namespace JourneyPortal.Models.Offer
         [DataType(DataType.Currency)]
         public decimal Cost { get; set; }
 
-        public int Rate { get; set; }
+        public double Rate { get; set; }
 
         public string Country { get; set; }
 

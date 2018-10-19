@@ -309,10 +309,10 @@ namespace JourneyPortal.Controllers
                     {
                         string name = Path.GetFileNameWithoutExtension(fileName);
                         string myfile = name + "_" + image.Name + ext;
-                        var path = Path.Combine(Server.MapPath("~/Content/OffersImages"), myfile);
+                        var path = Path.Combine("~/Content/OffersImages", myfile);
                         image.ImageUrl = path;
                         context.Images.Add(image);
-                        file.SaveAs(path);
+                        file.SaveAs(Server.MapPath(path));
                     }
                     currentOffer.Image = image.ImageUrl;
                 }

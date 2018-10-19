@@ -31,62 +31,83 @@
         </div>
         <div class="media-right media-top">
             <h3 class="media-heading">@Model.Name</h3><br />
-            @Html.LabelFor(m => m.StartDate, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.LabelFor(m => m.EndDate, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.LabelFor(m => m.CreationDate, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.CreationDate, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.LabelFor(m => m.Cost, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.Cost, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.LabelFor(m => m.NuberOfBooking, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.NuberOfBooking, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.Label("Nazwa biura", new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                <button id="getTravelAgencyInfo" class="btn btn-info">@Html.ActionLink(Model.TravelAgencyOwnerName, "GetTravelAgencyProfile", "Users", new { userName = Model.TravelAgencyOwnerName }, null)</button>
-            </div>
-            @if (Model.NumberOfUserCurrentBooking != 0)
-            {
-                @Html.LabelFor(m => m.NumberOfUserCurrentBooking, new { @class = "col-md-4 control-label" })
-                <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.NumberOfUserCurrentBooking, new { @class = "form-control", disabled = "disabled" })
-                </div>
-            }
-            @if (User.Identity.IsAuthenticated && Model.IsUser)
-            {
-                using (Html.BeginForm("BookTrip", "Offers", FormMethod.Post))
+            <div>
+                @if (Model.Rate == 0)
                 {
-                    @Html.Hidden("offerId", Model.Id)
-                    if (Model.NuberOfBooking == 0)
+                    <span>Brak ocen</span>
+                }
+                else
+                {
+                    <span>@Math.Round(Model.Rate,2)</span>
+                    for (int i = 0; i < 5; i++)
                     {
-                        <div class="col-md-10">
-                            <button class="btn btn-success" disabled="disabled" type="submit">Zarezerwuj miejsca</button>
-                        </div>
-                        @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking, disabled = "disabled" } })
-                    }
-                    else
+                        if (i<=Model.Rate)
+                        {
+                            <img width="16" height="16" src="~/Content/Images/star.ico" />
+                        }
+                        else
+                        {
+                            <img width="16" height="16" src="~/Content/Images/star_empty.png" />
+                        }
+                    }   
+                }
+            </div>
+                @Html.LabelFor(m => m.StartDate, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                @Html.LabelFor(m => m.EndDate, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                @Html.LabelFor(m => m.CreationDate, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.CreationDate, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                @Html.LabelFor(m => m.Cost, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.Cost, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                @Html.LabelFor(m => m.NuberOfBooking, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.NuberOfBooking, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                @Html.Label("Nazwa biura", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    <button id="getTravelAgencyInfo" class="btn btn-info">@Html.ActionLink(Model.TravelAgencyOwnerName, "GetTravelAgencyProfile", "Users", new { userName = Model.TravelAgencyOwnerName }, null)</button>
+                </div>
+                @if (Model.NumberOfUserCurrentBooking != 0)
+                {
+                    @Html.LabelFor(m => m.NumberOfUserCurrentBooking, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.NumberOfUserCurrentBooking, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+                }
+                @if (User.Identity.IsAuthenticated && Model.IsUser)
+                {
+                    using (Html.BeginForm("BookTrip", "Offers", FormMethod.Post))
                     {
-                        <div class="col-md-10">
-                            <button class="btn btn-success" type="submit">Zarezerwuj miejsca</button>
-                        </div>
-                        @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking } })
+                        @Html.Hidden("offerId", Model.Id)
+                        if (Model.NuberOfBooking == 0)
+                        {
+                            <div class="col-md-10">
+                                <button class="btn btn-success" disabled="disabled" type="submit">Zarezerwuj miejsca</button>
+                            </div>
+                            @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking, disabled = "disabled" } })
+                        }
+                        else
+                        {
+                            <div class="col-md-10">
+                                <button class="btn btn-success" type="submit">Zarezerwuj miejsca</button>
+                            </div>
+                            @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking } })
+
+                        }
+                        @Html.ValidationMessage("bookingCount", "", new { @class = "text-danger" })
 
                     }
-                    @Html.ValidationMessage("bookingCount", "", new { @class = "text-danger" })
 
                 }
-
-            }
         </div>
     </div>
     <h2>Opis</h2>

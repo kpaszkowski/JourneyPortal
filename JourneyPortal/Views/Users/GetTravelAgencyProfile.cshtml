@@ -31,30 +31,46 @@
                     {
                         <img style="min-height:370px;min-width:350px" src="~/Content/Images/empty.jpg" class="media-object" />
                     }
-                    <div class="caption">
-                        <h4 class="group inner list-group-item-heading">
-                            @Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)
-                        </h4>
-                        <p>@item.StartDate.ToShortDateString() - @item.EndDate.ToShortDateString()</p>
-                        <p>Dodana: @item.CreationDate.ToShortDateString()</p>
-                        <p class="group inner list-group-item-text">
-                            @if (item.Description.Length > 80)
-                            {
-                                @Html.Raw(item.Description.Substring(0, 80) + "...")
-                            }
-                            else
-                            {
-                                @Html.Raw(item.Description)
-                            }
-                        </p>
-                        <div class="row">
-                            <div class="col-xs-12 col-md-6">
-                                <p class="lead">
-                                    ZŁ @item.Cost
-                                </p>
+                        <div class="caption">
+                            <h4 class="group inner list-group-item-heading">
+                                @Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)
+                            </h4>
+                            <p>@item.StartDate.ToShortDateString() - @item.EndDate.ToShortDateString()</p>
+                            <p>Dodana: @item.CreationDate.ToShortDateString()</p>
+                            <p class="group inner list-group-item-text">
+                                @if (item.Description.Length > 80)
+                                {
+                                    @Html.Raw(item.Description.Substring(0, 80) + "...")
+                                }
+                                else
+                                {
+                                    @Html.Raw(item.Description)
+                                }
+                            </p>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-6">
+                                    <p class="lead">
+                                        ZŁ @item.Cost
+                                    </p>
+                                </div>
                             </div>
+                            <span>
+                                @if (item.Rate > 0)
+                                {
+                                    for (int i = 0; i < 5; i++)
+                                    {
+                                        if (i <= item.Rate)
+                                        {
+                                            <img width="16" height="16" src="~/Content/Images/star.ico" />
+                                        }
+                                        else
+                                        {
+                                            <img width="16" height="16" src="~/Content/Images/star_empty.png" />
+                                        }
+                                    }
+                                }
+                            </span>
                         </div>
-                    </div>
                 </div>
             </div>
         }

@@ -270,6 +270,14 @@ namespace JourneyPortal.Services
                         Offers = context.Offers.FirstOrDefault(x=>x.Id == offerId),
                         
                     };
+                    var currentOffer = context.Offers.FirstOrDefault(x => x.Id == offerId);
+
+                    var currentOfferComments = context.OffersComments.Where(x => x.Offers.Id == currentOffer.Id).ToList();
+                    int noc = currentOfferComments.Count;
+                    int roc = currentOfferComments.Sum(x => x.Rate);
+
+
+                    currentOffer.Rate = (double)(roc + comments.Rate) / (double)(noc + 1);
                     context.OffersComments.Add(comments);
                     context.SaveChanges();
                 }

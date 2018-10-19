@@ -24,8 +24,6 @@ namespace JourneyPortal
         }
         void Session_Start(object sender, EventArgs e)
         {
-            Session.Abandon();
-            System.Web.Security.FormsAuthentication.SignOut();
         }
         protected void Application_Error(object sender, EventArgs e)
         {

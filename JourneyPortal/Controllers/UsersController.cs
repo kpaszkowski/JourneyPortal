@@ -98,7 +98,8 @@ namespace JourneyPortal.Controllers
                         Cost = y.Cost,
                         NuberOfBooking = y.NuberOfBooking,
                         IsActive = y.IsActive,
-                        Image = y.Image
+                        Image = y.Image,
+                        Rate = y.Rate
                     }).ToList()
                 }).FirstOrDefault();
 
