@@ -48,7 +48,25 @@
                     {
                         <li>@Html.ActionLink("Oferty", "Index", "Offers")</li>
                     }
-                    <li>@Html.ActionLink("Własna wycieczka", "Index", "Trip")</li>
+                    @if (Session["IsProprietor"] != null && (bool)Session["IsProprietor"])
+                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                Własna wycieczka
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Własna wycieczka", "Index", "Trip")</li>
+                                <li>@Html.ActionLink("Zarządzaj atrakcjami", "ManageAtractions", "Trip")</li>
+                                <li>@Html.ActionLink("Zarządzaj hotelami", "ManageHotels", "Trip")</li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Własna wycieczka", "Index", "Trip")</li>
+                    }
+
                     <li>@Html.ActionLink("Czat", "Index", "Chat")</li>
                     <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
                 </ul>

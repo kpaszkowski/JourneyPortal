@@ -112,7 +112,7 @@
     </div>
     <h2>Opis</h2>
     <p>@Html.Raw(Model.Description)</p>
-    @Html.Partial("~/Views/Offers/CreateComment.cshtml", new JourneyPortal.ViewModels.Offers.CreateCommentToOfferViewModel { OfferId = Model.Id, })
+    @Html.Partial("~/Views/Offers/CreateComment.cshtml", new JourneyPortal.ViewModels.Offers.CreateCommentToOfferViewModel { CanAddComment = Model.CanAddComment , OfferId = Model.Id, })
     <div id="commentsGridList">
         @Html.Action("GetComments", new { offerId = Model.Id })
     </div>

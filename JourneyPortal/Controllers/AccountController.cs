@@ -85,6 +85,7 @@ namespace JourneyPortal.Controllers
             // To enable password failures to trigger account lockout, change to shouldLockout: true   
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             Session["IsTravelAgency"] = userServices.IsTravelAgency(model.UserName);
+            Session["IsProprietor"] = userServices.IsProprietor(model.UserName);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -438,6 +439,7 @@ namespace JourneyPortal.Controllers
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             Session["IsTravelAgency"] = false;
+            Session["IsProprietor"] = false;
             return RedirectToAction("Index", "Home");
         }
 

@@ -16,9 +16,9 @@ namespace JourneyPortal.Models.Trips
         public bool IsActive { get; set; }
         public double X { get; set; }
         public double Y { get; set; }
-        public string Type { get; set; }
         public string OwnerId { get; set; }
+        public string Image { get; set; }
         public ApplicationUser Owner { get; set; }
-        public int MyProperty { get; set; }
+
     }
 }

@@ -1,0 +1,102 @@
+﻿@model JourneyPortal.ViewModels.Trip.AtractionDetailViewModel
+<br />
+<div class="container">
+    <div class="media">
+        <div>
+            @using (Html.BeginForm("EditAtractionImage", "Trip", new { atractionId = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+            {
+                <div>
+                    @if (Model.Image != null)
+                    {
+                        <img id="offerImage" style="min-height:370px;min-width:350px;max-height:700px;" src="@Url.Content("~/Content/AtractionsImages/" + @Path.GetFileName(Model.Image))" class="media-object">
+                    }
+                    else
+                    {
+                        <img id="offerImage" style="min-height:370px;min-width:350px" src="~/Content/Images/empty.jpg" class="media-object" />
+                    }
+                </div>
+                if (Request.IsAuthenticated && Model.IsOwner)
+                {
+                    <div>
+                        <input type="file" title="search image" id="file" name="file" onchange="show(this)" />
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" class="btn btn-default" value="Zapisz" />
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="media-right media-top">
+            <h3 class="media-heading">@Model.Name</h3><br />
+            <div>
+                @if (Model.Rate == 0)
+                {
+                    <span>Brak ocen</span>
+                }
+                else
+                {
+                    <span>@Math.Round(Model.Rate, 2)</span>
+                    for (int i = 0; i < 5; i++)
+                    {
+                        if (i <= Model.Rate)
+                        {
+                            <img width="16" height="16" src="~/Content/Images/star.ico" />
+                        }
+                        else
+                        {
+                            <img width="16" height="16" src="~/Content/Images/star_empty.png" />
+                        }
+                    }
+                }
+            </div>
+            @Html.LabelFor(m => m.Cost, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.Cost, new { @class = "form-control", disabled = "disabled" })
+            </div>
+            @Html.LabelFor(m => m.OwnerEmail, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.OwnerEmail, new { @class = "form-control", disabled = "disabled" })
+            </div>
+            @Html.LabelFor(m => m.OwnerName, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.OwnerName, new { @class = "form-control", disabled = "disabled" })
+            </div>
+            @Html.LabelFor(m => m.TimeOfSightseeing, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.TimeOfSightseeing, new { @class = "form-control", disabled = "disabled" })
+            </div>
+            @Html.LabelFor(m => m.Type, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.Type, new { @class = "form-control", disabled = "disabled" })
+            </div>
+            @Html.LabelFor(m => m.X, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.X, new { @class = "form-control", disabled = "disabled" })
+            </div>
+            @Html.LabelFor(m => m.Y, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.Y, new { @class = "form-control", disabled = "disabled" })
+            </div>
+        </div>
+    </div>
+    <h2>Opis</h2>
+    <p>@Html.Raw(Model.Description)</p>
+    @* @Html.Partial("~/Views/Offers/CreateComment.cshtml", new JourneyPortal.ViewModels.Offers.CreateCommentToOfferViewModel { OfferId = Model.Id, })
+    <div id="commentsGridList">
+        @Html.Action("GetComments", new { offerId = Model.Id })
+    </div>*@
+</div>
+<script>
+    function show(input) {
+        if (input.files && input.files[0]) {
+            var filerdr = new FileReader();
+            filerdr.onload = function (e) {
+                $('#offerImage').attr('src', e.target.result);
+            }
+            filerdr.readAsDataURL(input.files[0]);
+        }
+    }
+
+</script>

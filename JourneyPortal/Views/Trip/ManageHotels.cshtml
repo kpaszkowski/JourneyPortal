@@ -1,0 +1,67 @@
+﻿@model JourneyPortal.ViewModels.Trip.ManageHotelsViewModel
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<div class="container">
+    @Html.ActionLink("Dodaj nowy hotel", "CreateNewHotel", "Trip", null)
+    <h2>Twoje hotele</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><a onclick="sortBy('userName');">Nazwa hotelu</a></th>
+                <th><a onclick="sortBy('userName');">Popularność</a></th>
+                <th><a onclick="sortBy('userName');">Koszt</a></th>
+                <th>Aktywne</th>
+                <th>Edytuj</th>
+                <th>Usuń</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.hotelList)
+            {
+                <tr>
+                    <td>@Html.ActionLink(item.Name, "GetHotelDetail", "Trip", new { id = item.Id }, null)</td>
+                    <td>@item.Rate</td>
+                    <td>@item.CostPerNight</td>
+                    <td>
+                        @if (item.IsActive)
+                        {
+                            using (Html.BeginForm("DisableHotel", "Trip", new { hotelId = item.Id }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-warning" type="submit">Wyłącz</button>
+                            }
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("EnableHotel", "Trip", new { hotelId = item.Id }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-success" type="submit"> Aktywuj</button>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("EditHotel", "Trip", new { hotelId = item.Id }, FormMethod.Post))
+                        {
+                            <button class="btn btn-default" type="submit"> Edytuj</button>
+                        }
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("RemoveHotel", "Trip", new { hotelId = item.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-danger" type="submit"> Usuń</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    Strona @(Model.hotelList.PageCount < Model.hotelList.PageNumber ? 0 : Model.hotelList.PageNumber) z @Model.hotelList.PageCount
+
+    @Html.PagedListPager(Model.hotelList, page => Url.Action("ManageHotels",
+                    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>

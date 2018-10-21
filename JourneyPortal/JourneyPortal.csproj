@@ -291,9 +291,22 @@
     <Compile Include="Migrations\201810191053209_changeRateFieldOnOffers.Designer.cs">
       <DependentUpon>201810191053209_changeRateFieldOnOffers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810201511311_createTripModel.cs" />
+    <Compile Include="Migrations\201810201511311_createTripModel.Designer.cs">
+      <DependentUpon>201810201511311_createTripModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810201902137_updateTouristObjectmodel.cs" />
+    <Compile Include="Migrations\201810201902137_updateTouristObjectmodel.Designer.cs">
+      <DependentUpon>201810201902137_updateTouristObjectmodel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810201918528_changetypeofcolumninattraction.cs" />
+    <Compile Include="Migrations\201810201918528_changetypeofcolumninattraction.Designer.cs">
+      <DependentUpon>201810201918528_changetypeofcolumninattraction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\Trips\Atraction.cs" />
     <Compile Include="Models\Forum\Category.cs" />
     <Compile Include="Models\Forum\Post.cs" />
     <Compile Include="Models\Forum\PostsUsers.cs" />
@@ -304,12 +317,14 @@
     <Compile Include="Models\Modules\WebGridViewModel.cs" />
     <Compile Include="Models\Offer\Offers.cs" />
     <Compile Include="Models\Offer\OffersComment.cs" />
+    <Compile Include="Models\Trips\Hotel.cs" />
     <Compile Include="Models\Trips\TouristFacility.cs" />
     <Compile Include="Models\Trips\Trip.cs" />
     <Compile Include="PreApplicationStart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ForumService.cs" />
     <Compile Include="Services\OfferServices.cs" />
+    <Compile Include="Services\TripService.cs" />
     <Compile Include="Services\UserServices.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\Forum\CategoryDetailsViewModel.cs" />
@@ -328,6 +343,14 @@
     <Compile Include="ViewModels\Offers\OffersGridViewModel.cs" />
     <Compile Include="ViewModels\Offers\OffersViewModel.cs" />
     <Compile Include="ViewModels\Shared\BaseFromViewModel.cs" />
+    <Compile Include="ViewModels\Trip\AtractionDetailViewModel.cs" />
+    <Compile Include="ViewModels\Trip\AtractionsGridViewModel.cs" />
+    <Compile Include="ViewModels\Trip\CreateNewAtraction.cs" />
+    <Compile Include="ViewModels\Trip\CreateNewHotelViewModel.cs" />
+    <Compile Include="ViewModels\Trip\HotelDetailViewModel.cs" />
+    <Compile Include="ViewModels\Trip\HotelGridViewModel.cs" />
+    <Compile Include="ViewModels\Trip\ManageAtractionsViewModel.cs" />
+    <Compile Include="ViewModels\Trip\ManageHotelsViewModel.cs" />
     <Compile Include="ViewModels\Users\AssignedUsersGridViewModel.cs" />
     <Compile Include="ViewModels\Users\AssignedUserViewModel.cs" />
     <Compile Include="ViewModels\Users\EditUserProfileViewModel.cs" />
@@ -521,9 +544,19 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Offers\CommentsGrid.cshtml" />
     <Content Include="Views\Offers\CreateComment.cshtml" />
+    <Content Include="Views\Trip\ManageAtractions.cshtml" />
+    <Content Include="Views\Trip\ManageHotels.cshtml" />
+    <Content Include="Views\Trip\CreateNewAtraction.cshtml" />
+    <Content Include="Views\Trip\AtractionDetail.cshtml" />
+    <Content Include="Views\Trip\EditAtraction.cshtml" />
+    <Content Include="Views\Trip\CreateNewHotel.cshtml" />
+    <Content Include="Views\Trip\EditHotel.cshtml" />
+    <Content Include="Views\Trip\HotelDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\AtractionsImages\" />
+    <Folder Include="Content\HotelsImages\" />
     <Folder Include="Content\OffersImages\" />
   </ItemGroup>
   <ItemGroup>
@@ -596,6 +629,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810191053209_changeRateFieldOnOffers.resx">
       <DependentUpon>201810191053209_changeRateFieldOnOffers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810201511311_createTripModel.resx">
+      <DependentUpon>201810201511311_createTripModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810201902137_updateTouristObjectmodel.resx">
+      <DependentUpon>201810201902137_updateTouristObjectmodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810201918528_changetypeofcolumninattraction.resx">
+      <DependentUpon>201810201918528_changetypeofcolumninattraction.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using JourneyPortal.Models.Forum;
 using JourneyPortal.Models.Offer;
+using JourneyPortal.Models.Trips;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -37,7 +38,11 @@ namespace JourneyPortal.Models
 
         public string Avatar { get; set; }
 
-        public virtual ICollection<Trip> MyProperty { get; set; }
+        public virtual ICollection<Trip> Trips { get; set; }
+
+        public virtual ICollection<Atraction> Atractions { get; set; }
+
+        public virtual ICollection<Hotel> Hotels{ get; set; }
 
         public virtual ICollection<OffersApplicationUsers> OffersApplicationUsers { get; set; }
 

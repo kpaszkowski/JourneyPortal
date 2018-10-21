@@ -1,0 +1,105 @@
+﻿@model JourneyPortal.ViewModels.Trip.ManageAtractionsViewModel
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<div class="container">
+    @Html.ActionLink("Dodaj atrakcję", "CreateNewAtraction", "Trip", null)
+    <h2>Twoje atrakcje</h2>
+    <p>
+        Wyszukaj: @Html.TextBox("searchString")
+        <input type="button" @*onclick="sortBy()"*@ value="Wyszukaj" />
+    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><a onclick="sortBy('userName');">Nazwa atrakcji</a></th>
+                <th><a onclick="sortBy('userName');">Popularność</a></th>
+                <th><a onclick="sortBy('userName');">Koszt</a></th>
+                <th><a onclick="sortBy('userName');">Typ</a></th>
+                <th><a onclick="sortBy('userName');">Czas zwiedzania</a></th>
+                <th>Aktywne</th>
+                <th>Edytuj</th>
+                <th>Usuń</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.atractionsList)
+            {
+                <tr>
+                    <td>@Html.ActionLink(item.Name, "GetAtractionDetail", "Trip", new { id = item.Id }, null)</td>
+                    <td>@item.Rate</td>
+                    <td>@item.Cost</td>
+                    <td>@item.Type</td>
+                    <td>@item.TimeOfSightseeing</td>
+                    <td>
+                        @if (item.IsActive)
+                        {
+                            using (Html.BeginForm("DisableAtractions", "Trip", new { atractionId = item.Id }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-warning" type="submit">Wyłącz</button>
+                            }
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("EnableAtractions", "Trip", new { atractionId = item.Id }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-success" type="submit"> Aktywuj</button>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("EditAtraction", "Trip", new { atractionId = item.Id }, FormMethod.Post))
+                        {
+                            <button class="btn btn-default" type="submit"> Edytuj</button>
+                        }
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("RemoveAtractions", "Trip", new { atractionId = item.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-danger" type="submit"> Usuń</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    Strona @(Model.atractionsList.PageCount < Model.atractionsList.PageNumber ? 0 : Model.atractionsList.PageNumber) z @Model.atractionsList.PageCount
+
+    @Html.PagedListPager(Model.atractionsList, page => Url.Action("ManageAtractions",
+                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>
+@*<script>
+        function sortBy(kind) {
+            var sortOrderKind;
+            switch (kind) {
+                case 'name':
+                    {
+                        sortOrderKind = '@ViewBag.Name';
+                        break;
+                    }
+                case 'rate':
+                    {
+                        sortOrderKind = '@ViewBag.Rate';
+                        break;
+                    }
+                case 'cost':
+                    {
+                        sortOrderKind = '@ViewBag.Cost';
+                        break;
+                    }
+                default:
+                    {
+                        var searchValue = $('#searchString').val();
+                        break;
+                    }
+            }
+            $.get('/Offers/GetYourOffers', { sortOrder: sortOrderKind, searchString: searchValue }, function (data) {
+                $('#usersGridList').html(data);
+            });
+        }
+    </script>*@

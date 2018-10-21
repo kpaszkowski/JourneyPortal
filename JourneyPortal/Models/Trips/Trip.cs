@@ -12,10 +12,10 @@ namespace JourneyPortal.Models.Trips
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<TouristFacility> TouristFacilities { get; set; }
+        public virtual ICollection<Atraction> Atractions { get; set; }
 
         public int BaseHotelId { get; set; }
-        public TouristFacility BaseHotel { get; set; }
+        public Hotel BaseHotel { get; set; }
 
         public string CreatedById{ get; set; }
         public ApplicationUser CreatedBy { get; set; }

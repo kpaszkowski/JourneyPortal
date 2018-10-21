@@ -77,6 +77,19 @@ namespace JourneyPortal.Services
             }
             return false;
         }
+
+        internal bool IsAtractionOwner(int id, string name)
+        {
+            var currentUser = userManager.FindByName(name);
+            return context.Atractions.Where(x => x.Id == id && x.OwnerId == currentUser.Id).Any();
+        }
+
+        internal bool IsHotelOwner(int id, string name)
+        {
+            var currentUser = userManager.FindByName(name);
+            return context.Hotels.Where(x => x.Id == id && x.OwnerId == currentUser.Id).Any();
+        }
+
         internal bool IsProprietor(string name)
         {
             if (IsAdmin(name))

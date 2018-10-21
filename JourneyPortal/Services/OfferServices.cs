@@ -158,6 +158,7 @@ namespace JourneyPortal.Services
                     Rate = x.Rate,
                     Image = x.Image,
                     NumberOfUserCurrentBooking = n,
+                    CanAddComment = context.OffersApplicationUsers
                 }).FirstOrDefault();
             }
         }
