@@ -16,7 +16,7 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Content/GlobalScripts.js"></script>
 </head>
-<body>
+<body background="~/Content/Images/background.jpg" style="background-repeat: no-repeat;background-size: auto;">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -75,7 +75,7 @@
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
+            @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Journey Portal</p>

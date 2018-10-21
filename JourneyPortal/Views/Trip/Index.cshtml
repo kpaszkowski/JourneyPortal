@@ -1,4 +1,5 @@
-﻿<div class="container">
+﻿<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental&key=[ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT]' async defer></script>
+<div class="container">
     <div class="jumbotron">
         <h1>Własna wycieczka</h1>
         <p>
@@ -8,3 +9,15 @@
     <p>W tym miejscu możesz sam zaplanowac swoją wymarzoną wycieczkę.</p>
     <p>Wystarczy że wybierzesz bazę wypadową oraz uzupełnisz inne niezbędne kryteria.</p>
 </div>
+<div id="myMap" style="position:relative;width:1200px;height:500px;"></div>
+<script type='text/javascript'>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: 'ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT',
+            center: new Microsoft.Maps.Location(51.50632, -0.12714),
+            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+            zoom: 10
+        });
+    }
+    
+</script>

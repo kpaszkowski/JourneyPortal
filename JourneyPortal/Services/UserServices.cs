@@ -34,6 +34,11 @@ namespace JourneyPortal.Services
             {
                 return string.Empty;
             }
+            bool isExists = context.Users.Where(x => x.UserName == name).Any();
+            if (!isExists)
+            {
+                return string.Empty;
+            }
             return (from user in context.Users
                     where user.UserName == name
                     select new

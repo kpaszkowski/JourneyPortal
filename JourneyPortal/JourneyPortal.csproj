@@ -361,6 +361,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\GlobalScripts.js" />
+    <Content Include="Content\Images\background.jpg" />
     <Content Include="Content\Images\empty.jpg" />
     <Content Include="Content\Images\empytAvatar.png" />
     <Content Include="Content\Images\like.png" />

@@ -139,9 +139,10 @@ namespace JourneyPortal.Services
                 int n = 0;
                 var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 var currentUser = userManager.FindByName(userName);
+                var currentLinkTable = context.OffersApplicationUsers.Where(y => y.ApplicationUserId == currentUser.Id && y.OfferId == id);
                 if (currentUser != null)
                 {
-                    n = context.OffersApplicationUsers.Where(y => y.ApplicationUserId == currentUser.Id && y.OfferId == id).Select(x=>x.BookingCount).FirstOrDefault();
+                    n = currentLinkTable.Select(x=>x.BookingCount).FirstOrDefault();
                 }
                 return context.Offers.Where(x => x.Id == id).Select(x => new OfferDetailViewModel
                 {
@@ -158,7 +159,7 @@ namespace JourneyPortal.Services
                     Rate = x.Rate,
                     Image = x.Image,
                     NumberOfUserCurrentBooking = n,
-                    CanAddComment = context.OffersApplicationUsers
+                    CanAddComment = currentLinkTable.Any()
                 }).FirstOrDefault();
             }
         }
