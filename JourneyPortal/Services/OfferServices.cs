@@ -137,12 +137,17 @@ namespace JourneyPortal.Services
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
                 int n = 0;
+                bool can = false;
                 var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 var currentUser = userManager.FindByName(userName);
                 var currentLinkTable = context.OffersApplicationUsers.Where(y => y.ApplicationUserId == currentUser.Id && y.OfferId == id);
                 if (currentUser != null)
                 {
                     n = currentLinkTable.Select(x=>x.BookingCount).FirstOrDefault();
+                    if (currentLinkTable.Any())
+                    {
+                        can = true;
+                    }
                 }
                 return context.Offers.Where(x => x.Id == id).Select(x => new OfferDetailViewModel
                 {
@@ -159,7 +164,7 @@ namespace JourneyPortal.Services
                     Rate = x.Rate,
                     Image = x.Image,
                     NumberOfUserCurrentBooking = n,
-                    CanAddComment = currentLinkTable.Any()
+                    CanAddComment = can
                 }).FirstOrDefault();
             }
         }
