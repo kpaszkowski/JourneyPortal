@@ -367,6 +367,8 @@
     <Content Include="Content\Images\like.png" />
     <Content Include="Content\Images\star.ico" />
     <Content Include="Content\Images\star_empty.png" />
+    <Content Include="Content\Map\hotel.png" />
+    <Content Include="Content\Map\red-pin.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\summernote\summernote-bs4.css" />
     <Content Include="Content\summernote\summernote-lite.css" />

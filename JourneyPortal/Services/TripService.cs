@@ -165,26 +165,28 @@ namespace JourneyPortal.Services
                         X = model.X,
                         Y = model.Y
                     };
-
-                    Image image = new Image();
-                    var allowedExtensions = new[] {
+                    if (file != null)
+                    {
+                        Image image = new Image();
+                        var allowedExtensions = new[] {
                     ".Jpg", ".png", ".jpg", "jpeg",".ico"
                     };
-                    Guid id = Guid.NewGuid();
-                    image.ImageUrl = file.ToString();
-                    image.Name = newHotel.Name + id + "-image";
-                    var fileName = Path.GetFileName(file.FileName);
-                    var ext = Path.GetExtension(file.FileName);
-                    if (allowedExtensions.Contains(ext))
-                    {
-                        string name = Path.GetFileNameWithoutExtension(fileName);
-                        string myfile = name + "_" + image.Name + ext;
-                        var path = Path.Combine(tripController.Server.MapPath("~/Content/HotelsImages"), myfile);
-                        image.ImageUrl = path;
-                        context.Images.Add(image);
-                        file.SaveAs(path);
+                        Guid id = Guid.NewGuid();
+                        image.ImageUrl = file.ToString();
+                        image.Name = newHotel.Name + id + "-image";
+                        var fileName = Path.GetFileName(file.FileName);
+                        var ext = Path.GetExtension(file.FileName);
+                        if (allowedExtensions.Contains(ext))
+                        {
+                            string name = Path.GetFileNameWithoutExtension(fileName);
+                            string myfile = name + "_" + image.Name + ext;
+                            var path = Path.Combine(tripController.Server.MapPath("~/Content/HotelsImages"), myfile);
+                            image.ImageUrl = path;
+                            context.Images.Add(image);
+                            file.SaveAs(path);
+                        }
+                        newHotel.Image = image.ImageUrl;
                     }
-                    newHotel.Image = image.ImageUrl;
                     context.Hotels.Add(newHotel);
                     context.SaveChanges();
                     return true;
@@ -320,6 +322,71 @@ namespace JourneyPortal.Services
             }
             return true;
         }
+
+        internal dynamic GetAllAtractions()
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    return context.Atractions.Where(x=>x.IsActive).Select(x => new
+                    {
+                        Id = x.Id,
+                        X = x.X,
+                        Y = x.Y,
+                        Name = x.Name,
+                        Type = x.Type,
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        internal dynamic GetSampleRoute()
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    return context.Atractions.Select(x => new
+                    {
+                        Id = x.Id,
+                        X = x.X,
+                        Y = x.Y,
+                        Name = x.Name,
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        internal dynamic GetAllHotels()
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    return context.Hotels.Where(x => x.IsActive).Select(x => new
+                    {
+                        Id = x.Id,
+                        X = x.X,
+                        Y = x.Y,
+                        Name = x.Name,
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         internal bool DisableAtractions(int atractionId)
         {
             try
@@ -360,26 +427,28 @@ namespace JourneyPortal.Services
                         X = model.X,
                         Y = model.Y
                     };
-
-                    Image image = new Image();
-                    var allowedExtensions = new[] {
+                    if (file !=null)
+                    {
+                        Image image = new Image();
+                        var allowedExtensions = new[] {
                     ".Jpg", ".png", ".jpg", "jpeg",".ico"
                     };
-                    Guid id = Guid.NewGuid();
-                    image.ImageUrl = file.ToString();
-                    image.Name = newAtraction.Name + id + "-image";
-                    var fileName = Path.GetFileName(file.FileName);
-                    var ext = Path.GetExtension(file.FileName);
-                    if (allowedExtensions.Contains(ext))
-                    {
-                        string name = Path.GetFileNameWithoutExtension(fileName);
-                        string myfile = name + "_" + image.Name + ext;
-                        var path = Path.Combine(tripController.Server.MapPath("~/Content/AtractionsImages"), myfile);
-                        image.ImageUrl = path;
-                        context.Images.Add(image);
-                        file.SaveAs(path);
+                        Guid id = Guid.NewGuid();
+                        image.ImageUrl = file.ToString();
+                        image.Name = newAtraction.Name + id + "-image";
+                        var fileName = Path.GetFileName(file.FileName);
+                        var ext = Path.GetExtension(file.FileName);
+                        if (allowedExtensions.Contains(ext))
+                        {
+                            string name = Path.GetFileNameWithoutExtension(fileName);
+                            string myfile = name + "_" + image.Name + ext;
+                            var path = Path.Combine(tripController.Server.MapPath("~/Content/AtractionsImages"), myfile);
+                            image.ImageUrl = path;
+                            context.Images.Add(image);
+                            file.SaveAs(path);
+                        }
+                        newAtraction.Image = image.ImageUrl;
                     }
-                    newAtraction.Image = image.ImageUrl;
                     context.Atractions.Add(newAtraction);
                     context.SaveChanges();
                     return true;

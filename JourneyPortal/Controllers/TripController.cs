@@ -287,5 +287,47 @@ namespace JourneyPortal.Controllers
             return RedirectToAction("ManageHotels");
         }
 
+        [HttpGet]
+        public ActionResult GetAllAtractions()
+        {
+            var atractionList = tripService.GetAllAtractions();
+            return new JsonResult
+            {
+                Data = new
+                {
+                    atraction = atractionList,
+                    success = true,
+                },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        [HttpGet]
+        public ActionResult GetAllHotels()
+        {
+            var hotelList = tripService.GetAllHotels();
+            return new JsonResult
+            {
+                Data = new
+                {
+                    hotels = hotelList,
+                    success = true,
+                },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+        [HttpGet]
+        public ActionResult GetSampleRoute()
+        {
+            var route = tripService.GetSampleRoute();
+            return new JsonResult
+            {
+                Data = new
+                {
+                    route = route,
+                    success = true,
+                },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
     }
 }
