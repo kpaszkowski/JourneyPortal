@@ -22,6 +22,7 @@
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Description, new { @class = "form-control", id = "desctiptionTextBox" })
+                <span class="badge" id="maxContentPost"></span>
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -58,19 +59,13 @@
     </div>
 }
 <script>
-    $(document).ready(function () {
-        $('#desctiptionTextBox').summernote({
-            toolbar: [
-                // [groupName, [list of button]]
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['fontsize', ['fontsize']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']]
-            ]
-        });
+    $(function () {
+        var max = 500;
+        registerSummernote('#desctiptionTextBox', 'Dodaj post.Maksymalna długość - 500 znaków', max)
+        var string = 'Max ' + max + ' znaków'
+        $('#maxContentPost').text(String(string));
     });
+
     function show(input) {
         if (input.files && input.files[0]) {
             var filerdr = new FileReader();

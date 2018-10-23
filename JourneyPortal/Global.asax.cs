@@ -26,7 +26,7 @@ namespace JourneyPortal
         }
         public void Session_OnEnd()
         {
-            Session.Abandon();
+            
         }
         void Session_Start(object sender, EventArgs e)
         {

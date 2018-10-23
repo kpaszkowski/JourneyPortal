@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,7 +13,7 @@ namespace JourneyPortal.ViewModels.Forum
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime LastActivity { get; set; }
-        public List<PostViewModel> PostsList { get; set; }
+        public IPagedList<PostViewModel> PostsList { get; set; }
         public bool isAdmin { get; set; }
     }
 }

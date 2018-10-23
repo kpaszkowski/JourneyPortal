@@ -1,5 +1,5 @@
 ﻿@model JourneyPortal.ViewModels.Offers.OfferDetailViewModel
-
+<link href="~/Content/Offers/GridTab.css" rel="stylesheet" />
 <br />
 <div class="container">
     <div class="media">
@@ -32,97 +32,141 @@
         <div class="media-right media-top">
             <h3 class="media-heading">@Model.Name</h3><br />
             <div>
-                @if (Model.Rate == 0)
-                {
-                    <span>Brak ocen</span>
-                }
-                else
-                {
-                    <span>@Math.Round(Model.Rate, 2)</span>
-                    for (int i = 0; i < 5; i++)
-                    {
-                        if (i <= Model.Rate)
+                @Html.LabelFor(m => m.Rate, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8 ">
+                    <div class="form-control" style="width:75%">
+                        @for (int i = 0; i < 5; i++)
                         {
-                            <span class="fa fa-star" style=" color: orange;"></span>
+                            if (i <= Model.Rate)
+                            {
+                                <span class="fa fa-star" style=" color: orange;"></span>
+                            }
+                            else
+                            {
+                                <span class="fa fa-star"></span>
+                            }
+                        }
+                    </div>
+                </div>
+                @Html.LabelFor(m => m.StartDate, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                @Html.LabelFor(m => m.EndDate, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                @Html.LabelFor(m => m.CreationDate, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.CreationDate, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                @Html.LabelFor(m => m.Cost, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.Cost, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                @Html.LabelFor(m => m.NuberOfBooking, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.NuberOfBooking, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                @if (Model.NumberOfUserCurrentBooking != 0)
+                {
+                    @Html.LabelFor(m => m.NumberOfUserCurrentBooking, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.NumberOfUserCurrentBooking, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+                }
+                @Html.Label("Nazwa biura", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    <button id="getTravelAgencyInfo" class="btn btn-info">@Html.ActionLink(Model.TravelAgencyOwnerName, "GetTravelAgencyProfile", "Users", new { userName = Model.TravelAgencyOwnerName }, null)</button>
+                </div>
+                @if (User.Identity.IsAuthenticated && Model.IsUser)
+                {
+                    using (Html.BeginForm("BookTrip", "Offers", FormMethod.Post))
+                    {
+                        @Html.Hidden("offerId", Model.Id)
+                        if (Model.NuberOfBooking == 0)
+                        {
+                            @Html.Label("Rezerwacja", new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                <button class="btn btn-success" disabled="disabled" type="submit">Zarezerwuj miejsca</button>
+                            </div>
+                            @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", style = "width:15%", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking, disabled = "disabled" } })
                         }
                         else
                         {
-                            <span class="fa fa-star"></span>
+                            <div class="col-md-8">
+                                <button class="btn btn-success" type="submit">Zarezerwuj miejsca</button>
+                                @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", style = "width:15%", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking } })
+                            </div>
+
                         }
+                        @Html.ValidationMessage("bookingCount", "", new { @class = "text-danger" })
+
                     }
+
                 }
             </div>
-            @Html.LabelFor(m => m.StartDate, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.LabelFor(m => m.EndDate, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.LabelFor(m => m.CreationDate, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.CreationDate, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.LabelFor(m => m.Cost, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.Cost, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.LabelFor(m => m.NuberOfBooking, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.NuberOfBooking, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.Label("Nazwa biura", new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                <button id="getTravelAgencyInfo" class="btn btn-info">@Html.ActionLink(Model.TravelAgencyOwnerName, "GetTravelAgencyProfile", "Users", new { userName = Model.TravelAgencyOwnerName }, null)</button>
-            </div>
-            @if (Model.NumberOfUserCurrentBooking != 0)
-            {
-                @Html.LabelFor(m => m.NumberOfUserCurrentBooking, new { @class = "col-md-4 control-label" })
-                <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.NumberOfUserCurrentBooking, new { @class = "form-control", disabled = "disabled" })
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalDescription">Zobacz opis</button>
+                <!-- Modal -->
+                <div class="modal fade" id="modalDescription" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Opis</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>@Html.Raw(Model.Description)</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            }
-            @if (User.Identity.IsAuthenticated && Model.IsUser)
-            {
-                using (Html.BeginForm("BookTrip", "Offers", FormMethod.Post))
-                {
-                    @Html.Hidden("offerId", Model.Id)
-                    if (Model.NuberOfBooking == 0)
-                    {
-                        <div class="col-md-10">
-                            <button class="btn btn-success" disabled="disabled" type="submit">Zarezerwuj miejsca</button>
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Dodaj opinię</button>
+
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content" style="width:60%">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Dodaj opinię</h4>
+                            </div>
+                            <div class="modal-body">
+                                @Html.Partial("~/Views/Offers/CreateComment.cshtml", new JourneyPortal.ViewModels.Offers.CreateCommentToOfferViewModel { CanAddComment = Model.CanAddComment, OfferId = Model.Id, })
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                            </div>
                         </div>
-                        @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking, disabled = "disabled" } })
-                    }
-                    else
-                    {
-                        <div class="col-md-10">
-                            <button class="btn btn-success" type="submit">Zarezerwuj miejsca</button>
-                        </div>
-                        @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking } })
-
-                    }
-                    @Html.ValidationMessage("bookingCount", "", new { @class = "text-danger" })
-
-                }
-
-            }
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <h2>Opis</h2>
-    <p>@Html.Raw(Model.Description)</p>
-    @Html.Partial("~/Views/Offers/CreateComment.cshtml", new JourneyPortal.ViewModels.Offers.CreateCommentToOfferViewModel { CanAddComment = Model.CanAddComment , OfferId = Model.Id, })
-    <div id="commentsGridList">
-        @Html.Action("GetComments", new { offerId = Model.Id })
-    </div>
+        
+        <button class="tablink" onclick="openPage('commentsTab', this,'#d4d4d4')" id="defaultOpen">Opinie</button>
+        @if (Model.IsTravelAgency && Model.IsOwner)
+        {
+            <button class="tablink" onclick="openPage('usersTab', this,'#d4d4d4')">Zapisani użytkownicy</button>
+            <div id="usersTab" class="tabcontent">
+            
+                    <div id="usersGridList">
+                        @Html.Action("GetAssignedUsers", new { offerId = Model.Id })
+                    </div>
+            </div>
+        }
 
-    @if (Model.IsTravelAgency && Model.IsOwner)
-    {
-        <div id="usersGridList">
-            @Html.Action("GetAssignedUsers", new { offerId = Model.Id })
+        <div id="commentsTab" class="tabcontent">
+            <div id="commentsGridList">
+                @Html.Action("GetComments", new { offerId = Model.Id })
+            </div>
         </div>
-    }
+        <br/>
+    </div>
 </div>
 <script>
     function show(input) {
@@ -135,4 +179,20 @@
         }
     }
 
+    function openPage(pageName, elmnt, color) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].style.backgroundColor = "";
+        }
+        document.getElementById(pageName).style.display = "block";
+        elmnt.style.backgroundColor = color;
+
+    }
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
 </script>

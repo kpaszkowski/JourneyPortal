@@ -5,12 +5,12 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             <div class="col-md-12">
                 @Html.TextAreaFor(model => model.Text, new { id = "answerTextBox" })
                 @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+                <span class="badge" id="maxContentPost"></span>
             </div>
         </div>
         <div class="form-group">
@@ -23,17 +23,11 @@
 
 
 <script>
-    $(document).ready(function () {
-        $('#answerTextBox').summernote({
-            toolbar: [
-                // [groupName, [list of button]]
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['fontsize', ['fontsize']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']]
-            ]
-        });
+    $(function () {
+        var max = 500;
+        registerSummernote('#answerTextBox', 'Dodaj post.Maksymalna długość - 500 znaków', max, null, 165)
+        var string = 'Max ' + max + ' znaków'
+        $('#maxContentPost').text(String(string));
     });
+
 </script>

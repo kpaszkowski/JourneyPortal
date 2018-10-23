@@ -374,6 +374,8 @@
     <Content Include="Content\Map\hotel.png" />
     <Content Include="Content\Map\red-pin.png" />
     <Content Include="Content\menuCSS.css" />
+    <Content Include="Content\Offers\GridTab.css" />
+    <Content Include="Content\Offers\ModalComment.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\summernote\summernote-bs4.css" />
     <Content Include="Content\summernote\summernote-lite.css" />

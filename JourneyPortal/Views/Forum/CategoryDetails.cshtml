@@ -1,7 +1,8 @@
 ﻿@model JourneyPortal.ViewModels.Forum.CategoryDetailsViewModel
-
+@using PagedList.Mvc;
 <div class="container">
-    <div class="jumbotron">
+    <br />
+    <div class="jumbotron" style="margin-right:50px">
         <h1>Journey Portal - @Model.Name</h1>
         <p>
             @Model.Description
@@ -11,24 +12,27 @@
     {
         @Html.ActionLink("Dodaj temat", "CreateNewTopic", "Forum", new { categoryId = Model.Id }, null)
     }
-    @foreach (var item in Model.TopicsList)
-    {
-        <div class="well well-lg" onclick="goToTopic(@item.Id)">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-2">
-                        <p>@item.Id.@item.Name</p>
-                        <p>Wyświetlania : @item.Views</p>
-                    </div>
-                    <div class="col-sm-7">
-                        @Html.ActionLink("Przejdź do tematu", "GetPosts", "Forum", new { topicId = item.Id, categoryId = item.CategoryId }, new { @class = "btn bg-primary" })
-                    </div>
-                    <div class="col-sm-3">
-                        <p>Ostatnia aktywność</p>
-                        <p>@item.LastActivity</p>
+        @foreach (var item in Model.TopicsList)
+        {
+            <div class="well well-lg" style="margin-right:50px" onclick="goToTopic(@item.Id)">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <p>@item.Id.@item.Name</p>
+                            <p>Wyświetlania : @item.Views</p>
+                        </div>
+                        <div class="col-sm-7">
+                            @Html.ActionLink("Przejdź do tematu", "GetPosts", "Forum", new { topicId = item.Id, categoryId = item.CategoryId }, new { @class = "btn bg-primary" })
+                        </div>
+                        <div class="col-sm-3">
+                            <p>Ostatnia aktywność</p>
+                            <p>@item.LastActivity</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+    Strona @(Model.TopicsList.PageCount < Model.TopicsList.PageNumber ? 0 : Model.TopicsList.PageNumber) z @Model.TopicsList.PageCount
+
+    @Html.PagedListPager(Model.TopicsList, page => Url.Action("GetTopics", new { page, categoryId = Model.Id }))
 </div>

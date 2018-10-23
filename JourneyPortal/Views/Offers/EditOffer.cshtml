@@ -23,6 +23,7 @@
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.Description, new { id = "desctiptionTextBox" })
+                <span class="badge" id="maxContentPost"></span>
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -86,7 +87,10 @@
                 ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
                 ['height', ['height']]
-            ]
+            ],
+            placeholder: 'Opis',
+            tabsize: 2,
+            maxHeight: 300
         });
     });
 </script>

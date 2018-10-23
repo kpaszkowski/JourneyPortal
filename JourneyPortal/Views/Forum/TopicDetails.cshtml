@@ -1,62 +1,71 @@
 ﻿@model JourneyPortal.ViewModels.Forum.TopicDetailsViewModel
-@{ 
-     
-}
+@using PagedList.Mvc;
+
 <div class="container">
-    <h2>@Model.Name</h2><br>
-    <p><h4>@Model.Description</h4></p><br />
+    <h3>@Model.Name</h3>
+    <p><h4>@Model.Description</h4></p>
     <div class="media">
         @foreach (var item in Model.PostsList)
         {
-        <div class="media-left media-top">
-            @if (item.AuthorAvatar != null)
-            {
-                <img width="128" height="128" src="@Url.Content("~/Content/Images/" + @Path.GetFileName(item.AuthorAvatar))" class="media-object" style="width:80px">
-            }
-            else
-            {
-                <img width="128" height="128" src="~/Content/Images/empytAvatar.png" class="media-object" style="width:80px">
-            }
-        </div>
+            <div class="media-left media-top">
+                @if (Model.isAdmin)
+                            {
+
+                                using (Html.BeginForm("RemovePost", "Forum", new { postId = item.Id, topicId = Model.Id, categoryId = Model.CategoryId }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button class="btn btn-danger" type="submit"> Usuń</button>
+                                }
+
+                            }
+                @if (item.AuthorAvatar != null)
+                {
+                    <img width="64" height="100" src="@Url.Content("~/Content/Images/" + @Path.GetFileName(item.AuthorAvatar))" class="media-object" style="width:80px">
+                }
+                else
+                {
+                    <img width="64" height="100" src="~/Content/Images/empytAvatar.png" class="media-object" style="width:80px">
+                }
+            </div>
             <div class="media-body">
                 <h4 class="media-heading">@item.AuthorName</h4>
                 <p>@item.CreationDate</p>
                 <p>@Html.Raw(item.Text)</p>
                 <hr />
-                <p>
-                    @if (Request.IsAuthenticated)
-                    {
-                        using (Html.BeginForm("AddLike", "Forum", new { postId = item.Id, topicId = Model.Id, categoryId = Model.CategoryId }, FormMethod.Post, new { id = "addLike-" + item.Id }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <a href="#" onclick="submitAddLike('@item.Id');"><img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)</a>
-                        }
-                    }
-                    else
-                    {
-                            <div>
-                                <img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)
-                            </div>
-                    }</p>
-                @if (Model.isAdmin)
-                {
-                <p>
-                    @using (Html.BeginForm("RemovePost", "Forum", new { postId = item.Id , topicId = Model.Id, categoryId = Model.CategoryId }, FormMethod.Post))
-                    {
-                        @Html.AntiForgeryToken()
-                        <button class="btn btn-danger" type="submit"> Usuń</button>
-                    }
-                </p>
-                }
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            @if (Request.IsAuthenticated)
+                            {
+                                using (Html.BeginForm("AddLike", "Forum", new { postId = item.Id, topicId = Model.Id, categoryId = Model.CategoryId }, FormMethod.Post, new { id = "addLike-" + item.Id }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <a href="#" onclick="submitAddLike('@item.Id');"><img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)</a>
+                                }
+                            }
+                            else
+                            {
+                                <div>
+                                    <img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)
+                                </div>
+                            }
+                        </div>
+                        <div class="col-lg-6">
+                            
+                        </div>
+                    </div>
+                </div>
             </div>
             <br />
         }
         @if (User.Identity.IsAuthenticated)
         {
-            @Html.Partial("~/Views/Forum/CreatePost.cshtml", new JourneyPortal.ViewModels.Forum.CreatePostViewModel { Id = Model.Id , CategoryId = Model.CategoryId})
+            @Html.Partial("~/Views/Forum/CreatePost.cshtml", new JourneyPortal.ViewModels.Forum.CreatePostViewModel { Id = Model.Id, CategoryId = Model.CategoryId })
         }
     </div>
-    <hr>
+    Strona @(Model.PostsList.PageCount < Model.PostsList.PageNumber ? 0 : Model.PostsList.PageNumber) z @Model.PostsList.PageCount
+
+    @Html.PagedListPager(Model.PostsList, page => Url.Action("GetPosts", new { page, categoryId = Model.CategoryId , topicId = Model.Id }))
 </div>
 <script>
     function submitAddLike(id) {

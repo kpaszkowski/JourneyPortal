@@ -3,8 +3,6 @@
     <br />
     <br />
     @Html.ActionLink("Strona domowa", "Index", "Home")
-    @Html.ActionLink("Czat", "Index", "Chat")
-    @Html.ActionLink("Forum", "Index", "Forum")
     @if (Session["IsTravelAgency"] != null && (bool)Session["IsTravelAgency"])
     {
         <button class="dropdown-btn">
@@ -37,6 +35,8 @@
     {
         @Html.ActionLink("Własna wycieczka", "Index", "Trip")
     }
+    @Html.ActionLink("Czat", "Index", "Chat")
+    @Html.ActionLink("Forum", "Index", "Forum")
 </div>
 <script>
     /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
