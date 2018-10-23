@@ -1,7 +1,10 @@
-﻿using System;
+﻿using JourneyPortal.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -13,10 +16,13 @@ namespace JourneyPortal
     {
         protected void Application_Start()
         {
+            AjaxHelper.GlobalizationScriptPath = "http://ajax.microsoft.com/ajax/4.0/1/globalization/";
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //ModelBinders.Binders.Add(typeof(decimal), new DecimalModelBinder());
+            //ModelBinders.Binders.Add(typeof(decimal?), new DecimalModelBinder());
         }
         public void Session_OnEnd()
         {

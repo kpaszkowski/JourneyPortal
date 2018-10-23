@@ -1,9 +1,11 @@
 ﻿using JourneyPortal.Models;
 using JourneyPortal.Services;
+using JourneyPortal.ViewModels.Shared;
 using JourneyPortal.ViewModels.Trip;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -285,6 +287,23 @@ namespace JourneyPortal.Controllers
                 var result = tripService.RemoveHotel(hotelId);
             }
             return RedirectToAction("ManageHotels");
+        }
+
+        [HttpGet]
+        public ActionResult GetNearestAtractions(double x, double y)
+        {
+            Point point = new Point(x, y);
+            var atractionList = tripService.GetNearestAtractions(point);
+
+            return new JsonResult
+            {
+                Data = new
+                {
+                    atraction = atractionList,
+                    success = true,
+                },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
         [HttpGet]

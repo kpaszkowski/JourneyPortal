@@ -35,7 +35,7 @@ namespace JourneyPortal.Controllers
             cachedViewModel.IsTravelAgency = userServices.IsTravelAgency(currentUserName);
             cachedViewModel.IsAdmin= userServices.IsAdmin(currentUserName);
             cachedViewModel.IsUser = userServices.IsUser(currentUserName);
-            int pageSize = 6;
+            int pageSize = 9;
             int pageNumber = 1;
             cachedViewModel.OffersList =  offerServices.GetAllOffers().ToPagedList(pageNumber,pageSize);
             return View("~/Views/Offers/Index.cshtml", cachedViewModel);
@@ -45,7 +45,7 @@ namespace JourneyPortal.Controllers
         public ActionResult IndexGetAllOffers(int? page)
         {
             var cachedViewModel = new OffersViewModel();
-            int pageSize = 6;
+            int pageSize = 9;
             int pageNumber = (page ?? 1);
             cachedViewModel.OffersList = offerServices.GetAllOffers().ToPagedList(pageNumber, pageSize);
             return PartialView("~/Views/Offers/Index.cshtml", cachedViewModel);

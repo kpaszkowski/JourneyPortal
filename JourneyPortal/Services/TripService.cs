@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
 using JourneyPortal.Controllers;
 using JourneyPortal.Models;
 using JourneyPortal.Models.Trips;
+using JourneyPortal.ViewModels.Shared;
 using JourneyPortal.ViewModels.Trip;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -321,6 +323,38 @@ namespace JourneyPortal.Services
                 throw ex;
             }
             return true;
+        }
+
+        internal dynamic GetNearestAtractions(Point point)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    double kmLimit = double.Parse(ConfigurationManager.AppSettings["KmLimit"]);
+                    Func<Point, Point ,bool> isInLimit = (point1 ,point2) =>
+                    {
+                        var result = Math.Sqrt(Math.Pow(point2.X - point1.X, 2) + Math.Pow(Math.Cos((point1.X * Math.PI) / 180) * (point2.Y - point1.Y), 2)) * (40075.704 / 360);
+                        return result <= kmLimit;
+                    };
+
+                    var allAtractions = context.Atractions.ToList();
+                    return allAtractions.Where(x => isInLimit(new Point { X = x.X, Y = x.Y }, point)).Select(x => new
+                    {
+                        Id = x.Id,
+                        X = x.X,
+                        Y = x.Y,
+                        Name = x.Name,
+                        Type = x.Type,
+                    }).ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         internal dynamic GetAllAtractions()

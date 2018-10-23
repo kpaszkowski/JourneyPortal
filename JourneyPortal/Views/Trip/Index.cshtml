@@ -1,6 +1,6 @@
 ﻿<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental&key=[ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT]' async defer></script>
 <div class="container">
-    <div class="jumbotron">
+    <div class="jumbotron-">
         <h1>Własna wycieczka</h1>
         <p>
             Witaj w sekcji <b>"Własna wycieczka"</b>
@@ -9,11 +9,17 @@
     <p>W tym miejscu możesz sam zaplanowac swoją wymarzoną wycieczkę.</p>
     <p>Wystarczy że wybierzesz bazę wypadową oraz uzupełnisz inne niezbędne kryteria.</p>
 </div>
+
 <div id="myMap" style="position:relative;width:1200px;height:500px;"></div>
 
 <script type='text/javascript'>
     function GetMap() {
-        $.get("/Trip/GetAllAtractions", function (data) {
+        var point2 = {
+            x: '52.763495',
+            y: '23.191542'
+        }
+        debugger;
+        $.get("/Trip/GetNearestAtractions", { x: point2.x, y: point2.y }, function (data) {
             for (var i = 0; i < data.atraction.length; i++) {
                 var location = {
                     latitude: data.atraction[i].X,
@@ -42,40 +48,37 @@
             }
         });
         var point1 = {
-            x : '27.174934',
-            y : '78.04218'
+            x: '27.174934',
+            y: '78.04218'
         }
-        var point2 = {
-            x : '23.164057',
-            y : '80.031053'
-        }
+
         var point3 = {
             x: '26.423870',
             y: '80.244122'
         }
-        $.get("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + point1.x + "," + point1.y + "&wp.1=" + point2.x + "," + point2.y + "&wp.2=" + point3.x + "," + point3.y+"&optmz=distance&routeAttributes=routePath&key=ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT", function (data) {
-            debugger;
+        //$.get("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + point1.x + "," + point1.y + "&wp.1=" + point2.x + "," + point2.y + "&wp.2=" + point3.x + "," + point3.y+"&optmz=distance&routeAttributes=routePath&key=ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT", function (data) {
+        //    debugger;
 
-            for (var i = 0; i < data.resourceSets[0].resources[0].routePath.line.coordinates.length-1; i++) {
-                var startLoc = {
-                    latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][0],
-                    longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][1],
-                }
-                var endLoc = {
-                    latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i+1][0],
-                    longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i+1][1],
-                }
-                var coords = [startLoc, endLoc];
+        //    for (var i = 0; i < data.resourceSets[0].resources[0].routePath.line.coordinates.length-1; i++) {
+        //        var startLoc = {
+        //            latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][0],
+        //            longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][1],
+        //        }
+        //        var endLoc = {
+        //            latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i+1][0],
+        //            longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i+1][1],
+        //        }
+        //        var coords = [startLoc, endLoc];
 
-                var line = new Microsoft.Maps.Polyline(coords, {
-                    strokeColor: 'red',
-                    strokeThickness: 3,
-                    strokeDashArray: [4, 4]
-                });
+        //        var line = new Microsoft.Maps.Polyline(coords, {
+        //            strokeColor: 'red',
+        //            strokeThickness: 3,
+        //            strokeDashArray: [4, 4]
+        //        });
 
-                map.entities.push(line);
-            }
-        });
+        //        map.entities.push(line);
+        //    }
+        //});
         var map = new Microsoft.Maps.Map('#myMap', {
             credentials: 'ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT',
             center: new Microsoft.Maps.Location(47.6149, -122.1941),
@@ -83,5 +86,5 @@
             zoom: 2
         });
     }
-    
+
 </script>

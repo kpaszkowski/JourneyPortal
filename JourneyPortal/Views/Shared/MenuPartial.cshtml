@@ -1,0 +1,57 @@
+﻿<link href="~/Content/menuCSS.css" rel="stylesheet" />
+<div id="mySidenav" class="sidenav">
+    <br />
+    <br />
+    @Html.ActionLink("Strona domowa", "Index", "Home")
+    @Html.ActionLink("Czat", "Index", "Chat")
+    @Html.ActionLink("Forum", "Index", "Forum")
+    @if (Session["IsTravelAgency"] != null && (bool)Session["IsTravelAgency"])
+    {
+        <button class="dropdown-btn">
+            Zarządzanie ofertami
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            @Html.ActionLink("Oferty", "Index", "Offers")
+            @Html.ActionLink("Dodaj nową ofertę", "CreateNewOffert", "Offers")
+            @Html.ActionLink("Twoje oferty", "GetYourOffers", "Offers")
+        </div>
+    }
+    else
+    {
+        @Html.ActionLink("Oferty", "Index", "Offers")
+    }
+    @if (Session["IsProprietor"] != null && (bool)Session["IsProprietor"])
+    {
+        <button class="dropdown-btn">
+            Własna wycieczka
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            @Html.ActionLink("Własna wycieczka", "Index", "Trip")
+            @Html.ActionLink("Zarządzaj atrakcjami", "ManageAtractions", "Trip")
+            @Html.ActionLink("Zarządzaj hotelami", "ManageHotels", "Trip")
+        </div>
+    }
+    else
+    {
+        @Html.ActionLink("Własna wycieczka", "Index", "Trip")
+    }
+</div>
+<script>
+    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+
+    for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        });
+    }
+</script>

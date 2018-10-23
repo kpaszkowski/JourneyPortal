@@ -214,6 +214,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DecimalModelBinder.cs" />
     <Compile Include="Helpers\SessionCache.cs" />
     <Compile Include="Migrations\201810031748533_InitialCreate.cs" />
     <Compile Include="Migrations\201810031748533_InitialCreate.Designer.cs">
@@ -343,6 +344,7 @@
     <Compile Include="ViewModels\Offers\OffersGridViewModel.cs" />
     <Compile Include="ViewModels\Offers\OffersViewModel.cs" />
     <Compile Include="ViewModels\Shared\BaseFromViewModel.cs" />
+    <Compile Include="ViewModels\Shared\Point.cs" />
     <Compile Include="ViewModels\Trip\AtractionDetailViewModel.cs" />
     <Compile Include="ViewModels\Trip\AtractionsGridViewModel.cs" />
     <Compile Include="ViewModels\Trip\CreateNewAtraction.cs" />
@@ -360,6 +362,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\flip-card.jpg" />
+    <Content Include="Content\flipItem.css" />
     <Content Include="Content\GlobalScripts.js" />
     <Content Include="Content\Images\background.jpg" />
     <Content Include="Content\Images\empty.jpg" />
@@ -369,6 +373,7 @@
     <Content Include="Content\Images\star_empty.png" />
     <Content Include="Content\Map\hotel.png" />
     <Content Include="Content\Map\red-pin.png" />
+    <Content Include="Content\menuCSS.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\summernote\summernote-bs4.css" />
     <Content Include="Content\summernote\summernote-lite.css" />
@@ -555,6 +560,8 @@
     <Content Include="Views\Trip\CreateNewHotel.cshtml" />
     <Content Include="Views\Trip\EditHotel.cshtml" />
     <Content Include="Views\Trip\HotelDetail.cshtml" />
+    <Content Include="Views\Shared\MenuPartial.cshtml" />
+    <Content Include="Views\Shared\LogoPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
