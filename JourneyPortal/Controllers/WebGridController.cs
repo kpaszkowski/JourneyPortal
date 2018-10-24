@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -28,8 +29,8 @@ namespace JourneyPortal.Controllers
 
             WebGridViewModel model = new WebGridViewModel();
             model.GetRoles(context);
-            model.PageSize = 10;
-            
+            model.PageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+
             ViewBag.dropdown = new SelectList(context.Roles.ToList(), "Name", "Name");
             var users = context.Users.ToList();
 

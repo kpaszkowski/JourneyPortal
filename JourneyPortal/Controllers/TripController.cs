@@ -33,7 +33,7 @@ namespace JourneyPortal.Controllers
         public ActionResult ManageAtractions(int? page)
         {
             var model = new ManageAtractionsViewModel();
-            int pageSize = 6;
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             model.atractionsList = tripService.PrepareAtractionList(User.Identity.Name).ToPagedList(pageNumber, pageSize);
             return View("~/Views/Trip/ManageAtractions.cshtml",model);
@@ -123,7 +123,7 @@ namespace JourneyPortal.Controllers
         public ActionResult ManageHotels(int? page)
         {
             var model = new ManageHotelsViewModel();
-            int pageSize = 6;
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             model.hotelList = tripService.PrepareHotelList(User.Identity.Name).ToPagedList(pageNumber,pageSize);
             return View("~/Views/Trip/ManageHotels.cshtml",model);
