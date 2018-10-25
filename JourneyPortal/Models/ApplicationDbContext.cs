@@ -1,4 +1,5 @@
-﻿using JourneyPortal.Models.Forum;
+﻿using JourneyPortal.Models.Chat;
+using JourneyPortal.Models.Forum;
 using JourneyPortal.Models.Offer;
 using JourneyPortal.Models.Trips;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -13,7 +14,7 @@ namespace JourneyPortal.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("JourneyPortalDBWork", throwIfV1Schema: false)
+            : base("JourneyPortalDBHome", throwIfV1Schema: false)
         {
             this.Configuration.ProxyCreationEnabled = true;
             this.Configuration.LazyLoadingEnabled = true;
@@ -29,6 +30,8 @@ namespace JourneyPortal.Models
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Atraction> Atractions { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
+        public DbSet<GlobalMessages> GlobalMessages { get; set; }
+        public DbSet<ChatMessages> ChatMessages { get; set; }
 
         public static ApplicationDbContext Create()
         {

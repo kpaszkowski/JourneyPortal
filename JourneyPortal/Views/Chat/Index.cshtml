@@ -1,7 +1,30 @@
-﻿
-@{
-    ViewBag.Title = "Czat";
-}
+﻿@model JourneyPortal.ViewModels.Chat.ChatViewModel
+<div class="contentBody">
+    <h2>Czat</h2>
 
-<h2>Czat</h2>
+    <ul style="list-style-type: none;padding: 0;margin: 0;">
+        @foreach (var item in Model.userList)
+        {
+            <li style="border: 1px solid #ddd; margin-top: -1px;background-color: #f6f6f6;padding: 12px;">
+                <span class="dot-green"></span> @Html.ActionLink(item.UserName,"StartConversation",new { userId = item.Id }) <span>(@item.FirstName @item.LastName)</span>
+            </li>
+        }
+    </ul>
+</div>
 
+<style>
+    .dot-green {
+        height: 8px;
+        width: 8px;
+        background-color: #204e26;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .dot-red {
+        height: 8px;
+        width: 8px;
+        background-color:#8b1111;
+        border-radius: 50%;
+        display: inline-block;
+    }
+</style>

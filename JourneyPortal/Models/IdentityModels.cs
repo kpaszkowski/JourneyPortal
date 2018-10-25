@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using JourneyPortal.Models.Chat;
 using JourneyPortal.Models.Forum;
 using JourneyPortal.Models.Offer;
 using JourneyPortal.Models.Trips;
@@ -55,6 +56,8 @@ namespace JourneyPortal.Models
         public virtual ICollection<OffersComment> OffersComments { get; set; }
 
         public virtual ICollection<PostsUsers> PostsUsers { get; set; }
+
+        public virtual ICollection<ChatMessages> ChatMessages { get; set; }
 
     }
 

@@ -28,6 +28,11 @@ namespace JourneyPortal.Services
             return userManager.FindByName(name);
         }
 
+        internal string GetUserId(string name)
+        {
+            return context.Users.FirstOrDefault(x => x.UserName == name).Id;
+        }
+
         internal string GetUserRole(string name)
         {
             if (string.IsNullOrEmpty(name))

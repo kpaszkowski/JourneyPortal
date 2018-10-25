@@ -45,6 +45,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.3.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.3.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
@@ -216,6 +222,7 @@
     </Compile>
     <Compile Include="Helpers\DecimalModelBinder.cs" />
     <Compile Include="Helpers\SessionCache.cs" />
+    <Compile Include="Helpers\ChatHub.cs" />
     <Compile Include="Migrations\201810031748533_InitialCreate.cs" />
     <Compile Include="Migrations\201810031748533_InitialCreate.Designer.cs">
       <DependentUpon>201810031748533_InitialCreate.cs</DependentUpon>
@@ -304,9 +311,15 @@
     <Compile Include="Migrations\201810201918528_changetypeofcolumninattraction.Designer.cs">
       <DependentUpon>201810201918528_changetypeofcolumninattraction.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810251603140_createSimpleChatModel.cs" />
+    <Compile Include="Migrations\201810251603140_createSimpleChatModel.Designer.cs">
+      <DependentUpon>201810251603140_createSimpleChatModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\Chat\ChatMessages.cs" />
+    <Compile Include="Models\Chat\GlobalMessages.cs" />
     <Compile Include="Models\Trips\Atraction.cs" />
     <Compile Include="Models\Forum\Category.cs" />
     <Compile Include="Models\Forum\Post.cs" />
@@ -323,11 +336,16 @@
     <Compile Include="Models\Trips\Trip.cs" />
     <Compile Include="PreApplicationStart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ChatServices.cs" />
     <Compile Include="Services\ForumService.cs" />
     <Compile Include="Services\OfferServices.cs" />
     <Compile Include="Services\TripService.cs" />
     <Compile Include="Services\UserServices.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\Chat\ChatViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ConversationViewModel.cs" />
+    <Compile Include="ViewModels\Chat\MessageViewModel.cs" />
+    <Compile Include="ViewModels\Chat\UserChatViewModel.cs" />
     <Compile Include="ViewModels\Forum\CategoryDetailsViewModel.cs" />
     <Compile Include="ViewModels\Forum\CategoryGridViewModel.cs" />
     <Compile Include="ViewModels\Forum\CreateCategoryViewModel.cs" />
@@ -442,6 +460,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.3.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.3.0.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -565,6 +585,7 @@
     <Content Include="Views\Trip\HotelDetail.cshtml" />
     <Content Include="Views\Shared\MenuPartial.cshtml" />
     <Content Include="Views\Shared\LogoPartial.cshtml" />
+    <Content Include="Views\Chat\Conversation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -651,6 +672,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810201918528_changetypeofcolumninattraction.resx">
       <DependentUpon>201810201918528_changetypeofcolumninattraction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810251603140_createSimpleChatModel.resx">
+      <DependentUpon>201810251603140_createSimpleChatModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

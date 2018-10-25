@@ -14,6 +14,9 @@ namespace JourneyPortal
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        private static readonly object padlock = new object();
+        public static List<string> Sessions { get; } = new List<string>();
+
         protected void Application_Start()
         {
             AjaxHelper.GlobalizationScriptPath = "http://ajax.microsoft.com/ajax/4.0/1/globalization/";
@@ -24,12 +27,19 @@ namespace JourneyPortal
             //ModelBinders.Binders.Add(typeof(decimal), new DecimalModelBinder());
             //ModelBinders.Binders.Add(typeof(decimal?), new DecimalModelBinder());
         }
-        public void Session_OnEnd()
+        protected void Session_Start(object sender, EventArgs e)
         {
-            
+            lock (padlock)
+            {
+                Sessions.Add(Session.SessionID);
+            }
         }
-        void Session_Start(object sender, EventArgs e)
+        protected void Session_End(object sender, EventArgs e)
         {
+            lock (padlock)
+            {
+                Sessions.Remove(Session.SessionID);
+            }
         }
         protected void Application_Error(object sender, EventArgs e)
         {
