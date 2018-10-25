@@ -5,7 +5,6 @@ function hideTravelAgencyMenu() {
     $('#travelagencyMenu').hide();
 }
 function registerSummernote(element, placeholder, max, callbackMax, height) {
-    debugger;
     if (height == null || height == undefined) {
         height = 300;
     }

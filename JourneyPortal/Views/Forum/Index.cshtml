@@ -1,45 +1,42 @@
 ﻿@model JourneyPortal.ViewModels.Forum.ForumViewModel
 @using PagedList.Mvc;
 
-<div class="container">
-    <br />
-    <div class="jumbotron" style="margin-right:50px">
-        <h2>Journey Portal - Forum</h2>
-        <p>
-            Witaj na naszym forum. Możesz tutaj skontaktować się z innymi użytkownikami , zobaczyć ich opinnie o trasach wycieczkowych czy ofertach biur podróży.
-            Posiadając konto w naszym serwisie masz dodatkowo możliwość samodzielnego zadawania pytań czy dzielenia się z innymi użytkownikami swoimi wrażeniami.
-        </p>
-    </div>
-    @if (Model.IsAdmin)
-    {
-
-        <h4>@Html.ActionLink("Dodaj kategorię", "CreateNewCategory", "Forum")</h4>
-    }
-    @foreach (var item in Model.Categories)
-    {
-        <div class="well well-lg" style="margin-right:50px">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-2">
-                        @item.Id.@item.Name
-                        <br />
-                    </div>
-                    <div class="col-sm-7">
-                        @Html.ActionLink("Przejdź do kategorii", "GetTopics", "Forum", new { categoryId = item.Id }, new { @class = "btn bg-primary" })
-                    </div>
-                    <div class="col-sm-3">
-                        <p>
-                            Ostatnia aktywność<br />
-                            @item.LastActivity
-                        </p>
-                    </div>
-                </div>
-            </div>
+<div class="contentBody">
+        <div class="jumbotron">
+            <h1>Journey Portal - Forum</h1>
+            <p>
+                Witaj na naszym forum. Możesz tutaj skontaktować się z innymi użytkownikami , zobaczyć ich opinnie o trasach wycieczkowych czy ofertach biur podróży.
+                Posiadając konto w naszym serwisie masz dodatkowo możliwość samodzielnego zadawania pytań czy dzielenia się z innymi użytkownikami swoimi wrażeniami.
+            </p>
         </div>
-    }
-    Strona @(Model.Categories.PageCount < Model.Categories.PageNumber ? 0 : Model.Categories.PageNumber) z @Model.Categories.PageCount
+        @if (Model.IsAdmin)
+        {
 
-    @Html.PagedListPager(Model.Categories, page => Url.Action("Index", new { page }))
+            <h4>@Html.ActionLink("Dodaj kategorię", "CreateNewCategory", "Forum")</h4>
+        }
+        @foreach (var item in Model.Categories)
+        {
+            <div class="well well-lg forumItem">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            @item.Id.@item.Name
+                            <br />
+                        </div>
+                        <div class="col-sm-7">
+                            @Html.ActionLink("Przejdź do kategorii", "GetTopics", "Forum", new { categoryId = item.Id }, new { @class = "btn bg-primary" })
+                        </div>
+                        <div class="col-sm-3">
+                            <p>
+                                Ostatnia aktywność<br />
+                                @item.LastActivity
+                            </p>
+                        </div>
+                    </div>
+            </div>
+        }
+        Strona @(Model.Categories.PageCount < Model.Categories.PageNumber ? 0 : Model.Categories.PageNumber) z @Model.Categories.PageCount
+
+        @Html.PagedListPager(Model.Categories, page => Url.Action("Index", new { page }))
 </div>
 <script>
     function goToCathegory(id) {

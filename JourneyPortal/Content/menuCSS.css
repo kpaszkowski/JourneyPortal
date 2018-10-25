@@ -6,11 +6,11 @@
 /* Fixed sidenav, full height */
 .sidenav {
     height: 100%;
-    width: 250px;
+    width: 15%;
     position: fixed;
     z-index: 1;
     top: 0;
-    transition: 0.5s;
+    /*transition: 0.5s;*/
     left: 0;
     background-color: #111;
     overflow-x: hidden;
@@ -40,7 +40,7 @@
 
 /* Main content */
 .main {
-    margin-left: 200px; /* Same as the width of the sidenav */
+    /*margin-left: 200px; /* Same as the width of the sidenav */*/
     font-size: 20px; /* Increased text to enable scrolling */
     padding: 0px 10px;
 }

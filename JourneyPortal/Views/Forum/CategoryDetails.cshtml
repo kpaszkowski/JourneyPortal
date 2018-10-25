@@ -1,8 +1,8 @@
 ﻿@model JourneyPortal.ViewModels.Forum.CategoryDetailsViewModel
 @using PagedList.Mvc;
-<div class="container">
-    <br />
-    <div class="jumbotron" style="margin-right:50px">
+<div class="contentBody">
+    
+    <div class="jumbotron">
         <h1>Journey Portal - @Model.Name</h1>
         <p>
             @Model.Description
@@ -14,8 +14,7 @@
     }
         @foreach (var item in Model.TopicsList)
         {
-            <div class="well well-lg" style="margin-right:50px" onclick="goToTopic(@item.Id)">
-                <div class="container">
+            <div class="well well-lg forumItem" onclick="goToTopic(@item.Id)">
                     <div class="row">
                         <div class="col-sm-2">
                             <p>@item.Id.@item.Name</p>
@@ -29,7 +28,6 @@
                             <p>@item.LastActivity</p>
                         </div>
                     </div>
-                </div>
             </div>
         }
     Strona @(Model.TopicsList.PageCount < Model.TopicsList.PageNumber ? 0 : Model.TopicsList.PageNumber) z @Model.TopicsList.PageCount
