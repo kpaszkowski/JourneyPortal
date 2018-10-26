@@ -88,6 +88,11 @@ namespace JourneyPortal.Services
             return false;
         }
 
+        internal string GetUserName(string userId)
+        {
+            return context.Users.FirstOrDefault(x => x.Id == userId).UserName;
+        }
+
         internal bool IsAtractionOwner(int id, string name)
         {
             var currentUser = userManager.FindByName(name);

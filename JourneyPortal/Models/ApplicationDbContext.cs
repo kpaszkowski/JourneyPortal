@@ -14,7 +14,7 @@ namespace JourneyPortal.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("JourneyPortalDBHome", throwIfV1Schema: false)
+            : base("JourneyPortalDBWork", throwIfV1Schema: false)
         {
             this.Configuration.ProxyCreationEnabled = true;
             this.Configuration.LazyLoadingEnabled = true;
@@ -31,7 +31,8 @@ namespace JourneyPortal.Models
         public DbSet<Atraction> Atractions { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<GlobalMessages> GlobalMessages { get; set; }
-        public DbSet<ChatMessages> ChatMessages { get; set; }
+        public DbSet<Conversation> Conversations { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         public static ApplicationDbContext Create()
         {
@@ -41,6 +42,8 @@ namespace JourneyPortal.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ApplicationUser>().HasKey<string>(l => l.Id);
 
             modelBuilder.Entity<Offers>()
                         .HasRequired(x => x.TravelAgencyOwner)

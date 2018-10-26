@@ -315,11 +315,20 @@
     <Compile Include="Migrations\201810251603140_createSimpleChatModel.Designer.cs">
       <DependentUpon>201810251603140_createSimpleChatModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810260620476_fixmchatmodel.cs" />
+    <Compile Include="Migrations\201810260620476_fixmchatmodel.Designer.cs">
+      <DependentUpon>201810260620476_fixmchatmodel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810260643283_fixmessagemodel.cs" />
+    <Compile Include="Migrations\201810260643283_fixmessagemodel.Designer.cs">
+      <DependentUpon>201810260643283_fixmessagemodel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
-    <Compile Include="Models\Chat\ChatMessages.cs" />
+    <Compile Include="Models\Chat\Conversation.cs" />
     <Compile Include="Models\Chat\GlobalMessages.cs" />
+    <Compile Include="Models\Chat\Message.cs" />
     <Compile Include="Models\Trips\Atraction.cs" />
     <Compile Include="Models\Forum\Category.cs" />
     <Compile Include="Models\Forum\Post.cs" />
@@ -675,6 +684,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810251603140_createSimpleChatModel.resx">
       <DependentUpon>201810251603140_createSimpleChatModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810260620476_fixmchatmodel.resx">
+      <DependentUpon>201810260620476_fixmchatmodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810260643283_fixmessagemodel.resx">
+      <DependentUpon>201810260643283_fixmessagemodel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

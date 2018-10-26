@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace JourneyPortal.ViewModels.Chat
+namespace JourneyPortal.Models.Chat
 {
-    public class MessageViewModel
+    public class Message
     {
+        [Key]
         public int Id { get; set; }
         public string Text { get; set; }
+        public ApplicationUser Author { get; set; }
         public DateTime CreationDate { get; set; }
-        public string AuthorName { get; set; }
-        public string AuthorImage { get; set; }
+        public Conversation Conversation { get; set; }
     }
 }

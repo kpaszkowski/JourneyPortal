@@ -25,11 +25,21 @@ namespace JourneyPortal.Controllers
             return View("~/Views/Chat/Index.cshtml",model);
         }
 
-        public ActionResult StartConversation(string userId)
+
+        [HttpPost]
+        public ActionResult StartConversation(string userId1 , string userId2)
         {
             var model = new ConversationViewModel();
-            //model = chatService.GetConversation(userId, User.Identity.Name);
-            return View();
+            model = chatService.StartConversation(userId1, userId2);
+            return View("~/Views/Chat/Conversation.cshtml", model);
+        }
+
+        [HttpGet]
+        public ActionResult GetConversation(string userId)
+        {
+            var model = new ConversationViewModel();
+            model = chatService.GetConversation(userId, User.Identity.Name);
+            return View("~/Views/Chat/Conversation.cshtml", model);
         }
     }
 }

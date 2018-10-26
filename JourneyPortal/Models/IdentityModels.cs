@@ -28,6 +28,7 @@ namespace JourneyPortal.Models
         public ApplicationUser() :base()
         {
             this.OffersApplicationUsers = new HashSet<OffersApplicationUsers>();
+            this.Conversations = new HashSet<Conversation>();
         }
 
         [Required]
@@ -57,7 +58,7 @@ namespace JourneyPortal.Models
 
         public virtual ICollection<PostsUsers> PostsUsers { get; set; }
 
-        public virtual ICollection<ChatMessages> ChatMessages { get; set; }
+        public virtual ICollection<Conversation> Conversations { get; set; }
 
     }
 

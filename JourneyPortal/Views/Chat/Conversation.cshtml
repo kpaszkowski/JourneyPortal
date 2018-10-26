@@ -1,24 +1,32 @@
 ﻿@model JourneyPortal.ViewModels.Chat.ConversationViewModel
 
 <div class="contentBody">
-    @foreach (var item in Model.Messages)
+    @if (Model.IsActive)
     {
-        <div class="container">
-            <p>@item.AuthorName</p>
-            <p>@item.Text</p>
-            <span class="time-right">@item.CreationDate.ToShortTimeString()</span>
-        </div>
+        foreach (var item in Model.Messages)
+        {
+            <div class="container chatMessage">
+                <p>@item.AuthorName</p>
+                <p>@item.Text</p>
+                <span class="time-right">@item.CreationDate.ToShortTimeString()</span>
+            </div>
+        }
     }
+    else
+    {
+        using (Html.BeginForm("StartConversation", "Chat", new { userId1 = Model.FirstUserId, userId2 = Model.SecondUserId}, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <button class="btn btn-success" type="submit">Rozpocznij konwersację</button>
+        }
+    }
+
 </div>
 
 <style>
-body {
-    margin: 0 auto;
-    max-width: 800px;
-    padding: 0 20px;
-}
 
-.container {
+
+.chatMessage {
     border: 2px solid #dedede;
     background-color: #f1f1f1;
     border-radius: 5px;
@@ -26,18 +34,14 @@ body {
     margin: 10px 0;
 }
 
-.darker {
-    border-color: #ccc;
-    background-color: #ddd;
-}
 
-.container::after {
+.chatMessage::after {
     content: "";
     clear: both;
     display: table;
 }
 
-.container img {
+.chatMessage img {
     float: left;
     max-width: 60px;
     width: 100%;
@@ -45,7 +49,7 @@ body {
     border-radius: 50%;
 }
 
-.container img.right {
+.chatMessage img.right {
     float: right;
     margin-left: 20px;
     margin-right:0;

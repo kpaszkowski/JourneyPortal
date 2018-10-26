@@ -13,5 +13,6 @@ namespace JourneyPortal.ViewModels.Chat
         public string FistUserName { get; set; }
         public string SecondUserName { get; set; }
         public List<MessageViewModel> Messages { get; set; }
+        public bool IsActive { get; set; }
     }
 }
