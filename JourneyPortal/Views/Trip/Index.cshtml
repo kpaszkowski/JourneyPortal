@@ -1,5 +1,8 @@
 ﻿<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental&key=[ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT]' async defer></script>
-<div class="container">
+<link href="~/Content/Map/SnackBar.css" rel="stylesheet" />
+<link href="~/Content/Buttons/ButtonGroup.css" rel="stylesheet" />
+<link href="~/Content/Map/AtractionGrid.css" rel="stylesheet" />
+<div class="container contentBody">
     <div class="jumbotron-">
         <h1>Własna wycieczka</h1>
         <p>
@@ -8,32 +11,201 @@
     </div>
     <p>W tym miejscu możesz sam zaplanowac swoją wymarzoną wycieczkę.</p>
     <p>Wystarczy że wybierzesz bazę wypadową oraz uzupełnisz inne niezbędne kryteria.</p>
+
+    <div class="panel panel-success">
+        <div class="panel-heading">Hotel : <span id="currentHotel"></span></div>
+        <div class="panel-body">
+            Wybrane atrakcje :
+            <div id="currentAtractions" style="overflow:auto;height:200px">
+                <ul id="myUL"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="btn-group">
+        <button onclick="createTrip();">Stwórz trasę</button>
+        <button onclick="showHideHotels();">Pokaż/Ukryj hotele</button>
+        <button onclick="showHideAtractions();">Pokaż/Ukryj atrakcje</button>
+        <button onclick="showHideRoad();">Pokaż/Ukryj trasę</button>
+        <button onclick="restartTrip();">Zacznij od nowa</button>
+
+        <button onclick="getUserTrips();">Twoje wycieczki</button>
+    </div>
+    <div id="myMap" style="position:relative;width:1120px;height:500px;"></div>
+    <div id="snackbar"></div>
 </div>
 
-<div id="myMap" style="position:relative;width:1120px;height:500px;"></div>
-<br/>
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
 
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Zapisz wycieczkę</h4>
+            </div>
+            <div class="modal-body">
+                <p>Nazwa</p>
+                <input type="text" class="form-control" />
+                <button onclick="saveTrip();">Zapisz wycieczkę</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<br />
 <script type='text/javascript'>
-    function GetMap() {
-        var point2 = {
-            x: '52.763495',
-            y: '23.191542'
+
+    var map;
+    var selectedAtractions = [];
+    var selectedHotel;
+    var visability = {
+        hotels: true,
+        atraction: true,
+        path: true,
+    }
+
+
+    function createTrip() {
+        var request = '&wp.0=' + selectedHotel.x + ',' + selectedHotel.y;
+        for (var i = 0; i < selectedAtractions.length; i++) {
+            request += '&wp.' + parseInt(i + 1) + '=' + selectedAtractions[i].x + ',' + selectedAtractions[i].y;
         }
-        debugger;
-        $.get("/Trip/GetNearestAtractions", { x: point2.x, y: point2.y }, function (data) {
-            for (var i = 0; i < data.atraction.length; i++) {
-                var location = {
-                    latitude: data.atraction[i].X,
-                    longitude: data.atraction[i].Y,
+        $.get("http://dev.virtualearth.net/REST/V1/Routes/Driving?" + request + "&optwp=true&optmz=distance&routeAttributes=routePath&key=ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT", function (data) {
+            debugger;
+
+            for (var i = 0; i < data.resourceSets[0].resources[0].routePath.line.coordinates.length - 1; i++) {
+                var startLoc = {
+                    latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][0],
+                    longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][1],
                 }
-                var pin = new Microsoft.Maps.Pushpin(location, {
-                    title: data.atraction[i].Name,
-                    icon: '/Content/Map/red-pin.png',
-                    anchor: new Microsoft.Maps.Point(10, 10)
+                var endLoc = {
+                    latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i + 1][0],
+                    longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i + 1][1],
+                }
+                var coords = [startLoc, endLoc];
+
+                var line = new Microsoft.Maps.Polyline(coords, {
+                    strokeColor: 'red',
+                    strokeThickness: 3,
+                    strokeDashArray: [4, 4]
                 });
-                map.entities.push(pin);
+
+                map.entities.push(line);
             }
         });
+    }
+    function restartTrip() {
+
+    }
+    function showHideHotels() {
+        for (var i = map.entities.getLength() - 1; i >= 0; i--) {
+            var pushpin = map.entities.get(i);
+
+            if (pushpin instanceof Microsoft.Maps.Pushpin && !pushpin.isAtraction && pushpin.entity.id != selectedHotel.id) {
+                if (visability.hotels) {
+
+                    pushpin.setOptions({ visible: false });
+                }
+                else {
+                    pushpin.setOptions({ visible: true });
+                }
+            }
+        }
+        visability.hotels = !visability.hotels;
+    }
+    function showHideAtractions() {
+        for (var i = map.entities.getLength() - 1; i >= 0; i--) {
+            var pushpin = map.entities.get(i);
+
+            if (pushpin instanceof Microsoft.Maps.Pushpin && pushpin.isAtraction) {
+                if (visability.atraction) {
+
+                    pushpin.setOptions({ visible: false });
+                }
+                else {
+                    pushpin.setOptions({ visible: true });
+                }
+            }
+        }
+        visability.atraction = !visability.atraction;
+    }
+    function showHideRoad() {
+        for (var i = map.entities.getLength() - 1; i >= 0; i--) {
+            var path = map.entities.get(i);
+
+            if (path instanceof Microsoft.Maps.Polyline) {
+                if (visability.path) {
+
+                    path.setOptions({ visible: false });
+                }
+                else {
+                    path.setOptions({ visible: true });
+                }
+            }
+        }
+        visability.path = !visability.path;
+    }
+    function clearAtraction() {
+        $("#currentHotel").text('');
+        for (var i = map.entities.getLength() - 1; i >= 0; i--) {
+            var pushpin = map.entities.get(i);
+
+            if (pushpin instanceof Microsoft.Maps.Pushpin && pushpin.isAtraction) {
+                map.entities.removeAt(i);
+            }
+        }
+    }
+    function hideOtherHotels(currentHotel) {
+        for (var i = map.entities.getLength() - 1; i >= 0; i--) {
+            var pushpin = map.entities.get(i);
+
+            if (pushpin instanceof Microsoft.Maps.Pushpin && !pushpin.isAtraction && pushpin.entity.id != currentHotel) {
+                if (visability.hotels) {
+
+                    pushpin.setOptions({ visible: false });
+                }
+                else {
+                    pushpin.setOptions({ visible: true });
+                }
+            }
+        }
+        visability.hotels = !visability.hotels;
+
+    }
+    function showSnackBar(e) {
+        var text = e.target._options.title;
+        var x = e.location.latitude;
+        var y = e.location.longitude;
+        $("#currentHotel").append('<span class="tab">' + text + ' ( ' + x + ' / ' + y + ' ) ' + '</span>');
+        selectedHotel = {
+            id: e.target.entity.id,
+            name: text,
+            x: x,
+            y: y,
+        };
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        x.textContent = text;
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+    }
+
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {
+            credentials: 'ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT',
+            center: new Microsoft.Maps.Location(53.272425, 21.012989),
+            mapTypeId: Microsoft.Maps.MapTypeId.road,
+            zoom: 3
+        });
+
         $.get("/Trip/GetAllHotels", function (data) {
             for (var i = 0; i < data.hotels.length; i++) {
                 var location = {
@@ -43,49 +215,105 @@
                 var pin = new Microsoft.Maps.Pushpin(location, {
                     title: data.hotels[i].Name,
                     icon: '/Content/Map/hotel.png',
-                    anchor: new Microsoft.Maps.Point(10, 10)
+                    anchor: new Microsoft.Maps.Point(10, 10),
+                });
+                Microsoft.Maps.Events.addHandler(pin, 'click', function (e) {
+                    $.get("/Trip/GetNearestAtractions", { x: e.location.latitude, y: e.location.longitude }, function (data) {
+                        clearAtraction();
+                        hideOtherHotels(e.target.entity.id);
+                        for (var i = 0; i < data.atraction.length; i++) {
+                            var location = {
+                                latitude: data.atraction[i].X,
+                                longitude: data.atraction[i].Y,
+                            }
+                            var iconColor = '';
+                            if (parseInt(data.atraction[i].Rate) > 4) {
+                                iconColor = '/Content/Map/blue-pin.png';
+                            }
+                            else {
+                                iconColor = '/Content/Map/red-pin.png';
+                            }
+                            var pushPins = new Microsoft.Maps.Pushpin(location, {
+                                title: data.atraction[i].Name,
+                                icon: iconColor,
+                                anchor: new Microsoft.Maps.Point(10, 10),
+                            });
+                            Microsoft.Maps.Events.addHandler(pushPins, 'click', function (f) {
+                                var point = {
+                                    name: f.target._options.title,
+                                    x: f.location.latitude,
+                                    y: f.location.longitude,
+                                }
+                                newElement(point)
+                                selectedAtractions.push(point);
+                            });
+                            map.entities.push(pushPins);
+                            pushPins.isAtraction = true;
+                        }
+                        showSnackBar(e);
+                    });
                 });
                 map.entities.push(pin);
+                pin.isAtraction = false;
             }
         });
-        var point1 = {
-            x: '27.174934',
-            y: '78.04218'
+    }
+    // Create a "close" button and append it to each list item
+    var gridList = document.getElementById('myUL');
+    var myNodelist = gridList.getElementsByTagName("LI");
+    var i;
+    for (i = 0; i < myNodelist.length; i++) {
+        var span = document.createElement("SPAN");
+        var txt = document.createTextNode("\u00D7");
+        span.className = "close";
+        span.appendChild(txt);
+        myNodelist[i].appendChild(span);
+    }
+
+    // Click on a close button to hide the current list item
+    var close = document.getElementsByClassName("close");
+    var i;
+    for (i = 0; i < close.length; i++) {
+        close[i].onclick = function (e) {
+            var div = this.parentElement;
+            div.style.display = "none";
+
         }
+    }
 
-        var point3 = {
-            x: '26.423870',
-            y: '80.244122'
+    //function saveTrip() {
+
+    //    var url = "/Trip/SaveTrip";
+    //    $.post(url, new {} function (data) {
+
+    //    });
+    //}
+    //// Add a "checked" symbol when clicking on a list item
+    //var list = document.querySelector('myUL');
+    //list.addEventListener('click', function (ev) {
+    //    if (ev.target.tagName === 'LI') {
+    //        ev.target.classList.toggle('checked');
+    //    }
+    //}, false);
+
+    function newElement(point) {
+        var li = document.createElement("li");
+        var inputValue = point.name + ' ( ' + point.x + ' / ' + point.y + ' ) ';
+        var t = document.createTextNode(inputValue);
+        li.appendChild(t);
+        document.getElementById("myUL").appendChild(li);
+        var span = document.createElement("SPAN");
+        var txt = document.createTextNode("\u00D7");
+        span.className = "close";
+        span.appendChild(txt);
+        li.appendChild(span);
+
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function () {
+                var div = this.parentElement;
+                div.style.display = "none";
+            }
         }
-        //$.get("http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" + point2.x + "," + point2.y + "&wp.1=" + point1.x + "," + point1.y + "&wp.2=" + point3.x + "," + point3.y+"&optmz=distance&routeAttributes=routePath&key=ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT", function (data) {
-        //    debugger;
-
-        //    for (var i = 0; i < data.resourceSets[0].resources[0].routePath.line.coordinates.length-1; i++) {
-        //        var startLoc = {
-        //            latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][0],
-        //            longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][1],
-        //        }
-        //        var endLoc = {
-        //            latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i+1][0],
-        //            longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i+1][1],
-        //        }
-        //        var coords = [startLoc, endLoc];
-
-        //        var line = new Microsoft.Maps.Polyline(coords, {
-        //            strokeColor: 'red',
-        //            strokeThickness: 3,
-        //            strokeDashArray: [4, 4]
-        //        });
-
-        //        map.entities.push(line);
-        //    }
-        //});
-        var map = new Microsoft.Maps.Map('#myMap', {
-            credentials: 'ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT',
-            center: new Microsoft.Maps.Location(47.6149, -122.1941),
-            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-            zoom: 2
-        });
     }
 
 </script>

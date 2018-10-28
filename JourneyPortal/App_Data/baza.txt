@@ -1,0 +1,352 @@
+﻿351
+53.12767090000001,23.0846282,Kościół pw. św. Andrzeja Boboli,3.9,Obiekt Sakralny
+53.1313594,23.1955987,Kościół pw. Ducha Świętego,4.2,Obiekt Sakralny
+53.1327112,23.1545609,Katedralna cerkiew p.w. św. Mikołaja Cudotwórcy,4.5,Obiekt Sakralny
+53.1603295,23.1889576,Kościół pw. św. Maksymiliana Marii Kolbego,3.8,Obiekt Sakralny
+53.13806870000001,23.1660287,Kościół pw. Świętej Rodziny,4.0,Obiekt Sakralny
+53.1092117,23.1203896,Kościół pw. św. Karola Boromeusza,4.2,Obiekt Sakralny
+53.1326678,23.1285114,Parafia bł. Bolesławy Lament,3.8,Obiekt Sakralny
+53.1218187,23.0891374,Kościół pw. NMP z Guadalupe,5.0,Obiekt Sakralny
+52.99017139999999,22.8717166,Kościół pw. Świętego Krzyża,4.4,Obiekt Sakralny
+53.1021112,23.1713918,Krywlany-Lotnisko,5.0,Transport
+53.2683379,23.7750518,Cmentarz Żydowski,4.1,Cmentarz
+53.1602797,23.1810287,Cmentarz Miejski w Białymstoku,3.9,Cmentarz
+53.15248399999999,22.842636,Cmentarz Małych Zwierząt-Rzędziany,4.7,Cmentarz
+52.9819284,22.88777009999999,Cmentarz w Łapach,4.2,Cmentarz
+52.7580112,23.1786458,Cmentarz Komunalny w Bielsku Podlaskim,4.9,Cmentarz
+52.855451,22.7014267,Cmentarz w Nowych Piekutach,3.8,Cmentarz
+53.12558989999999,23.10157659999999,Kościół pw. św. Jadwigi Królowej,4.1,Obiekt Sakralny
+53.12617189999999,23.1511334,Kościół pw. św. Anny,4.0,Obiekt Sakralny
+53.10898299999999,23.21322009999999,Cerkiew Św. Proroka Eliasza,3.8,Obiekt Sakralny
+53.1170142,23.1895569,Kościół pw. Chrystusa Króla,5.0,Obiekt Sakralny
+53.1420702,22.98878719999999,Kościół św. Jana Chrzciciela i św. Szczepana w Choroszczy,4.0,Obiekt Sakralny
+53.203865,23.206231,Parafia rzymskokatolicka pw. Przemienienia Pańskiego,5.0,Obiekt Sakralny
+53.1370385,23.1728256,Kościół pw. MB Fatimskiej,4.8,Obiekt Sakralny
+53.1319794,23.1542122,Centrum Kultury Prawosławnej,3.9,Obiekt Sakralny
+53.1330341,23.101896,Książnica Podlaska im. Łukasza Górnickiego. filia nr 8,4.0,Biblioteka
+53.12787729999999,23.1585926,Biblioteka Uniwersytecka im. Jerzego Giedroycia w Białymstoku,4.6,Biblioteka
+53.1539315,23.1169087,Książnica Podlaska im. Łukasza Górnickiego filia nr 9,4.2,Biblioteka
+53.15263849999999,23.1974452,Cmentarz Farny w Białymstoku,3.7,Cmentarz
+53.15043499999999,23.1960584,Cmentarz Żydowski w Białymstoku,3.5,Cmentarz
+53.1514532,23.1841884,Cmentarz Wszystkich Świętych-Prawosławny,4.5,Cmentarz
+53.1475067,23.1133428,Cmentarz Świętego Rocha w Białymstoku,4.8,Cmentarz
+53.1251067,23.1928272,Kościół Chrześcijan Baptystów w Białymstoku,5.0,Obiekt Sakralny
+53.1416477,23.1048297,Kościół pw. Zmartwychwstania Pańskiego,4.1,Obiekt Sakralny
+53.146869,23.121687,Cerkiew Świętego Ducha,5.0,Obiekt Sakralny
+53.12712609999999,23.15979129999999,Książnica Podlaska im. Łukasza Górnickiego. Filia nr 15,3.8,Biblioteka
+53.1407706,23.1497794,Książnica Podlaska im. Łukasza Górnickiego. Filia nr 2,3.9,Biblioteka
+53.13060489999999,23.165139,Pałac Branickich,5.0,Muzeum
+53.1336398,23.1698522,Centrum im. Ludwika Zamenhofa,4.7,Muzeum
+53.13671429999999,23.1535206,Galeria im. Sleńdzińskich,4.8,Muzeum
+53.1322987,23.15872989999999,Muzeum Podlaskie w Białymstoku,4.7,Muzeum
+53.1761987,23.1486369,Podlaskie Muzeum Kultury Ludowej,4.3,Muzeum
+53.132063,23.172321,Muzeum Historyczne - Oddział Muzeum Podlaskiego,4.5,Muzeum
+53.1247996,23.166982,Muzeum Rzeźby Alfonsa Karnego - Oddział Muzeum Podlaskiego,4.2,Muzeum
+53.20697499999999,22.767914,Muzeum Kultury Żydowskiej,4.9,Muzeum
+53.10771500000001,23.1538606,Uniwersyteckie Centrum Przyrodnicze im. prof. A. Myrchy,5.0,Muzeum
+53.1457794,23.1709331,Muzeum Motoryzacji I Techniki,4.4,Muzeum
+53.1523152,22.9794998,Muzeum Wnętrz Pałacowych,4.9,Muzeum
+52.9488621,22.9536537,Nawia Osada Wczesnośredniowieczna,4.0,Rezerwat
+53.2110634,23.3380096,Muzeum Ikon. Oddział Muzeum Podlaskiego,4.7,Muzeum
+53.1252886,23.1481513,JOLINKA.PL Krzysztof Kamieński,4.3,Muzeum
+52.9522883,22.9602577,Muzeum Archeologiczno-Etnograficzne w Surażu Wiktora Litwińczuka,5.0,Muzeum
+53.2050697,22.7670377,Muzeum Kultury Żydowskiej,4.9,Muzeum
+53.132138,23.166502,Muzeum Wojska w Białymstoku,4.2,Muzeum
+53.2108698,23.3381528,Muzeum Ikon. Oddział Muzeum Podlaskiego,4.7,Muzeum
+53.1404624,23.1209176,Park Antoniukowski,4.4,Park
+53.0727784,22.868606,Narwiański Park Narodowy,4.9,Park
+53.12478,23.227903,Kamienna Grota,4.9,Park
+53.184487,23.150274,Jurajski Park Dinozaurów (Muzeum Dziejów Ziemi) - Najlepszy Rodzinny Park Rozrywki na Podlasiu!,5.0,Rozrywka
+53.1398,23.1296908,Artflore. Projektowanie zakładanie pielęgnacja ogrodów. Sandra Kalinowska,4.8,Park
+53.11539579999999,23.1642199,Rezerwat Las Zwierzyniecki,4.0,Rezerwat
+53.1731603,23.1355926,Rezerwat Antoniuk,4.6,Rezerwat
+53.109751,23.1946705,Godan,3.5,Sklep
+53.13007309999999,23.1638445,Ogród Branickich,4.9,Park
+52.9933901,22.8873063,Ośrodek Informacyjny NPN,3.4,Park
+53.143243,23.473277,Szkółka drzew i krzewów CIEKAWEIGLAKI,4.4,Park
+53.20705340000001,23.3376376,Park Supraśl,5.0,Park
+53.1095643,23.2189259,Ośrodek Sportów Wodnych "Dojlidy",5.0,Sport
+53.1058921,23.14908459999999,Stadion Miejski w Białymstoku,4.7,Sport
+53.11828879999999,23.1497203,Politechnika Białostocka,4.5,Nauka
+53.1279257,23.1586545,Uniwersytet w Białymstoku,4.2,Nauka
+53.13058119999999,23.1653094,Uniwersytet Medyczny,4.4,Nauka
+53.1095002,23.1475147,Uniwersytet Muzyczny Fryderyka Chopina Wydział Instrumentalno-Pedagogiczny,4.6,Nauka
+53.11943669999999,23.1521256,Akademiki w Białymstoku,5.0,Rozrywka
+53.1317541,23.15566829999999,Wydział Filologiczny Inst. Filologii Polskiej Inst. Filologii Wschodniosł.,4.6,Nauka
+53.1315882,23.1556623,Uniwersytet w Białymstoku Katedra Neofilologii,4.0,Nauka
+53.13143669999999,23.1548291,Uniwersytet w Białymstoku Wydział Filologiczny,4.9,Nauka
+53.13330549999999,23.1881715,Uniwersytet Medyczny w Białymstoku,5.0,Nauka
+53.12847069999999,23.1665035,UMB Euroregionalne Centrum Farmacji,4.8,Nauka
+53.0748334,21.5792513,FIGLARIUM Sala Zabaw Ostrołęka,4.7,Rozrywka
+53.1666834,22.0705378,Park Wodny Łomża,5.0,Rozrywka
+53.1987771,22.0986664,Motel Zacisze,4.2,Hotel
+53.4079114,21.933214,Hotel Colnus,4.5,Hotel
+53.1811702,22.0796138,Hotel Gromada,4.8,Hotel
+53.1607772,22.0598392,Restauracja AMADEUS,4.2,Restauracja
+53.17063559999999,22.08884919999999,Cmentarz Żydowski,4.5,Cmentarz
+53.17668510000001,22.0895002,Cmentarz żydowski,5.0,Cmentarz
+52.82764330000001,21.8809549,Usługi hotelowe 17,4.1,Hotel
+53.2239712,21.8583724,Hotel Nowogród,4.0,Hotel
+52.8216649,21.8890458,Hotel Ostrów Mazowiecka,3.9,Hotel
+53.1243187,23.1588963,Uniwersytecki Szpital Kliniczny w Białymstoku,5.0,Nauka
+53.09835440000001,23.1254569,Wydział Zarządzania Politechniki Białostockiej,4.6,Nauka
+53.1289409,23.1462698,Wydział Architektury Politechniki Białostockiej,4.0,Nauka
+53.034155,23.092478,Majątek Howieny,4.4,Restauracja
+53.203989,22.710671,Karczma Rzym - Dworek Nad Łąkami,4.1,Restauracja
+53.1213624,23.1652904,Akcent ZOO,4.4,Park
+53.05702059999999,21.52908529999999,Zajazd HUBUS,3.7,Restauracja
+53.167143,22.0530984,Perła - Restauracja & Dom Weselny,4.6,Restauracja
+52.7888216,21.8680089,Zajazd Mazowiecki,3.5,Hotel
+52.7539033,21.78658069999999,Zajazd Orchidea,3.6,Hotel
+53.2467617,22.1200438,Swojska Kuchnia Pokoje Gościnne,4.7,Restauracja
+53.4100036,21.9176472,Kościół pw. Chrystusa Króla Wszechświata,4.7,Obiekt Sakralny
+53.1804229,22.0823488,Klasztor Zakonu Braci Mniejszych Kapucynów,5.0,Obiekt Sakralny
+53.40620899999999,21.9370263,Kościół pw. św. Anny,5.0,Obiekt Sakralny
+53.16892559999999,22.0734934,Sanktuarium Miłosierdzia Bożego,4.5,Obiekt Sakralny
+53.08110039999999,21.5701404,Kościół Zielonoświątkowy,5.0,Obiekt Sakralny
+53.2340649,21.4634887,Parafia rzymskokatolicka Ducha Świętego,4.9,Obiekt Sakralny
+53.0849273,21.5712028,Sanktuarium pw. Świętego Antoniego Padewskiego,4.8,Obiekt Sakralny
+53.304249,21.401946,Muzeum Kurpiowskie w Wachu,5.0,Muzeum
+53.17766599999999,22.0811366,Muzeum Północno Mazowieckie,4.6,Muzeum
+53.0874886,21.5562278,Pomnik mauzoleum żołnierzy poległych w bitwie pod Ostrołęką 26 maja 1831 roku,5.0,Muzeum
+53.22712299999999,21.87712999999999,Skansen Kurpiowski im. A. Chętnika. Oddział Muzeum Północno - Mazowieckiego w Łomży,4.4,Muzeum
+53.2423629,21.4593672,Zagroda Kurpiowska. Oddział Muzeum Kultury Kurpiowskiej w Ostrołęce,5.0,Muzeum
+52.75968100000001,21.585758,Noclegi u Alicji - Długosiodło,4.0,Hotel
+53.1521992,22.1706494,Muzeum Przyrody w Drozdowie,4.6,Muzeum
+53.15779029999999,22.0758797,Kościół pw. Krzyża Świętego,4.0,Obiekt Sakralny
+53.2348222,21.463375,Kościół pw. Św. Ducha,5.0,Obiekt Sakralny
+53.0311204,21.7335791,Parafia rzymskokatolicka św. Bartłomieja Apostoła,4.3,Obiekt Sakralny
+53.17605639999999,22.0475516,Kościół Św. Brunona z Kwerfurtu,4.6,Obiekt Sakralny
+53.1714447,22.0745899,Sala Królestwa Świadków Jehowy w Łomży,4.2,Obiekt Sakralny
+52.8908688,21.399543,Kościół p.w. Św. Anny,4.7,Obiekt Sakralny
+52.8057398,21.898186,Kościół pw. Wniebowzięcia NMP,4.6,Obiekt Sakralny
+53.1794354,22.0794183,Biblioteka Publiczna Miejska,5.0,Biblioteka
+53.0830206,21.5716794,Biblioteka Publiczna Miejska,3.3,Biblioteka
+53.17668260000001,22.0693646,TXM Textilmarket,4.2,Sklep
+53.165724,22.0777209,Miejska Biblioteka Publiczna: Filia,4.0,Biblioteka
+53.17978900000001,21.556676,Deisenberg Elżbieta Olton Danuta. Apteka sp.j.,3.5,Sklep
+53.08465899999999,21.566528,Muzeum Kultury Kurpiowskiej,4.8,Muzeum
+53.089965,21.579573,Muzeum Żołnierzy Wyklętych w Ostrołęce,4.2,Muzeum
+52.9749644,22.2454597,Regionalna Izba Historyczna Miejskiego Ośrodka Kultury w Zambrowie,5.0,Muzeum
+53.2248309,21.8661276,Hotel Nowogród,4.2,Hotel
+53.179999,22.0887223,Port Łomża,4.3,Hotel
+53.1407533,22.168843,Łomżyński Park Krajobrazowy Doliny Narwii,4.7,Park
+53.0921589,21.5971145,ROD Energetyk,4.2,Park
+53.236096,21.464507,LubimyOgrody.pl,4.0,Sklep
+53.1714498,22.0100794,ROD Relax,4.7,Park
+53.153758,22.0599461,ROD im. Jakuba Wagi,5.0,Park
+53.15595179999999,22.0631218,ROD Wiarus,4.7,Park
+53.37016939999999,21.6237545,Torfowisko Serafin,4.0,Rezerwat
+52.81204870000001,21.8810105,ROD Mazowsze,5.0,Park
+52.69958519999999,21.8428325,Park linowy,5.0,Rozrywka
+52.754175,22.090299,Sielski Dom i Ogród,4.5,Park
+53.142883,22.127741,Bar Krzyś,4.0,Restauracja
+53.09175889999999,21.5874001,Rodzinny Ogród Działkowy Czeczotka w Ostrołęce,5.0,Park
+53.08670189999999,21.5802873,Park Miejski,4.3,Park
+53.09109609999999,21.5679274,Kemping,4.2,Hotel
+53.87043420000001,21.3042448,Ratusz,3.7,Muzeum
+54.0742646,21.3771827,Muzeum im. Wojciecha Kętrzyńskiego,3.9,Muzeum
+54.08145700000001,21.512431,Mazurolandia i Park Miniatur Warmii i Mazur,4.0,Muzeum
+54.073485,21.3812771,Zakład Produkcji Szkła " Firma Doroszko ",4.0,Rozrywka
+53.160525,22.049945,Państwowa Wyższa Szkoła Informatyki i Przedsiębiorczości w Łomży,4.5,Nauka
+53.0462394,21.6325468,Szkoła Podstawowa im. Gen. Józefa Bema,4.0,Nauka
+53.1587779,22.048417,Instytut Technologii Żywności i Żywienia człowieka - PWSIiP w Łomży,5.0,Nauka
+54.0538591,21.4253501,Lotnisko Kętrzyn-Wilamowo,4.7,Transport
+54.0527726,21.4284083,Aeroklub Krainy Jezior,4.8,Rozrywka
+53.7988859,21.5760266,Kościół pw. Matki Bożej Różańcowej,3.8,Obiekt Sakralny
+53.8011431,21.5765587,Kościół pw. św. Mikołaja,4.0,Obiekt Sakralny
+54.0358328,21.7703367,Kościół Ewangelicko-Augsburski,4.0,Obiekt Sakralny
+53.80910799999999,21.960658,Świadkowie Jehowy,4.5,Obiekt Sakralny
+53.80589819999999,21.8575038,Kościół pw. Niepokalanego Serca NMP,5.0,Obiekt Sakralny
+54.085513,21.824265,Indiańska Wioska,4.8,Muzeum
+53.7123612,21.4887266,Oberża Pod Psem. Worobiec D.K.,4.3,Restauracja
+53.8032736,21.57050319999999,Muzeum Reformacji Polskiej,4.0,Muzeum
+54.0313121,21.4687437,Muzeum Mazurskie,4.2,Muzeum
+53.85111,21.293695,Muzeum Sprzętu Wojskowego w Mrągowie,4.4,Muzeum
+54.18283040000001,21.6497537,Mamerki,3.7,Muzeum
+54.1831305,21.6494494,MAMERKI "Miasto Brygidy",3.8,Muzeum
+53.62801009999999,21.8078863,Muzeum Ziemi Piskiej,4.2,Muzeum
+54.2108699,21.7375124,Muzeum Kultury Ludowej w Węgorzewie,4.7,Muzeum
+54.2179011,21.7255282,Muzeum Tradycji Kolejowej,4.4,Muzeum
+53.781475,21.338303,Mazurskie Chaty,4.8,Hotel
+53.79656480000001,21.5632348,Ośrodek Wypoczynkowy Wagabunda,4.6,Hotel
+54.13127919999999,21.943408,Harcerska Baza Obozowa - Cyranka,4.2,Hotel
+53.932451,21.532501,Ośrodek Żeglarsko Wypoczynkowy "Wichrowe Wzgórza",4.5,Hotel
+53.7313865,21.5197599,Nowy Most. Ośrodek turystyki,4.0,Hotel
+53.876016,21.3166926,Camping Cezar,4.2,Hotel
+53.8956399,21.6610909,Szymonka Pole Namiotowe-Camping Motała Jerzy,4.2,Hotel
+53.81651799999999,21.3773283,Cypel. Pole namiotowe. Pupek Antoni,4.2,Hotel
+53.966797,21.776103,Camping Echo,5.0,Hotel
+53.9338314,21.5372855,Ośrodek Wypoczynkowo-Żeglarski Sośnica,4.5,Hotel
+54.15723800000001,21.656391,Stanica Wodna Kietlice nad Mamrami,4.6,Transport
+53.6117724,21.7485998,Ośrodek Walter,3.7,Hotel
+54.0324427,21.7600108,Kemping LOK,3.9,Hotel
+53.86472,21.308868,Domek na Mazurach Noclegi Mrągowo,4.0,Hotel
+53.83050529999999,21.3832146,Camping nr 100 "Ostoja Stara Baśń",3.7,Hotel
+53.9631554,21.7477798,Kemping Marina - Evelyn,4.3,Hotel
+53.84430899999999,21.55950899999999,Camping KamA,4.3,Hotel
+54.02964069999999,21.7919974,Centrum Ogrodnicze MARKA,5.0,Sklep
+53.73128599999999,21.51945,"PERŁA KRUTYNI" Ośrodek Wypoczynkowo-Turystyczny,3.6,Hotel
+54.031375,21.728281,Netta. Gil B.,4.0,Rozrywka
+54.0878433,21.9210586,Zajazd nad Sapiną,4.3,Restauracja
+54.2181594,21.73144719999999,Stadion Miejski OSiR Węgorzewo,4.3,Sport
+54.0727548,21.4180505,Stadion Piłkarski,4.0,Sport
+53.8650881,21.3026556,Stadion Miejski,4.1,Sport
+54.03651959999999,21.77483999999999,Salon Sukien Ślubnych Zorjana,4.2,Sklep
+53.889407,21.985979,Ośrodek Mazurski Pensjonat Sielanka Narty Safari,4.3,Hotel
+53.7516865,21.6268088,Stacja badawcza hodowli zwierząt PAN,4.5,Park
+53.7118285,21.4889678,Park Dzikich Zwierząt Kadzidłowo,4.2,Park
+53.9835116,22.4016608,Lądowisko Cztery Żywioły,5.0,Transport
+53.8590983,23.0939591,Sanktuarium Matki Bożej Studzieniczańskiej,4.8,Obiekt Sakralny
+54.11101300000001,22.9361623,Kościół pw Chrystusa Króla,5.0,Obiekt Sakralny
+53.842789,22.9810623,Bazylika Mniejsza Najświętszego Serca Jezusowego,4.3,Obiekt Sakralny
+53.843756,22.979974,Cerkiew Wniebowstąpienia Pańskiego,5.0,Obiekt Sakralny
+53.5785729,23.1064647,Kościół pw. Św. Apostołów Piotra i Pawła,4.5,Obiekt Sakralny
+53.8569943,23.0049741,Kościół pw. Matki Boskiej Częstochowskiej,3.9,Obiekt Sakralny
+53.8448909,22.9582511,Sala Królestwa Świadków Jehowy,5.0,Obiekt Sakralny
+54.0991954,22.9270952,Kościół pw. Najświętszego Serca Pana Jezusa,3.8,Obiekt Sakralny
+53.6779849,23.1027405,Kościół pw. św. Jakuba Apostoła,5.0,Obiekt Sakralny
+53.8202061,22.3547298,Kościół Katedralny pw. Św. Wojciecha,5.0,Obiekt Sakralny
+54.03874279999999,22.5049618,Kościół pw. NMP Królowej Polski,3.9,Obiekt Sakralny
+53.8217125,22.3473964,Kościół pw. Najświętszego Serca Pana Jezusa,5.0,Obiekt Sakralny
+54.10475169999999,22.9245757,Biblioteka Publiczna im. Marii Konopnickiej w Suwałkach,4.7,Biblioteka
+53.82364500000001,22.3538784,Biblioteka Publiczna Miejska,5.0,Biblioteka
+53.839422,22.981778,Muzeum Ziemi Augustowskiej,5.0,Muzeum
+53.6772963,23.1023812,Kościół pw. św. Jakuba Apostoła,5.0,Obiekt Sakralny
+54.1144115,22.94485869999999,Biblioteka Publiczna im. M. Konopnickiej. Filia,5.0,Biblioteka
+54.0966416,22.9284106,Muzeum Okręgowe w Suwałkach - Muzeum im. Marii Konopnickiej,4.5,Muzeum
+53.843013,22.992198,Muzeum Kanału Augustowskiego,4.2,Muzeum
+53.839422,22.9817779,Muzeum Ziemi Augustowskiej,5.0,Muzeum
+54.1043125,22.9275573,Muzeum Okręgowe,4.5,Muzeum
+54.0753374,23.0756504,Muzeum Wigier,4.7,Muzeum
+53.647456,22.4725851,Miejski Ośrodek Sportu i Rekreacji w Grajewie Pływalnia Miejska,4.2,Rozrywka
+54.085173,22.9292953,Muzeum Historii i Tradycji Żołnierzy Suwalszczyzny,5.0,Muzeum
+54.0966076,22.9279894,Zaułek krasnoludków,5.0,Muzuem
+53.82634170000001,22.3642098,Skansen Pszczelarski,5.0,Rezerwat
+54.07458,23.1055459,Spływy kajakowe Grzegorz Magdalenowo,4.5,Rozrywka
+54.08661,23.00485999999999,Wigierski Park Narodowy Pole namiotowe Gremzdówka,4.6,Hotel
+54.06998000000001,23.08443,U Haliny,4.0,Hotel
+53.8242183,22.977914,Królowa Woda. Ośrodek wypoczynkowy,3.7,Hotel
+53.58926,22.895018,Agroturystyka Dworek Na Końcu Świata - Dolina Biebrzy,4.4,Hotel
+53.72458899999999,22.635783,Ośrodek Wypoczynkowy "Łabędź",3.9,Hotel
+53.5894175,22.8194423,Biebrzański Park Narodowy,4.5,Park
+54.09339,22.93402919999999,Kemping Private,4.1,Hotel
+53.87084280000001,23.0909353,Bar Postiw,4.1,Restauracja
+53.668201,23.110245,Pole namiotowe "Biebrza24" - Podhorodnianka,5.0,Hotel
+54.100489,22.9272335,Park Konstytucji 3 Maja,4.5,Park
+53.85750239999999,22.9679864,Ośrodek MARINA BORKI,4.0,Hotel
+53.9033664,23.2448441,Gospodarstwo Agroturystyczne Małgorzaty i Kazimierza Ciężkowskich,4.7,Hotel
+53.87580620000001,22.9856409,Leśny Zakątek Kultury Zdrowa Zośka,4.7,Hotel
+53.862223,23.00172299999999,Camping "Necko",3.9,Hotel
+53.86092410000001,23.1183665,Pole namiotowe,5.0,Hotel
+53.96522880000001,23.046105,Kompleks Turystyczny Ateny koło Augustowa,4.3,Hotel
+53.9467711,23.0811092,Punkt czerpania wody,4.0,Park
+54.0768421,23.0751515,Gospoda pod Sieją,4.1,Restauracja
+54.0224156,23.0403732,Wigierski Park Narodowy,4.8,Park
+53.19740889999999,19.6477114,Park Linowy Górzno,4.6,Rozrywka
+52.9007647,20.7176453,Kościół św. Zygmunta,3.8,Obiekt Sakralny
+52.919192,19.7240531,Kościół Św Katarzyny w Łukomiu,5.0,Obiekt Sakralny
+52.8898166,20.5976164,Parafia św. Piotra Apostoła,4.0,Obiekt Sakralny
+52.94270789999999,20.0892053,Parafia św. Rocha w Radzanowie,4.5,Obiekt Sakralny
+52.818786,20.2840126,Kościół pw. św. Stanisława BM,5.0,Obiekt Sakralny
+53.3599162,20.4242594,Kościół pw. Niepokalanego Poczęcia NMP i Św. Wojciecha,4.7,Obiekt Sakralny
+53.1064433,20.3718403,Kościół Wolnych Chrześcijan. Zbór,4.2,Obiekt Sakralny
+53.1117606,20.3824367,Kościół pw. Św.Trójcy,4.5,Obiekt Sakralny
+53.2451778,20.1983305,Kościół św. Katarzyny Aleksandryjskiej,5.0,Obiekt Sakralny
+53.0106012,20.1219918,Parafia rzymskokatolicka pw. Św. Wojciecha,4.0,Obiekt Sakralny
+53.11161629999999,20.3831873,Ratusz Miejski,4.0,Muzeum
+53.35969529999999,20.4258449,Ratusz,5.0,Muzeum
+52.876506,20.617977,Muzeum Szlachty Mazowieckiej,4.2,Muzeum
+52.862899,19.632161,Muzeum Wsi Mazowieckiej w Sierpcu,4.8,Muzuem
+53.4859824,20.1252254,Muzeum Bitwy Grunwaldzkiej,5.0,Muzeum
+52.88458879999999,20.6190829,Zamek Książąt Mazowieckich,4.4,Muzeum
+53.23302899999999,20.17899869999999,Interaktywne Muzeum Państwa Krzyżackiego,4.6,Muzeum
+53.1122256,20.3797779,Muzeum Ziemi Zawkrzeńskiej,5.0,Muzeum
+52.905615,20.716331,Muzeum Romantyzmu,4.6,Muzeum
+52.9624622,19.8900528,Muzeum Małego Miasta w Bieżuniu. Oddział Muzeum Wsi Mazowieckiej w Sierpcu,4.6,Muzeum
+53.2613118,19.8227343,Warmińsko - Mazurskie Muzeum Pożarnictwa,5.0,Muzeum
+53.2937871,19.8611597,Welski Park Krajobrazowy,4.0,Park
+53.3594859,20.4290772,Muzeum Ziemi Nidzickiej,5.0,Muzeum
+52.788235,20.6877737,Muzeum Pozytywizmu na Gołotczyźnie. Oddział Muzeum Szlachty Mazowieckiej w Ciechanowie,5.0,Muzeum
+53.4865262,20.1210952,Pole Bitwy pod Grunwaldem 15 VII 1410,4.4,Muzeum
+53.1034617,20.3754117,PSB Mrówka - Market Budowlany Dom i Ogród,3.8,Sklep
+53.211529,19.7424794,Górznieńsko - Lidzbarski Park Krajobrazowy,5.0,Park
+53.1675806,20.2929201,Bajkowe Ogrody,4.0,Park
+52.8860271,20.5895541,Tomax Salon I Wypożyczalnia Narzędzi,5.0,Sklep
+53.25868599999999,19.741691,Pole Namiotowe Piaseczno - TwojePiaseczno.pl,4.5,Hotel
+53.16794549999999,20.2911107,Staw Rekreacyjny,4.0,Park
+53.112472,20.377214,Park Miejski,5.0,Park
+53.1505036,20.3730644,Szkółka Leśna - Krajewo Nadleśnictwo Dwukoły,5.0,Park
+53.2044915,19.9492671,Las,5.0,Park
+53.18871439999999,19.860599,Sosna bezgranicznej miłości,5.0,Park
+53.2638669,19.8151051,Park sportowo-rekreacyjny,4.3,Park
+53.3594361,20.4294825,Park Zamkowy,4.0,Park
+53.4344003,20.0365051,Park w Dąbrównie,4.8,Park
+53.2002091,19.6463981,Pole Namiotowe im. św. Teresy od dz. Jezus,4.6,Hotel
+52.8750841,20.6091318,Park im. M. Konopnickiej,4.0,Park
+53.2399914,20.1941437,Miejski Ośrodek Sportu i Rekreacji w Działdowie,4.6,Sport
+53.1240481,20.3793205,Stadion miejski,3.4,Sport
+52.874023,20.6112371,Stadion MOSIR,4.2,Sport
+52.84863739999999,19.6632699,Stadion miejski,3.5,Sport
+53.1679559,20.2872788,Stadion Sportowy KS Polonia Iłowo,5.0,Sport
+52.8656097,20.1967871,Orlik,3.0,Sport
+53.199416,19.7778557,Stadion Bryńsk,5.0,Sport
+52.8747564,20.613047,Stadion MOSIR,4.2,Sport
+53.772861,20.413387,Lotnisko Olsztyn - Dajtki,4.5,Transport
+53.77599499999999,20.419866,Aeroklub Warmińsko - Mazurski,5.0,Rozrywka
+54.12792109999999,20.0922776,Lotnisko Orneta,5.0,Transport
+53.9829147,20.8809007,Lotnisko Kikity,4.0,Transport
+53.77855149999999,20.4873394,Kościół pw. Najświętszego Serca Pana Jezusa,4.2,Obiekt Sakralny
+53.7652298,20.5040727,Kościół pw. Chrystusa Odkupiciela Człowieka,4.9,Obiekt Sakralny
+53.78457629999999,20.48485639999999,Zgromadzenie Braci Mniejszych Franciszkanów,4.0,Obiekt Sakralny
+53.7508523,20.4544867,ODA. Olsztyńskie Duszpasterstwo Akademickie,5.0,Obiekt Sakralny
+54.125682,20.725965,Stoczek Klasztorny,4.7,Obiekt Sakralny
+53.77617179999999,20.4776813,Bazylika konkatedralna św. Jakuba,5.0,Obiekt Sakralny
+53.8287657,20.6915107,Kościół pw. Św. Anny i Św. Szczepana,4.3,Obiekt Sakralny
+53.948921,20.317239,Parafia rzymskokatolicka pw. św. Jakuba,4.5,Obiekt Sakralny
+53.76642809999999,20.4229094,Kościół pw. Matki Boskiej Różańcowej,5.0,Obiekt Sakralny
+54.115018,20.1302852,Kościół p.w. św. Jana Chrzciciela,5.0,Obiekt Sakralny
+53.92129740000001,19.9268718,Rzymskokatolicka Parafia Bł. Michała Kozala Biskupa i Męczennika,5.0,Obiekt Sakralny
+53.591347,20.2845266,Muzeum Budownictwa Ludowego Park Etnograficzny,4.8,Muzeum
+53.77756650000001,20.4746587,Muzeum Warmii i Mazur w Olsztynie,4.2,Muzeum
+53.7777448,20.4765952,Dom "Gazety Olsztyńskiej" - Oddział Muzeum Warmii i Mazur,4.7,Muzeum
+53.76122299999999,20.4942749,Muzeum Przyrody - Oddział Muzeum Warmii i Mazur,4.3,Muzeum
+54.1257353,20.5830333,Muzeum Warmii i Mazur,5.0,Muzeum
+53.77285550000001,20.4956594,Olsztyńskie Muzeum Sportu,3.7,Muzeum
+53.8596789,20.2173168,Lawendowe Muzeum Żywe im. Jacka Olędzkiego,4.6,Muzeum
+53.7777445,20.4747203,Zamek Kapituły Warmińskiej-Muzeum Warmii i Mazur w Olsztynie,4.7,Muzeum
+53.68968049999999,20.082407,Skansen Fortyfikacji Stare Jabłonki,4.0,Skanses
+53.703491,19.960939,Muzeum,4.0,Muzeum
+53.58345240000001,20.2830214,Muzeum Budownictwa Ludowego Salon Wystawowy Dom Mrongowiusza,4.0,Muzeum
+54.2854397,20.4872125,Muzeum Przemysłu Gazowniczego,3.3,Muzeum
+53.7521415,20.4839548,Praktiker,4.0,Sklep
+53.5795252,20.5723071,Kłobuk,4.4,Hotel
+53.6394137,20.7643318,Kalwa,4.3,Park
+53.7888267,20.4995962,Agapit,4.5,Sklep
+53.787038,20.39762,Ukiel,3.4,Park
+53.6970622,20.1016867,Aktywna Agroturystyka - Stare Jabłonki,3.4,Hotel
+53.797165,20.473129,Leśny Park Linowy,4.7,Rozrywka
+54.1122181,20.1352009,PHHU Karbo-Hurt,5.0,Sklep
+53.80687649999999,20.5656241,ZOO W Nikielkowie,4.8,Rozrywka
+54.14151589999999,19.4236019,Aeroklub Elbląg,5.0,Rozrywka
+54.029753,19.134291,Lotnisko Królewo Malborskie,4.8,Transport
+54.170553,19.402987,Centrum Zoologiczne Rekin s.c.,4.5,Sklep
+54.1581939,19.3949363,Diecezja Elbląska,3.6,Obiekt Sakralny
+54.167233,19.41915759999999,Kościół pw. Wszystkich Świętych,4.0,Obiekt Sakralny
+54.1585829,19.3954139,Katedra pw. św. Mikołaja,4.7,Obiekt Sakralny
+54.18041339999999,19.398073,Kościół pw. św. Pawła Apostoła,4.0,Obiekt Sakralny
+54.16732829999999,19.4248919,Sala Królestwa Świadków Jehowy,5.0,Obiekt Sakralny
+54.18438030000001,19.4277227,Parafia rzymskokatolicka św. Brata Alberta,5.0,Obiekt Sakralny
+54.14437149999999,19.4065328,Kościół pw. Trójcy Świętej,4.5,Obiekt Sakralny
+54.1485037,19.4451894,Kościół pw. Błogosławionej Doroty,4.5,Obiekt Sakralny
+54.1590266,19.4165509,Kościół pw. św. Jerzego,5.0,Obiekt Sakralny
+54.1873976,19.3997474,Kościół pw. Świętej Rodziny,4.5,Obiekt Sakralny
+54.19023240000001,19.4209444,Kościół pw. św. Rafała Kalinowskiego,4.0,Obiekt Sakralny
+54.15765630000001,19.3954323,Kuria Diecezjalna Elbląska,3.0,Obiekt Sakralny
+54.1653902,19.3989096,Kościół szpitalny Bożego Ciała,5.0,Obiekt Sakralny
+54.1498703,19.4287052,Kościół pw. bł. Franciszki Siedliskiej,4.0,Obiekt Sakralny
+54.0390278,19.0302411,Muzeum Zamkowe w Malborku,4.7,Muzeum
+54.1565878,19.3935219,Muzeum Archeologiczno-Historyczne w Elblągu,4.7,Muzeum
+54.212914,19.11333,Żuławski Park Historyczny,4.2,Muzeum
+53.9305958,19.2354694,Muzeum Tradycji Szlacheckiej. Oddział Muzeum Narodowego w Gdańsku,4.2,Muzeum
+53.20159179999999,22.10108589999999,Hotel BELFORT,4.3,Hotel851,681,ads,15,dasd

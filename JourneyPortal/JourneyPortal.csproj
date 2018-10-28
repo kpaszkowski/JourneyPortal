@@ -358,10 +358,12 @@
     <Compile Include="ViewModels\Users\EditUserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\baza.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Buttons\ButtonGroup.css" />
     <Content Include="Content\flip-card.jpg" />
     <Content Include="Content\flipItem.css" />
     <Content Include="Content\globalCSS.css" />
@@ -372,8 +374,11 @@
     <Content Include="Content\Images\like.png" />
     <Content Include="Content\Images\star.ico" />
     <Content Include="Content\Images\star_empty.png" />
+    <Content Include="Content\Map\AtractionGrid.css" />
+    <Content Include="Content\Map\blue-pin.png" />
     <Content Include="Content\Map\hotel.png" />
     <Content Include="Content\Map\red-pin.png" />
+    <Content Include="Content\Map\SnackBar.css" />
     <Content Include="Content\menuCSS.css" />
     <Content Include="Content\Offers\GridTab.css" />
     <Content Include="Content\Offers\ModalComment.css" />
@@ -567,7 +572,6 @@
     <Content Include="Views\Shared\LogoPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Content\AtractionsImages\" />
     <Folder Include="Content\HotelsImages\" />
     <Folder Include="Content\OffersImages\" />

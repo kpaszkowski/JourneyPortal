@@ -346,6 +346,7 @@ namespace JourneyPortal.Services
                         Y = x.Y,
                         Name = x.Name,
                         Type = x.Type,
+                        Rate = x.Rate,
                     }).ToList();
 
                 }
