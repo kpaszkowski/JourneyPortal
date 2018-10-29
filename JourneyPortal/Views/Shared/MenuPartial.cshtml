@@ -3,7 +3,7 @@
     <br />
     <br />
     @Html.ActionLink("Strona domowa", "Index", "Home")
-    @if (Session["IsTravelAgency"] != null && (bool)Session["IsTravelAgency"])
+    @if (User.IsInRole("TravelAgency") || User.IsInRole("Admin"))
     {
         <button class="dropdown-btn">
             Zarządzanie ofertami
@@ -19,7 +19,7 @@
     {
         @Html.ActionLink("Oferty", "Index", "Offers")
     }
-    @if (Session["IsProprietor"] != null && (bool)Session["IsProprietor"])
+    @if (User.IsInRole("Proprietor") || User.IsInRole("Admin"))
     {
         <button class="dropdown-btn">
             Własna wycieczka

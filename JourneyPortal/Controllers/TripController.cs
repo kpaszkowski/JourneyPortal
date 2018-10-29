@@ -6,9 +6,11 @@ using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace JourneyPortal.Controllers
@@ -27,7 +29,9 @@ namespace JourneyPortal.Controllers
 
         public ActionResult Index()
         {
-            return View("~/Views/Trip/Index.cshtml");
+            var model = new MapViewModel();
+            model.IsProprietor = userServices.IsProprietor(User.Identity.Name);
+            return View("~/Views/Trip/Index.cshtml",model);
         }
 
         public ActionResult ManageAtractions(int? page)
@@ -37,6 +41,53 @@ namespace JourneyPortal.Controllers
             int pageNumber = (page ?? 1);
             model.atractionsList = tripService.PrepareAtractionList(User.Identity.Name).ToPagedList(pageNumber, pageSize);
             return View("~/Views/Trip/ManageAtractions.cshtml",model);
+        }
+
+        [HttpPost]
+        public ActionResult AddObjectFromMap(string radio ,string xCoords, string yCoords,string name)
+        {
+            bool success;
+            string text = string.Empty;
+            if (string.IsNullOrEmpty(name))
+            {
+                name = "Nowy";
+            }
+            if (radio == "hotel")
+            {
+                var model = new CreateNewHotelViewModel
+                {
+                    Name = name,
+                    CostPerNight = 0,
+                    Description = "Nowy",
+                    X = double.Parse(xCoords, CultureInfo.InvariantCulture),
+                    Y = double.Parse(yCoords, CultureInfo.InvariantCulture)
+                };
+                success = tripService.CreateNewHotel(model, User.Identity.Name, null, this);
+                text = "Pomyślnie dodano hotel.Teraz może go aktywować w sekcji Zarządzaj hotelami";
+            }
+            else
+            {
+                var model = new CreateNewAtractionViewModel()
+                {
+                    Name = name,
+                    Description = "Nowa",
+                    Cost = 0,
+                    TimeOfSightseeing = 0,
+                    Type = "Nowa",
+                    X = double.Parse(xCoords, CultureInfo.InvariantCulture),
+                    Y = double.Parse(yCoords, CultureInfo.InvariantCulture)
+                };
+                success = tripService.CreateNewAtraction(model, User.Identity.Name,null, this);
+                text = "Pomyślnie dodano atrakcję.Teraz może ją aktywować w sekcji Zarządzaj atrakcjami";
+            }
+            return Json
+            (
+                new
+                {
+                    text = text,
+                    success = success,
+                }
+            );
         }
 
         [HttpGet]

@@ -353,6 +353,7 @@
     <Compile Include="ViewModels\Trip\HotelGridViewModel.cs" />
     <Compile Include="ViewModels\Trip\ManageAtractionsViewModel.cs" />
     <Compile Include="ViewModels\Trip\ManageHotelsViewModel.cs" />
+    <Compile Include="ViewModels\Trip\MapViewModel.cs" />
     <Compile Include="ViewModels\Users\AssignedUsersGridViewModel.cs" />
     <Compile Include="ViewModels\Users\AssignedUserViewModel.cs" />
     <Compile Include="ViewModels\Users\EditUserProfileViewModel.cs" />
