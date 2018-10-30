@@ -14,12 +14,15 @@ namespace JourneyPortal.Models.Trips
 
         public virtual ICollection<Atraction> Atractions { get; set; }
 
+        public virtual ICollection<Route> Routes { get; set; }
+
         public int BaseHotelId { get; set; }
         public Hotel BaseHotel { get; set; }
 
         public string CreatedById{ get; set; }
         public ApplicationUser CreatedBy { get; set; }
         public double TotalDistance { get; set; }
-        public int NumberOfDays{ get; set; }
+        public int Duration { get; set; }
+        public int DurationTraffic { get; set; }
     }
 }

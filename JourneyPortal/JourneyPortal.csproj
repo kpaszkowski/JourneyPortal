@@ -304,6 +304,14 @@
     <Compile Include="Migrations\201810201918528_changetypeofcolumninattraction.Designer.cs">
       <DependentUpon>201810201918528_changetypeofcolumninattraction.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810301626467_addfewcolumnInTrip.cs" />
+    <Compile Include="Migrations\201810301626467_addfewcolumnInTrip.Designer.cs">
+      <DependentUpon>201810301626467_addfewcolumnInTrip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810301752409_createReouteModel.cs" />
+    <Compile Include="Migrations\201810301752409_createReouteModel.Designer.cs">
+      <DependentUpon>201810301752409_createReouteModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -319,6 +327,7 @@
     <Compile Include="Models\Offer\Offers.cs" />
     <Compile Include="Models\Offer\OffersComment.cs" />
     <Compile Include="Models\Trips\Hotel.cs" />
+    <Compile Include="Models\Trips\Route.cs" />
     <Compile Include="Models\Trips\TouristFacility.cs" />
     <Compile Include="Models\Trips\Trip.cs" />
     <Compile Include="PreApplicationStart.cs" />
@@ -354,6 +363,8 @@
     <Compile Include="ViewModels\Trip\ManageAtractionsViewModel.cs" />
     <Compile Include="ViewModels\Trip\ManageHotelsViewModel.cs" />
     <Compile Include="ViewModels\Trip\MapViewModel.cs" />
+    <Compile Include="ViewModels\Trip\RouteViewModel.cs" />
+    <Compile Include="ViewModels\Trip\SelectedTouristFacilitiesViewModel.cs" />
     <Compile Include="ViewModels\Users\AssignedUsersGridViewModel.cs" />
     <Compile Include="ViewModels\Users\AssignedUserViewModel.cs" />
     <Compile Include="ViewModels\Users\EditUserProfileViewModel.cs" />
@@ -662,6 +673,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810201918528_changetypeofcolumninattraction.resx">
       <DependentUpon>201810201918528_changetypeofcolumninattraction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301626467_addfewcolumnInTrip.resx">
+      <DependentUpon>201810301626467_addfewcolumnInTrip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301752409_createReouteModel.resx">
+      <DependentUpon>201810301752409_createReouteModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

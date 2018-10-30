@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -460,6 +461,39 @@ namespace JourneyPortal.Services
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+        }
+
+        internal void CreateNewTrip(SelectedTouristFacilitiesViewModel selectedHotel, List<SelectedTouristFacilitiesViewModel> selectedAtractions, List<RouteViewModel> routes, string name, string userName, string travelDistance, string travelDuration, string travelDurationTraffic)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                    ApplicationUser currentUser = userManager.FindByName(userName);                    
+                    Trip trip = new Trip();
+                    List<Atraction> atractions = new List<Atraction>();
+                    foreach (var item in selectedAtractions)
+                    {
+                        atractions.Add(context.Atractions.FirstOrDefault(x => x.Id == item.IdDb));
+                    }
+                    trip.Atractions = atractions;
+                    trip.BaseHotel = context.Hotels.FirstOrDefault(x => x.Id == selectedHotel.IdDb);
+                    trip.Name = name;
+                    trip.CreatedBy = currentUser;
+                    trip.TotalDistance = double.Parse(travelDistance, CultureInfo.InvariantCulture);
+                    trip.Duration = Int32.Parse(travelDuration);
+                    trip.DurationTraffic = Int32.Parse(travelDurationTraffic, CultureInfo.InvariantCulture);
+
+                    context.Trips.Add(trip);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+
                 throw ex;
             }
         }

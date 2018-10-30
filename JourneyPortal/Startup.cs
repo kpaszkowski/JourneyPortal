@@ -24,7 +24,7 @@ namespace JourneyPortal
 
             ConfigureAuth(app);
             CreateUserRoles(userManager,roleManager);
-            if (!bool.Parse(ConfigurationManager.AppSettings["SeedDatabase"]))
+            if (bool.Parse(ConfigurationManager.AppSettings["SeedDatabase"]))
             {
                 CreateUsers(userManager, roleManager);
                 CreateAtractionsAndHotels();

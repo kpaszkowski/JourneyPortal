@@ -2,6 +2,7 @@
 using JourneyPortal.Services;
 using JourneyPortal.ViewModels.Shared;
 using JourneyPortal.ViewModels.Trip;
+using Newtonsoft.Json;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -409,10 +410,20 @@ namespace JourneyPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveTrip(string hotel,string atractions)
+        public ActionResult SaveTrip(string route ,string travelDistance,string travelDuration,string travelDurationTraffic, string name,string hotel,string atractions)
         {
-
-            return null;
+            var selectedHotel = JsonConvert.DeserializeObject<SelectedTouristFacilitiesViewModel>(hotel);
+            var selectedAtractions = JsonConvert.DeserializeObject<List<SelectedTouristFacilitiesViewModel>>(atractions);
+            var routes = JsonConvert.DeserializeObject<List<RouteViewModel>>(route.Substring(1, route.Length - 2));
+            tripService.CreateNewTrip(selectedHotel, selectedAtractions,routes, name, User.Identity.Name, travelDistance,travelDuration,travelDurationTraffic);
+            return new JsonResult
+            {
+                Data = new
+                {
+                    success = true,
+                },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
     }

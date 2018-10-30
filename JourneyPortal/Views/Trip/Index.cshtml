@@ -55,7 +55,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Nazwa</p>
-                    <input type="text" class="form-control" />
+                    <input id="tripName" type="text" class="form-control" />
                     <button onclick="saveTripInBase();">Zapisz wycieczkę</button>
                 </div>
                 <div class="modal-footer">
@@ -169,10 +169,16 @@
         var map;
         var selectedAtractions = [];
         var selectedHotel;
+        var tripDetail = {
+            travelDistance : 0,
+            travelDuration : 0,
+            travelDurationTraffic:0,
+        }
         var visability = {
             atraction: true,
             path: true,
         }
+        var routes = [];
 
 
         function createTrip() {
@@ -181,7 +187,6 @@
                 request += '&wp.' + parseInt(i + 1) + '=' + selectedAtractions[i].x + ',' + selectedAtractions[i].y;
             }
             $.get("http://dev.virtualearth.net/REST/V1/Routes/Driving?" + request + "&optwp=true&optmz=distance&routeAttributes=routePath&key=ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT", function (data) {
-
                 for (var i = 0; i < data.resourceSets[0].resources[0].routePath.line.coordinates.length - 1; i++) {
                     var startLoc = {
                         latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][0],
@@ -200,8 +205,13 @@
                     });
 
                     map.entities.push(line);
+                    routes.push(coords);
                 }
+                tripDetail.travelDistance = data.resourceSets[0].resources[0].travelDistance;
+                tripDetail.travelDuration = data.resourceSets[0].resources[0].travelDuration;
+                tripDetail.travelDurationTraffic = data.resourceSets[0].resources[0].travelDurationTraffic;
             });
+
             $("#saveTripBtn").prop("disabled", false);
             $("#createTripBtn").prop("disabled", true);
             DisableAtractions();
@@ -216,10 +226,11 @@
 
             var url = '/Trip/SaveTrip';
             var atractions = JSON.stringify(selectedAtractions);
-            var hotel = JSON.stringify(selectedAtractions);
-
-            $.post(url, { hotel : hotel, atractions : atractions }, function (data) {
-
+            var hotel = JSON.stringify(selectedHotel);
+            var nameTrip = $('#tripName').val();
+            var route = JSON.stringify(routes);
+            $.post(url, { route: route, travelDistance: tripDetail.travelDistance, travelDuration: tripDetail.travelDuration, travelDurationTraffic: tripDetail.travelDurationTraffic, name: nameTrip, hotel: hotel, atractions: atractions }, function (data) {
+                //$('#saveTripModal').modal('hide');
             });
         }
 
@@ -349,6 +360,7 @@
             var y = e.target.geometry.x;
             $("#currentHotel").append('<span class="tab">' + text + ' ( ' + x + ' / ' + y + ' ) ' + '</span>');
             selectedHotel = {
+                idDb: e.target.IdDb,
                 id: e.target.entity.id,
                 name: text,
                 x: x,
@@ -410,7 +422,7 @@
                 this.saveTripBtn.disabled = true;
                 this.saveTripBtn.id = "saveTripBtn";
                 this.saveTripBtn.onclick = function () {
-                    saveTrip();
+                    $('#saveTripModal').modal('show');
                 };
 
             }
@@ -501,6 +513,7 @@
                     Microsoft.Maps.Events.removeHandler(pushpin.handlerId);
                 }
             }
+            $('.close').remove();
         }
 
         function getPins() {
@@ -593,6 +606,7 @@
                                 })
                                     var handlerId = Microsoft.Maps.Events.addHandler(pushPins, 'click', function (f) {
                                         var point = {
+                                            idDb : f.target.IdDb,
                                             id: f.target.entity.id,
                                             name: f.target._options.title,
                                             x: f.target.geometry.y,
@@ -609,6 +623,7 @@
                                     pushPins.isAtraction = true;
                                     pushPins.handlerId = handlerId;
                                     pushPins.originIconColor = iconColor;
+                                    pushPins.IdDb = data.atraction[i].Id;
                                 }
                                 showSnackBar(e);
                             });
@@ -617,6 +632,7 @@
                         map.entities.push(pin);
                         pin.isAtraction = false;
                         pin.handlerId = handlerId;
+                        pin.IdDb = data.hotels[i].Id;
                     }
                 });
                 </text>
