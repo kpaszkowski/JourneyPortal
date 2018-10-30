@@ -440,6 +440,56 @@ namespace JourneyPortal.Services
             return true;
         }
 
+        internal dynamic GetYourHotels(string name)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    return context.Hotels.Where(x => x.Owner.UserName == name).Select(x => new
+                    {
+                        Id = x.Id,
+                        X = x.X,
+                        Y = x.Y,
+                        Name = x.Name,
+                        IsActive = x.IsActive,
+                        Rate = x.Rate,
+                        Cost = x.CostPerNight,
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        internal dynamic GetYourAtractions(string name)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+
+                    return context.Atractions.Where(x => x.Owner.UserName == name).Select(x => new
+                    {
+                        Id = x.Id,
+                        X = x.X,
+                        Y = x.Y,
+                        Name = x.Name,
+                        Type = x.Type,
+                        IsActive = x.IsActive,
+                        Rate = x.Rate,
+                        Cost = x.Cost,
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         internal bool CreateNewAtraction(CreateNewAtractionViewModel model, string userName, HttpPostedFileBase file, TripController tripController)
         {
             try

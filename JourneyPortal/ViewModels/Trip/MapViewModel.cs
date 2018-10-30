@@ -8,5 +8,6 @@ namespace JourneyPortal.ViewModels.Trip
     public class MapViewModel
     {
         public bool IsProprietor { get; set; }
+        public bool IsUser { get; set; }
     }
 }

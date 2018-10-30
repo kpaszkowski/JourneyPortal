@@ -17,6 +17,8 @@
     <script src="~/Content/GlobalScripts.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="~/Content/globalCSS.css" rel="stylesheet" />
+    <link href="~/Content/LoadingSpiner.css" rel="stylesheet" />
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
 </head>
 <body background="~/Content/Images/background.jpg" style="background-repeat: no-repeat;background-size: cover;background-position:center center;background-attachment:fixed">
     @Html.Partial("MenuPartial")
@@ -50,6 +52,7 @@
                 </div>
             </div>
         </div>*@
+        <div id="loadSpiner" class="loader">Loading...</div>
     </div>
 </body>
 </html>
@@ -68,4 +71,7 @@
         }
         isMenuOpen = !isMenuOpen;
     }
+    $(window).on('load', function () {
+        $('#loadSpiner').hide();
+    });
 </script>

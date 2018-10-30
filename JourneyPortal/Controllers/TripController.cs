@@ -31,6 +31,7 @@ namespace JourneyPortal.Controllers
         {
             var model = new MapViewModel();
             model.IsProprietor = userServices.IsProprietor(User.Identity.Name);
+            model.IsUser = userServices.IsUser(User.Identity.Name);
             return View("~/Views/Trip/Index.cshtml",model);
         }
 
@@ -84,7 +85,11 @@ namespace JourneyPortal.Controllers
             (
                 new
                 {
+                    x = xCoords,
+                    y = yCoords,
                     text = text,
+                    isHotel = radio == "hotel" ? true:false,
+                    name = name,
                     success = success,
                 }
             );
@@ -385,19 +390,30 @@ namespace JourneyPortal.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
         [HttpGet]
-        public ActionResult GetSampleRoute()
+        public ActionResult GetYourTouristFacilities()
         {
-            var route = tripService.GetSampleRoute();
+            var hotelList = tripService.GetYourHotels(User.Identity.Name);
+            var atractionList = tripService.GetYourAtractions(User.Identity.Name);
             return new JsonResult
             {
                 Data = new
                 {
-                    route = route,
+                    hotels = hotelList,
+                    atractions = atractionList,
                     success = true,
                 },
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
+        [HttpPost]
+        public ActionResult SaveTrip(string hotel,string atractions)
+        {
+
+            return null;
+        }
+
     }
 }

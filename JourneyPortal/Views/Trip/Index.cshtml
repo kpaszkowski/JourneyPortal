@@ -1,7 +1,6 @@
 ﻿@model JourneyPortal.ViewModels.Trip.MapViewModel
 <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=experimental&key=[ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT]' async defer></script>
 <link href="~/Content/Map/SnackBar.css" rel="stylesheet" />
-<link href="~/Content/Buttons/ButtonGroup.css" rel="stylesheet" />
 <link href="~/Content/Map/AtractionGrid.css" rel="stylesheet" />
 <style>
     .Flexible-container {
@@ -40,23 +39,12 @@
                 <ul id="myUL"></ul>
             </div>
         </div>
-    </div>
-    <div class="btn-group">
-        <button onclick="createTrip();">Stwórz trasę</button>
-        <button onclick="showHideHotels();">Pokaż/Ukryj hotele</button>
-        <button onclick="showHideAtractions();">Pokaż/Ukryj atrakcje</button>
-        <button onclick="showHideRoad();">Pokaż/Ukryj trasę</button>
-        <button onclick="restartTrip();">Zacznij od nowa</button>
-
-        <button onclick="getUserTrips();">Twoje wycieczki</button>
-    </div>
+    </div>    
     <div class="Flexible-container" id="myMap">
         <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe>
     </div>
         <div id="snackbar"></div>
     </div>
-
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#saveTripModal">Open Modal</button>
 
     <div id="saveTripModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -68,7 +56,7 @@
                 <div class="modal-body">
                     <p>Nazwa</p>
                     <input type="text" class="form-control" />
-                    <button onclick="saveTrip();">Zapisz wycieczkę</button>
+                    <button onclick="saveTripInBase();">Zapisz wycieczkę</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
@@ -88,20 +76,43 @@
                 <div class="modal-body">
                     @using (Ajax.BeginForm("AddObjectFromMap", "Trip", new AjaxOptions() { HttpMethod = "POST" , OnSuccess = "showCOnfirmSnackbar" }))
                     {
-                        <input name="xCoords" value="" id="xCoords" type="text" />
-                        <input name="yCoords" value="" id="yCoords" type="text" />
-                        <label class="radioContainer">
-                            Atrakcja
-                            <input id="radioAtraction" type="radio" checked="checked" value="atraction" name="radio">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="radioContainer">
-                            Hotel
-                            <input id="radioHotel" type="radio" value="hotel" name="radio">
-                            <span class="checkmark"></span>
-                        </label><br/>
-                        <input name="name" type="text" placeholder="Nazwa"/>
-                        <button type="submit">Dodaj obiekt turystyczny</button>
+                        <div class="container-fluid">
+                            <div class=" row">
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input name="xCoords" value="" id="xCoords" type="text" />
+                                </div>
+                                <div class="col-lg-6">
+                                    <input name="yCoords" value="" id="yCoords" type="text" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="radioContainer">
+                                        Atrakcja
+                                        <input id="radioAtraction" type="radio" checked="checked" value="atraction" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="radioContainer">
+                                        Hotel
+                                        <input id="radioHotel" type="radio" value="hotel" name="radio">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input name="name" type="text" placeholder="Nazwa" style="border-radius: 25px;border: 2px solid #1556ca;"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <button class="btn btn-primary" type="submit">Dodaj obiekt turystyczny</button>
+                                </div>
+                            </div>
+                        </div>
                     }
                 </div>
                 <div class="modal-footer">
@@ -113,6 +124,45 @@
     </div>
 
 
+    <div id="objectDetailModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Szczegóły obiektu turystycznego</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label id="objectDetailXCoords"></label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label id="objectDetailYCoords"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label id="objectDetailName"></label>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label id="objectDetailCost"></label>
+                                </div>    
+                                <div class="col-lg-3">
+                                    <label id="objectDetailRate"></label>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <br />
     <script type='text/javascript'>
 
@@ -120,7 +170,6 @@
         var selectedAtractions = [];
         var selectedHotel;
         var visability = {
-            hotels: true,
             atraction: true,
             path: true,
         }
@@ -153,10 +202,44 @@
                     map.entities.push(line);
                 }
             });
-        }
-        function restartTrip() {
+            $("#saveTripBtn").prop("disabled", false);
+            $("#createTripBtn").prop("disabled", true);
+            DisableAtractions();
 
         }
+
+        function getYourTrip() {
+
+        }
+
+        function saveTripInBase() {
+
+            var url = '/Trip/SaveTrip';
+            var atractions = JSON.stringify(selectedAtractions);
+            var hotel = JSON.stringify(selectedAtractions);
+
+            $.post(url, { hotel : hotel, atractions : atractions }, function (data) {
+
+            });
+        }
+
+        function restartTrip() {
+            selectedAtractions = [];
+            selectedHotel = null;
+            $("#myUL").empty();
+            $("#currentHotel").empty();
+            $("#saveTripBtn").prop("disabled", true);
+            $("#createTripBtn").prop("disabled", true);
+            $("#visabilityPinBtn").text("Ukryj pinezki");
+            $("#visabilityRoadBtn").text("Ukryj drogę");
+            visability.atraction = true;
+            visability.path = true;
+            clearMap();
+            getPins();
+
+
+        }
+
         function showHideHotels() {
             for (var i = map.entities.getLength() - 1; i >= 0; i--) {
                 var pushpin = map.entities.get(i);
@@ -171,13 +254,12 @@
                     }
                 }
             }
-            visability.hotels = !visability.hotels;
         }
-        function showHideAtractions() {
+        function showHidePins(btn) {
             for (var i = map.entities.getLength() - 1; i >= 0; i--) {
                 var pushpin = map.entities.get(i);
 
-                if (pushpin instanceof Microsoft.Maps.Pushpin && pushpin.isAtraction) {
+                if (pushpin instanceof Microsoft.Maps.Pushpin) {
                     if (visability.atraction) {
 
                         pushpin.setOptions({ visible: false });
@@ -188,8 +270,13 @@
                 }
             }
             visability.atraction = !visability.atraction;
+            if (visability.atraction) {
+                btn.textContent = "Ukryj pinezki";
+            } else {
+                btn.textContent = "Pokaż pinezki";
+            }
         }
-        function showHideRoad() {
+        function showHideRoad(btn) {
             for (var i = map.entities.getLength() - 1; i >= 0; i--) {
                 var path = map.entities.get(i);
 
@@ -204,8 +291,13 @@
                 }
             }
             visability.path = !visability.path;
+            if (visability.path) {
+                btn.textContent = "Ukryj drogę";
+            } else {
+                btn.textContent = "Pokaż drogę";
+            }
         }
-        function clearAtraction() {
+        function removeAtraction() {
             $("#currentHotel").text('');
             for (var i = map.entities.getLength() - 1; i >= 0; i--) {
                 var pushpin = map.entities.get(i);
@@ -220,16 +312,9 @@
                 var pushpin = map.entities.get(i);
 
                 if (pushpin instanceof Microsoft.Maps.Pushpin && !pushpin.isAtraction && pushpin.entity.id != currentHotel) {
-                    if (visability.hotels) {
-
-                        pushpin.setOptions({ visible: false });
-                    }
-                    else {
-                        pushpin.setOptions({ visible: true });
-                    }
+                    map.entities.removeAt(i);
                 }
             }
-            visability.hotels = !visability.hotels;
 
         }
         function showCOnfirmSnackbar(e) {
@@ -239,13 +324,29 @@
                 x.className = "show";
                 x.textContent = e.text;
                 setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+                location = {
+
+                }
+                var location = {
+                    latitude: e.x,
+                    longitude: e.y,
+                }
+                var pinIcon;
+                if (e.isHotel == true) {
+                    pinIcon = '/Content/Map/gray-pin.svg';
+                }
+                else {
+                    pinIcon = '/Content/Map/black-pin.svg';
+                }
+                var pin = CreatePin(location, pinIcon, e.name);
+                map.entities.push(pin);
             }
 
         }
         function showSnackBar(e) {
             var text = e.target._options.title;
-            var x = e.location.latitude;
-            var y = e.location.longitude;
+            var x = e.target.geometry.y;
+            var y = e.target.geometry.x;
             $("#currentHotel").append('<span class="tab">' + text + ' ( ' + x + ' / ' + y + ' ) ' + '</span>');
             selectedHotel = {
                 id: e.target.entity.id,
@@ -263,91 +364,80 @@
             PanningOverlay.prototype = new Microsoft.Maps.CustomOverlay({ beneathLabels: false });
 
             function PanningOverlay() {
-                this.panUpBtn = document.createElement('input');
-                this.panUpBtn.type = 'button';
-                this.panUpBtn.value = '˄';
-                this.panUpBtn.style = "margin-right:5px";
-                this.panUpBtn.onclick = function () {
-                    panMap('up');
+                this.createTripBtn = document.createElement('button');
+                this.createTripBtn.textContent = 'Stwórz wycieczkę';
+                this.createTripBtn.className = 'btn btn-primary';
+                this.createTripBtn.style.margin = '5px';
+                this.createTripBtn.disabled = true;
+                this.createTripBtn.id = "createTripBtn";
+                this.createTripBtn.onclick = function () {
+                    createTrip();
                 };
-
-                this.panDownBtn = document.createElement('input');
-                this.panDownBtn.type = 'button';
-                this.panDownBtn.value = '˅';
-                this.panDownBtn.style = "margin-right:5px";
-                this.panDownBtn.onclick = function () {
-                    panMap('down');
+                this.showHidePinsBtn= document.createElement('button');
+                this.showHidePinsBtn.textContent = 'Ukryj pinezki';
+                this.showHidePinsBtn.className = 'btn btn-primary';
+                this.showHidePinsBtn.style.margin = '5px';
+                this.showHidePinsBtn.id = "visabilityPinBtn";
+                this.showHidePinsBtn.onclick = function () {
+                    showHidePins(this); 
                 };
-
-                this.panLeftBtn = document.createElement('input');
-                this.panLeftBtn.type = 'button';
-                this.panLeftBtn.value = '<';
-                this.panLeftBtn.style = "margin-right:5px";
-                this.panLeftBtn.onclick = function () {
-                    panMap('left');
+                this.showHideRoadBtn = document.createElement('button');
+                this.showHideRoadBtn.textContent = 'Ukryj drogę';
+                this.showHideRoadBtn.className = 'btn btn-primary';
+                this.showHideRoadBtn.style.margin = '5px';
+                this.showHideRoadBtn.id = "visabilityRoadBtn";
+                this.showHideRoadBtn.onclick = function () {
+                    showHideRoad(this);
                 };
-
-                this.panRightBtn = document.createElement('input');
-                this.panRightBtn.type = 'button';
-                this.panRightBtn.value = '>';
-                this.panRightBtn.style = "margin-right:5px";
-                this.panRightBtn.onclick = function () {
-                    panMap('right');
+                this.restartBtn = document.createElement('button');
+                this.restartBtn.textContent = 'Zacznij od nowa';
+                this.restartBtn.className = 'btn btn-primary';
+                this.restartBtn.style.margin = '5px';
+                this.restartBtn.onclick = function () {
+                    restartTrip();
                 };
-
-                this.showHideHotelsBtn = document.createElement('button');
-                this.showHideHotelsBtn.textContent = 'Ukryj hotele';
-                this.showHideHotelsBtn.onclick = function () {
-                    showHideHotels();
+                this.yourTripsBtn = document.createElement('button');
+                this.yourTripsBtn.textContent = 'Twoje wycieczki';
+                this.yourTripsBtn.className = 'btn btn-primary';
+                this.yourTripsBtn.style.margin = '5px';
+                this.yourTripsBtn.onclick = function () {
+                    getYourTrip();
+                };
+                this.saveTripBtn = document.createElement('button');
+                this.saveTripBtn.textContent = 'Zapisz wycieczkę';
+                this.saveTripBtn.className = 'btn btn-primary';
+                this.saveTripBtn.style.margin = '5px';
+                this.saveTripBtn.disabled = true;
+                this.saveTripBtn.id = "saveTripBtn";
+                this.saveTripBtn.onclick = function () {
+                    saveTrip();
                 };
 
             }
-
-            //Implement the onAdd method to set up DOM elements, and use setHtmlElement to bind it with the overlay.
             PanningOverlay.prototype.onAdd = function () {
-                //Create a div that will hold pan buttons.
                 var container = document.createElement('div');
-                container.appendChild(this.panUpBtn);
-                container.appendChild(this.panDownBtn);
-                container.appendChild(this.panLeftBtn);
-                container.appendChild(this.panRightBtn);
-                container.appendChild(this.showHideHotelsBtn);
+                container.appendChild(this.createTripBtn);
+                container.appendChild(this.saveTripBtn);
+                container.appendChild(this.yourTripsBtn);
+                container.appendChild(this.showHidePinsBtn);
+                container.appendChild(this.showHideRoadBtn);
+                container.appendChild(this.restartBtn);
                 container.style.position = 'absolute';
                 container.style.top = '10px';
                 container.style.left = '10px';
+                container.className = 'container';
 
                 this.setHtmlElement(container);
             };
-
-            //Implement the new custom overlay class.
             var overlay = new PanningOverlay();
-
-            //Add the custom overlay to the map.
             map.layers.insert(overlay);
         }
 
-        function panMap(dir) {
-            var dx = 0, dy = 0;
-            switch (dir) {
-                case 'up':
-                    dy = -30;
-                    break;
-                case 'down':
-                    dy = 30;
-                    break;
-                case 'left':
-                    dx = -30;
-                    break;
-                case 'right':
-                    dx = 30;
-                    break;
+        function clearMap() {
+            for (var i = map.entities.getLength() - 1; i >= 0; i--) {
+                var pushpin = map.entities.get(i);
+                map.entities.removeAt(i);
             }
-
-            var cp = map.tryLocationToPixel(map.getCenter());
-            cp.x += dx;
-            cp.y += dy;
-
-            map.setView({ center: map.tryPixelToLocation(cp) });
         }
 
         function addMapEvents() {
@@ -369,124 +459,224 @@
 
         }
 
+        function CreatePin(location,icon,title) {
+            var pin = new Microsoft.Maps.Pushpin(location, {
+                title: title,
+                icon: icon,
+                anchor: new Microsoft.Maps.Point(10, 10),
+            });
+            return pin;
+        }
+
+        function SeeObjectDetail(pin, clickType) {
+            Microsoft.Maps.Events.addHandler(pin, clickType, function (e) {
+                $('#objectDetailXCoords').text(e.target.geometry.y);
+                $('#objectDetailYCoords').text(e.target.geometry.x);
+                $('#objectDetailName').text(e.target.entity.title);
+                $('#objectDetailCost').text(e.target.Cost);
+                $('#objectDetailModal').modal('show');
+            });
+        }
+
         function GetMap() {
             map = new Microsoft.Maps.Map('#myMap', {
                 credentials: 'ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT',
                 center: new Microsoft.Maps.Location(53.272425, 21.012989),
                 mapTypeId: Microsoft.Maps.MapTypeId.road,
-                zoom: 3
+                zoom: 3,
+                minZoom: 3,
             });
 
             addButtonsToMap();
             addMapEvents();
+            clearMap();
+            getPins();
 
-            $.get("/Trip/GetAllHotels", function (data) {
+        }
+
+        function DisableAtractions() {
+            for (var i = map.entities.getLength() - 1; i >= 0; i--) {
+                var pushpin = map.entities.get(i);
+                if (pushpin instanceof Microsoft.Maps.Pushpin) {
+                    Microsoft.Maps.Events.removeHandler(pushpin.handlerId);
+                }
+            }
+        }
+
+        function getPins() {
+            @if (Model.IsProprietor)
+            {
+                <text>
+            $.get("/Trip/GetYourTouristFacilities", function (data) {
                 for (var i = 0; i < data.hotels.length; i++) {
                     var location = {
                         latitude: data.hotels[i].X,
                         longitude: data.hotels[i].Y,
                     }
-                    var pin = new Microsoft.Maps.Pushpin(location, {
-                        title: data.hotels[i].Name,
-                        icon: '/Content/Map/hotel.png',
-                        anchor: new Microsoft.Maps.Point(10, 10),
-                    });
-                    Microsoft.Maps.Events.addHandler(pin, 'click', function (e) {
-                        $.get("/Trip/GetNearestAtractions", { x: e.location.latitude, y: e.location.longitude }, function (data) {
-                            clearAtraction();
-                            hideOtherHotels(e.target.entity.id);
-                            for (var i = 0; i < data.atraction.length; i++) {
-                                var location = {
+                    var pinIcon;
+                    if (data.hotels[i].IsActive) {
+                        pinIcon = '/Content/Map/yellow-pin.svg';
+                    }
+                    else {
+                        pinIcon = '/Content/Map/gray-pin.svg';
+                    }
+                    var pin = CreatePin(location, pinIcon, data.hotels[i].Name)
+                    map.entities.push(pin);
+                    pin.isAtraction = false;
+                    pin.isActive = data.hotels[i].IsActive;
+                    pin.Cost = data.hotels[i].Cost;
+                    SeeObjectDetail(pin, 'click');
+                    
+                }
+                for (var i = 0; i < data.atractions.length; i++) {
+                    var location = {
+                        latitude: data.atractions[i].X,
+                        longitude: data.atractions[i].Y,
+                    }
+                    var pinIcon;
+                    if (data.atractions[i].IsActive) {
+                        pinIcon = '/Content/Map/green-pin.svg';
+                    }
+                    else {
+                        pinIcon = '/Content/Map/black-pin.svg';
+                    }
+                    var pin = CreatePin(location, pinIcon, data.atractions[i].Name)
+                    map.entities.push(pin);
+                    pin.isAtraction = true;
+                    pin.isActive = data.atractions[i].IsActive;
+                    pin.Cost = data.atractions[i].Cost;
+                    SeeObjectDetail(pin, 'click');
+                }
+            });
+                </text>
+            }
+            else
+            {
+                <text>
+                $.get("/Trip/GetAllHotels", function (data) {
+                    for (var i = 0; i < data.hotels.length; i++) {
+                        var location = {
+                            latitude: data.hotels[i].X,
+                            longitude: data.hotels[i].Y,
+                        }
+                        var pin = new Microsoft.Maps.Pushpin(location, {
+                            title: data.hotels[i].Name,
+                            icon: '/Content/Map/yellow-pin.svg',
+                            anchor: new Microsoft.Maps.Point(10, 10),
+                        });
+                        //hotel click
+                        var handlerId = Microsoft.Maps.Events.addHandler(pin, 'click', function (e) {
+                            $.get("/Trip/GetNearestAtractions", { x: e.target.geometry.y, y: e.target.geometry.x }, function (data) {
+                                removeAtraction();
+                                Microsoft.Maps.Events.removeHandler(e.target.handlerId);
+                                hideOtherHotels(e.target.entity.id);
+                                for (var i = 0; i < data.atraction.length; i++) {
+                                    var location = {
                                     latitude: data.atraction[i].X,
                                     longitude: data.atraction[i].Y,
                                 }
                                 var iconColor = '';
-                                if (parseInt(data.atraction[i].Rate) > 4) {
-                                    iconColor = '/Content/Map/blue-pin.png';
+                                var rate = parseInt(data.atraction[i].Rate);
+                                if (rate > 4) {
+                                    iconColor = '/Content/Map/purple-pin.svg';
+                                }
+                                else if (rate <= 4 && rate >= 3){
+                                    iconColor = '/Content/Map/red-pin.svg';
                                 }
                                 else {
-                                    iconColor = '/Content/Map/red-pin.png';
+                                    iconColor = '/Content/Map/blue-pin.svg';
                                 }
                                 var pushPins = new Microsoft.Maps.Pushpin(location, {
                                     title: data.atraction[i].Name,
                                     icon: iconColor,
                                     anchor: new Microsoft.Maps.Point(10, 10),
-                                });
-                                Microsoft.Maps.Events.addHandler(pushPins, 'click', function (f) {
-                                    var point = {
-                                        name: f.target._options.title,
-                                        x: f.location.latitude,
-                                        y: f.location.longitude,
-                                    }
-                                    newElement(point)
-                                    selectedAtractions.push(point);
-                                });
-                                map.entities.push(pushPins);
-                                pushPins.isAtraction = true;
-                            }
-                            showSnackBar(e);
+                                })
+                                    var handlerId = Microsoft.Maps.Events.addHandler(pushPins, 'click', function (f) {
+                                        var point = {
+                                            id: f.target.entity.id,
+                                            name: f.target._options.title,
+                                            x: f.target.geometry.y,
+                                            y: f.target.geometry.x,
+                                        }
+                                        newElement(point)
+                                        selectedAtractions.push(point);
+                                        $("#createTripBtn").prop("disabled", false);
+                                        f.target.setOptions({ icon: "/Content/Map/green-pin.svg" });
+                                        Microsoft.Maps.Events.removeHandler(f.target.handlerId);
+                                    });
+                                    //SeeObjectDetail(pushPins, 'rightclick');
+                                    map.entities.push(pushPins);
+                                    pushPins.isAtraction = true;
+                                    pushPins.handlerId = handlerId;
+                                    pushPins.originIconColor = iconColor;
+                                }
+                                showSnackBar(e);
+                            });
                         });
-                    });
-                    map.entities.push(pin);
-                    pin.isAtraction = false;
-                }
-            });
-        }
-        // Create a "close" button and append it to each list item
-        var gridList = document.getElementById('myUL');
-        var myNodelist = gridList.getElementsByTagName("LI");
-        var i;
-        for (i = 0; i < myNodelist.length; i++) {
-            var span = document.createElement("SPAN");
-            var txt = document.createTextNode("\u00D7");
-            span.className = "close";
-            span.appendChild(txt);
-            myNodelist[i].appendChild(span);
-        }
-
-        // Click on a close button to hide the current list item
-        var close = document.getElementsByClassName("close");
-        var i;
-        for (i = 0; i < close.length; i++) {
-            close[i].onclick = function (e) {
-                var div = this.parentElement;
-                div.style.display = "none";
-
+                        //SeeObjectDetail(pin, 'click');
+                        map.entities.push(pin);
+                        pin.isAtraction = false;
+                        pin.handlerId = handlerId;
+                    }
+                });
+                </text>
             }
         }
 
-        //function saveTrip() {
-
-        //    var url = "/Trip/SaveTrip";
-        //    $.post(url, new {} function (data) {
-
-        //    });
-        //}
-        //// Add a "checked" symbol when clicking on a list item
-        //var list = document.querySelector('myUL');
-        //list.addEventListener('click', function (ev) {
-        //    if (ev.target.tagName === 'LI') {
-        //        ev.target.classList.toggle('checked');
-        //    }
-        //}, false);
-
         function newElement(point) {
             var li = document.createElement("li");
+            li.id = point.id;
             var inputValue = point.name + ' ( ' + point.x + ' / ' + point.y + ' ) ';
             var t = document.createTextNode(inputValue);
             li.appendChild(t);
             document.getElementById("myUL").appendChild(li);
-            var span = document.createElement("SPAN");
+            var button = document.createElement("BUTTON");
             var txt = document.createTextNode("\u00D7");
-            span.className = "close";
-            span.appendChild(txt);
-            li.appendChild(span);
+            button.className = "close";
+            button.appendChild(txt);
+            button.onclick = function () {
+                removeElement(li.id);
+            };
+            li.appendChild(button);
 
             for (i = 0; i < close.length; i++) {
                 close[i].onclick = function () {
                     var div = this.parentElement;
                     div.style.display = "none";
                 }
+            }
+        }
+        function removeElement(id) {
+            $('#' + id).remove();
+            for (var i = map.entities.getLength() - 1; i >= 0; i--) {
+                var pushpin = map.entities.get(i);
+
+                if (pushpin instanceof Microsoft.Maps.Pushpin && pushpin.entity.id == id) {
+                    pushpin.setOptions({ icon: pushpin.originIconColor });
+                    var handlerId = Microsoft.Maps.Events.addHandler(pushpin, 'click', function (f) {
+                        var point = {
+                            id: f.target.entity.id,
+                            name: f.target._options.title,
+                            x: f.target.geometry.y,
+                            y: f.target.geometry.x,
+                        }
+                        newElement(point)
+                        selectedAtractions.push(point);
+                        $("#createTripBtn").prop("disabled", false);
+                        f.target.setOptions({ icon: "/Content/Map/green-pin.svg" });
+                        Microsoft.Maps.Events.removeHandler(f.target.handlerId);
+                    });
+                    pushpin.handlerId = handlerId;
+                    
+                }
+            }
+            for (var i = 0; i < selectedAtractions.length; i++) {
+                if (selectedAtractions[i].id == id) {
+                    selectedAtractions.splice(i, 1);
+                }
+            }
+            if (selectedAtractions.length == 0) {
+                $("#createTripBtn").prop("disabled", true);
             }
         }
 
