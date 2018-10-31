@@ -39,10 +39,10 @@
                 <ul id="myUL"></ul>
             </div>
         </div>
-    </div>    
-    <div class="Flexible-container" id="myMap">
-        <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe>
     </div>
+        <div class="Flexible-container" id="myMap">
+            <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+        </div>
         <div id="snackbar"></div>
     </div>
 
@@ -180,6 +180,33 @@
         }
         var routes = [];
 
+        function drawRoute(data) {
+            for (var i = 0; i < data.resourceSets[0].resources[0].routePath.line.coordinates.length - 1; i++) {
+                var startLoc = {
+                    latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][0],
+                    longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][1],
+                }
+                var endLoc = {
+                    latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i + 1][0],
+                    longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i + 1][1],
+                }
+                var coords = [startLoc, endLoc];
+
+                var line = new Microsoft.Maps.Polyline(coords, {
+                    strokeColor: 'red',
+                    strokeThickness: 3,
+                    strokeDashArray: [4, 4]
+                });
+
+                var path = {
+                    Start: startLoc,
+                    End: endLoc,
+                };
+                map.entities.push(line);
+                routes.push(path);
+            }
+        }
+
 
         function createTrip() {
             var request = '&wp.0=' + selectedHotel.x + ',' + selectedHotel.y;
@@ -187,26 +214,7 @@
                 request += '&wp.' + parseInt(i + 1) + '=' + selectedAtractions[i].x + ',' + selectedAtractions[i].y;
             }
             $.get("http://dev.virtualearth.net/REST/V1/Routes/Driving?" + request + "&optwp=true&optmz=distance&routeAttributes=routePath&key=ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT", function (data) {
-                for (var i = 0; i < data.resourceSets[0].resources[0].routePath.line.coordinates.length - 1; i++) {
-                    var startLoc = {
-                        latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][0],
-                        longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][1],
-                    }
-                    var endLoc = {
-                        latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i + 1][0],
-                        longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i + 1][1],
-                    }
-                    var coords = [startLoc, endLoc];
-
-                    var line = new Microsoft.Maps.Polyline(coords, {
-                        strokeColor: 'red',
-                        strokeThickness: 3,
-                        strokeDashArray: [4, 4]
-                    });
-
-                    map.entities.push(line);
-                    routes.push(coords);
-                }
+                drawRoute(data);
                 tripDetail.travelDistance = data.resourceSets[0].resources[0].travelDistance;
                 tripDetail.travelDuration = data.resourceSets[0].resources[0].travelDuration;
                 tripDetail.travelDurationTraffic = data.resourceSets[0].resources[0].travelDurationTraffic;
@@ -219,7 +227,10 @@
         }
 
         function getYourTrip() {
-
+            var url = '/Trip/GetYourTrip';
+            $.get(url, function (data) {
+                $("body").html(data);
+            });
         }
 
         function saveTripInBase() {
@@ -230,7 +241,7 @@
             var nameTrip = $('#tripName').val();
             var route = JSON.stringify(routes);
             $.post(url, { route: route, travelDistance: tripDetail.travelDistance, travelDuration: tripDetail.travelDuration, travelDurationTraffic: tripDetail.travelDurationTraffic, name: nameTrip, hotel: hotel, atractions: atractions }, function (data) {
-                //$('#saveTripModal').modal('hide');
+                $('#saveTripModal').modal('hide');
             });
         }
 
@@ -391,7 +402,7 @@
                 this.showHidePinsBtn.style.margin = '5px';
                 this.showHidePinsBtn.id = "visabilityPinBtn";
                 this.showHidePinsBtn.onclick = function () {
-                    showHidePins(this); 
+                    showHidePins(this);
                 };
                 this.showHideRoadBtn = document.createElement('button');
                 this.showHideRoadBtn.textContent = 'Ukryj drogę';
@@ -408,13 +419,13 @@
                 this.restartBtn.onclick = function () {
                     restartTrip();
                 };
-                this.yourTripsBtn = document.createElement('button');
-                this.yourTripsBtn.textContent = 'Twoje wycieczki';
-                this.yourTripsBtn.className = 'btn btn-primary';
-                this.yourTripsBtn.style.margin = '5px';
-                this.yourTripsBtn.onclick = function () {
-                    getYourTrip();
-                };
+                //this.yourTripsBtn = document.createElement('button');
+                //this.yourTripsBtn.textContent = 'Twoje wycieczki';
+                //this.yourTripsBtn.className = 'btn btn-primary';
+                //this.yourTripsBtn.style.margin = '5px';
+                //this.yourTripsBtn.onclick = function () {
+                //    getYourTrip();
+                //};
                 this.saveTripBtn = document.createElement('button');
                 this.saveTripBtn.textContent = 'Zapisz wycieczkę';
                 this.saveTripBtn.className = 'btn btn-primary';
@@ -430,7 +441,7 @@
                 var container = document.createElement('div');
                 container.appendChild(this.createTripBtn);
                 container.appendChild(this.saveTripBtn);
-                container.appendChild(this.yourTripsBtn);
+                //container.appendChild(this.yourTripsBtn);
                 container.appendChild(this.showHidePinsBtn);
                 container.appendChild(this.showHideRoadBtn);
                 container.appendChild(this.restartBtn);
@@ -456,7 +467,7 @@
 
             @if (Model.IsProprietor)
             {
-                <text>        
+                <text>
                 Microsoft.Maps.Events.addHandler(map, 'rightclick', function (e) {
                     $('#xCoords').val(e.location.latitude);
                     $('#yCoords').val(e.location.longitude);
@@ -499,10 +510,21 @@
                 minZoom: 3,
             });
 
+            @if (true)//empty map
+            {
+                <text>
             addButtonsToMap();
             addMapEvents();
             clearMap();
             getPins();
+                </text>
+            }
+            else//draw created trip
+            {
+                <text>
+            
+                </text>
+            }
 
         }
 
@@ -539,7 +561,7 @@
                     pin.isActive = data.hotels[i].IsActive;
                     pin.Cost = data.hotels[i].Cost;
                     SeeObjectDetail(pin, 'click');
-                    
+
                 }
                 for (var i = 0; i < data.atractions.length; i++) {
                     var location = {
@@ -683,7 +705,7 @@
                         Microsoft.Maps.Events.removeHandler(f.target.handlerId);
                     });
                     pushpin.handlerId = handlerId;
-                    
+
                 }
             }
             for (var i = 0; i < selectedAtractions.length; i++) {

@@ -13,16 +13,16 @@ namespace JourneyPortal.ViewModels.Shared
         }
         public Point(double x, double y)
         {
-            this.X = x;
-            this.Y = y;
+            this.latitude = x;
+            this.longitude = y;
         }
-        public double X { get; set; }
-        public double Y { get; set; }
+        public double latitude { get; set; }
+        public double longitude { get; set; }
 
         public void Copy(Point point)
         {
-            this.X = point.X;
-            this.Y = point.Y;
+            this.latitude = point.latitude;
+            this.longitude = point.longitude;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace JourneyPortal.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("JourneyPortalDBHome", throwIfV1Schema: false)
+            : base("JourneyPortalDBWork", throwIfV1Schema: false)
         {
             this.Configuration.ProxyCreationEnabled = true;
             this.Configuration.LazyLoadingEnabled = true;
@@ -29,6 +29,7 @@ namespace JourneyPortal.Models
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Atraction> Atractions { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
+        public DbSet<Route> Routes { get; set; }
 
         public static ApplicationDbContext Create()
         {

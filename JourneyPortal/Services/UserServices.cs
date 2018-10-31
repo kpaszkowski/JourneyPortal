@@ -163,5 +163,11 @@ namespace JourneyPortal.Services
                 throw ex;
             }
         }
+
+        internal bool IsTripOwner(int tripId, string name)
+        {
+            var currentUser = userManager.FindByName(name);
+            return context.Trips.Where(x => x.Id == tripId && x.CreatedById == currentUser.Id).Any();
+        }
     }
 }

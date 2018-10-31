@@ -4,8 +4,15 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 <div class="container">
-    @Html.ActionLink("Dodaj atrakcję", "CreateNewAtraction", "Trip", null)
-    <h2>Twoje atrakcje</h2>
+    @if (!Model.IsPreviewOnly)
+    {
+        @Html.ActionLink("Dodaj atrakcję", "CreateNewAtraction", "Trip", null)
+        <h2>Twoje atrakcje</h2>
+    }
+    else
+    {
+        <h2>Atrakcje w wycieczce</h2>
+    }
     <p>
         Wyszukaj: @Html.TextBox("searchString")
         <input type="button" @*onclick="sortBy()"*@ value="Wyszukaj" />
@@ -18,9 +25,12 @@
                 <th><a onclick="sortBy('userName');">Koszt</a></th>
                 <th><a onclick="sortBy('userName');">Typ</a></th>
                 <th><a onclick="sortBy('userName');">Czas zwiedzania</a></th>
-                <th>Aktywne</th>
-                <th>Edytuj</th>
-                <th>Usuń</th>
+                @if (!Model.IsPreviewOnly)
+                {
+                    <th>Aktywne</th>
+                    <th>Edytuj</th>
+                    <th>Usuń</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -32,37 +42,40 @@
                     <td>@item.Cost</td>
                     <td>@item.Type</td>
                     <td>@item.TimeOfSightseeing</td>
-                    <td>
-                        @if (item.IsActive)
-                        {
-                            using (Html.BeginForm("DisableAtractions", "Trip", new { atractionId = item.Id }, FormMethod.Post))
+                    @if (!Model.IsPreviewOnly)
+                    {
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                using (Html.BeginForm("DisableAtractions", "Trip", new { atractionId = item.Id }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button class="btn btn-warning" type="submit">Wyłącz</button>
+                                }
+                            }
+                            else
+                            {
+                                using (Html.BeginForm("EnableAtractions", "Trip", new { atractionId = item.Id }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button class="btn btn-success" type="submit"> Aktywuj</button>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("EditAtraction", "Trip", new { atractionId = item.Id }, FormMethod.Post))
+                            {
+                                <button class="btn btn-default" type="submit"> Edytuj</button>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("RemoveAtractions", "Trip", new { atractionId = item.Id }, FormMethod.Post))
                             {
                                 @Html.AntiForgeryToken()
-                                <button class="btn btn-warning" type="submit">Wyłącz</button>
+                                <button class="btn btn-danger" type="submit"> Usuń</button>
                             }
-                        }
-                        else
-                        {
-                            using (Html.BeginForm("EnableAtractions", "Trip", new { atractionId = item.Id }, FormMethod.Post))
-                            {
-                                @Html.AntiForgeryToken()
-                                <button class="btn btn-success" type="submit"> Aktywuj</button>
-                            }
-                        }
-                    </td>
-                    <td>
-                        @using (Html.BeginForm("EditAtraction", "Trip", new { atractionId = item.Id }, FormMethod.Post))
-                        {
-                            <button class="btn btn-default" type="submit"> Edytuj</button>
-                        }
-                    </td>
-                    <td>
-                        @using (Html.BeginForm("RemoveAtractions", "Trip", new { atractionId = item.Id }, FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
-                            <button class="btn btn-danger" type="submit"> Usuń</button>
-                        }
-                    </td>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

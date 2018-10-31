@@ -1,0 +1,55 @@
+﻿@model JourneyPortal.ViewModels.Trip.ManageTripViewModel
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<div class="container">
+    <h2>Twoje wycieczki</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><a onclick="sortBy('userName');">Nazwa wycieczki</a></th>
+                <th><a onclick="sortBy('userName');">Długość</a></th>
+                <th><a onclick="sortBy('userName');">Czas trwania</a></th>
+                <th><a onclick="sortBy('userName');">Czas trwania podczas dużego natężenia ruchu</a></th>
+                <th><a onclick="sortBy('userName');">Liczba atrakcji</a></th>
+                <th>Zobacz na mapie</th>
+                <th>Usuń</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.tripList)
+            {
+                <tr>
+                    <td>@Html.ActionLink(item.Name, "GetTripDetail", "Trip", new { tripId = item.Id }, null)</td>
+                    <td>@item.TotalDistance</td>
+                    <td>@item.Duration</td>
+                    <td>@item.DurationTrafiic</td>
+                    <td>@item.AtractionNumber</td>
+                    <td>
+                        @using (Html.BeginForm("SeeTrip", "Trip", new { tripId = item.Id }, FormMethod.Post))
+                        {
+                            <button class="btn btn-default" type="submit"> Zobacz na mapie</button>
+                        }
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("RemoveTrip", "Trip", new { tripId = item.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-danger" type="submit"> Usuń</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    Strona @(Model.tripList.PageCount < Model.tripList.PageNumber ? 0 : Model.tripList.PageNumber) z @Model.tripList.PageCount
+
+    @Html.PagedListPager(Model.tripList, page => Url.Action("GetYourTrip",
+                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+    <div>
+    </div>
+
+</div>

@@ -335,12 +335,12 @@ namespace JourneyPortal.Services
                     double kmLimit = double.Parse(ConfigurationManager.AppSettings["KmLimit"]);
                     Func<Point, Point ,bool> isInLimit = (point1 ,point2) =>
                     {
-                        var result = Math.Sqrt(Math.Pow(point2.X - point1.X, 2) + Math.Pow(Math.Cos((point1.X * Math.PI) / 180) * (point2.Y - point1.Y), 2)) * (40075.704 / 360);
+                        var result = Math.Sqrt(Math.Pow(point2.latitude - point1.latitude, 2) + Math.Pow(Math.Cos((point1.latitude * Math.PI) / 180) * (point2.longitude - point1.longitude), 2)) * (40075.704 / 360);
                         return result <= kmLimit;
                     };
 
                     var allAtractions = context.Atractions.ToList();
-                    return allAtractions.Where(x => isInLimit(new Point { X = x.X, Y = x.Y }, point)).Select(x => new
+                    return allAtractions.Where(x => isInLimit(new Point { latitude = x.X, longitude = x.Y }, point)).Select(x => new
                     {
                         Id = x.Id,
                         X = x.X,
@@ -400,6 +400,24 @@ namespace JourneyPortal.Services
             {
                 throw ex;
             }
+        }
+
+        internal object RemoveTrip(int tripId)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var tripToRemove = context.Trips.FirstOrDefault(x => x.Id == tripId);
+                    context.Trips.Remove(tripToRemove);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return true;
         }
 
         internal dynamic GetAllHotels()
@@ -479,6 +497,18 @@ namespace JourneyPortal.Services
                     {
                         atractions.Add(context.Atractions.FirstOrDefault(x => x.Id == item.IdDb));
                     }
+                    foreach (var item in routes)
+                    {
+                        Route route = new Route
+                        {
+                            Trip = trip,
+                            StartX = item.Start.latitude,
+                            StartY = item.Start.longitude,
+                            EndX = item.End.latitude,
+                            EndY = item.End.longitude,
+                        };
+                        context.Routes.Add(route);
+                    }
                     trip.Atractions = atractions;
                     trip.BaseHotel = context.Hotels.FirstOrDefault(x => x.Id == selectedHotel.IdDb);
                     trip.Name = name;
@@ -494,6 +524,92 @@ namespace JourneyPortal.Services
             catch (Exception ex)
             {
 
+                throw ex;
+            }
+        }
+
+        internal List<AtractionsGridViewModel> PrepareAtractionListInTrip(int tripId)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var atraction = context.Trips.Where(x => x.Id == tripId).SelectMany(x=>x.Atractions).ToList();
+                    return atraction.Select(x => new AtractionsGridViewModel
+                    {
+                        Id = x.Id,
+                        X = x.X,
+                        Y = x.Y,
+                        Cost = x.Cost,
+                        Name = x.Name,
+                        IsActive = x.IsActive,
+                        Rate = x.Rate,
+                        TimeOfSightseeing = x.TimeOfSightseeing,
+                        Type = x.Type,
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        internal TripDetailViewModel PrepareTripDetail(int tripId)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    return context.Trips.Where(x => x.Id == tripId).Select(x => new TripDetailViewModel
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        AtractionNumber = x.Atractions.Count(),
+                        BaseHotel = new HotelGridViewModel {
+                            Id = x.BaseHotel.Id,
+                            Name = x.BaseHotel.Name,
+                            CostPerNight = x.BaseHotel.CostPerNight,
+                            OwnerEmail = x.BaseHotel.Owner.Email,
+                            Rate = x.BaseHotel.Rate,
+                            X = x.BaseHotel.X,
+                            Y = x.BaseHotel.Y,
+                            IsActive = x.BaseHotel.IsActive,
+                        },
+                        Duration = x.Duration,
+                        DurationTrafiic = x.DurationTraffic,
+                        TotalDistance = x.TotalDistance,
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        internal List<TripGridViewModel> PrepareTripList(string name)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                    var currentUser = userManager.FindByName(name);
+                    return context.Trips.Where(x => x.CreatedById == currentUser.Id).Select(x => new TripGridViewModel
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Duration = x.Duration,
+                        DurationTrafiic = x.DurationTraffic,
+                        TotalDistance = x.TotalDistance,
+                        AtractionNumber = x.Atractions.Count(),
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }

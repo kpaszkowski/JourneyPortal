@@ -1,0 +1,86 @@
+﻿@model JourneyPortal.ViewModels.Trip.TripDetailViewModel
+
+<div>
+    <h4>TripDetailViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalDistance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalDistance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Duration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DurationTrafiic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DurationTrafiic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AtractionNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AtractionNumber)
+        </dd>
+    </dl>
+
+    <dl>
+        <dt>
+            @Html.DisplayNameFor(model => model.BaseHotel.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BaseHotel.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BaseHotel.Rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BaseHotel.Rate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BaseHotel.X)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BaseHotel.X)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BaseHotel.Y)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BaseHotel.Y)
+        </dd>
+
+    </dl>
+
+    
+
+    @*@Html.Partial("~/Views/Trip/ManageAtractions.cshtml", new JourneyPortal.ViewModels.Trip.ManageAtractionsViewModel { atractionsList = Model.AtractionsList ,  IsPreviewOnly = true,});*@
+</div>

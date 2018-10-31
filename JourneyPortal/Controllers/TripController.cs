@@ -346,6 +346,23 @@ namespace JourneyPortal.Controllers
             return RedirectToAction("ManageHotels");
         }
 
+        [HttpPost]
+        public ActionResult RemoveTrip(int tripId)
+        {
+            bool isOwner = userServices.IsTripOwner(tripId, User.Identity.Name);
+            if (isOwner)
+            {
+                var result = tripService.RemoveTrip(tripId);
+            }
+            return RedirectToAction("GetYourTrip");
+        }
+
+        [HttpPost]
+        public ActionResult SeeTrip(int tripId)
+        {
+            return null;
+        }
+
         [HttpGet]
         public ActionResult GetNearestAtractions(double x, double y)
         {
@@ -414,7 +431,7 @@ namespace JourneyPortal.Controllers
         {
             var selectedHotel = JsonConvert.DeserializeObject<SelectedTouristFacilitiesViewModel>(hotel);
             var selectedAtractions = JsonConvert.DeserializeObject<List<SelectedTouristFacilitiesViewModel>>(atractions);
-            var routes = JsonConvert.DeserializeObject<List<RouteViewModel>>(route.Substring(1, route.Length - 2));
+            var routes = JsonConvert.DeserializeObject<List<RouteViewModel>>(route);
             tripService.CreateNewTrip(selectedHotel, selectedAtractions,routes, name, User.Identity.Name, travelDistance,travelDuration,travelDurationTraffic);
             return new JsonResult
             {
@@ -422,8 +439,28 @@ namespace JourneyPortal.Controllers
                 {
                     success = true,
                 },
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+        }
+
+        [HttpGet]
+        public ActionResult GetYourTrip(int? page)
+        {
+            var model = new ManageTripViewModel();
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageNumber = (page ?? 1);
+            model.tripList = tripService.PrepareTripList(User.Identity.Name).ToPagedList(pageNumber, pageSize);
+            return View("~/Views/Trip/ManageTrips.cshtml", model);
+        }
+
+        [HttpGet]
+        public ActionResult GetTripDetail(int tripId,int? page)
+        {
+            var model = new TripDetailViewModel();
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageNumber = (page ?? 1);
+            model = tripService.PrepareTripDetail(tripId);
+            model.AtractionsList = tripService.PrepareAtractionListInTrip(tripId).ToPagedList(pageNumber, pageSize);
+            return View("~/Views/Trip/TripDetail.cshtml", model);
         }
 
     }

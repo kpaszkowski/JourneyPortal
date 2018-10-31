@@ -9,5 +9,6 @@ namespace JourneyPortal.ViewModels.Trip
     {
         public bool IsProprietor { get; set; }
         public bool IsUser { get; set; }
+        public bool DrawMap { get; set; }
     }
 }
