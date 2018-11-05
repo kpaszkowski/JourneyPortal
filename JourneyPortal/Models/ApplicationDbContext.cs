@@ -30,6 +30,7 @@ namespace JourneyPortal.Models
         public DbSet<Atraction> Atractions { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Route> Routes { get; set; }
+        public DbSet<GlobalMessage> GlobalMessages { get; set; }
 
         public static ApplicationDbContext Create()
         {

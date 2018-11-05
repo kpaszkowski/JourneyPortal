@@ -1,7 +1,68 @@
-﻿
-@{
-    ViewBag.Title = "Czat";
-}
+﻿@model JourneyPortal.ViewModels.Chat.ChatViewModel
+<div class="contentBody">
+    <h2>Czat publiczny</h2>
+    @foreach (var item in Model.messagesList.Select((value, index) => new { Value = value, Index = index }))
+    {
+        if (item.Index % 2 == 0)
+        {
+            <div class="container">
+                <span>@item.Value.AuthorName</span>
+                <p>@item.Value.Text</p>
+                <span class="time-right">@item.Value.CreationDate</span>
+            </div>
+        }
+        else
+        {
+            <div class="container darker">
+                <span class="right">@item.Value.AuthorName</span>
+                <p>@item.Value.Text</p>
+                <span class="time-left">@item.Value.CreationDate</span>
+            </div>
+        }
+    }
+    @Html.Partial("~/Views/Chat/CreateMessage.cshtml", new JourneyPortal.ViewModels.Chat.GlobalMessageViewModel())
+</div>
+<style>
+    .container {
+        border: 2px solid #dedede;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px 0;
+    }
 
-<h2>Czat</h2>
+    .darker {
+        border-color: #ccc;
+        background-color: #ddd;
+    }
 
+    .container::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .container img {
+        float: left;
+        max-width: 60px;
+        width: 100%;
+        margin-right: 20px;
+        border-radius: 50%;
+    }
+
+        .container img.right {
+            float: right;
+            margin-left: 20px;
+            margin-right: 0;
+        }
+
+    .time-right {
+        float: right;
+        color: #aaa;
+    }
+
+    .time-left {
+        float: left;
+        color: #999;
+    }
+</style>

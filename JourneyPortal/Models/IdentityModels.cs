@@ -56,6 +56,8 @@ namespace JourneyPortal.Models
 
         public virtual ICollection<PostsUsers> PostsUsers { get; set; }
 
+        public virtual ICollection<GlobalMessage> GlobalMessages { get; set; }
+
     }
 
 }
