@@ -27,7 +27,7 @@
                     <td>@item.DurationTrafiic</td>
                     <td>@item.AtractionNumber</td>
                     <td>
-                        @using (Html.BeginForm("SeeTrip", "Trip", new { tripId = item.Id }, FormMethod.Post))
+                        @using (Html.BeginForm("Index", "Trip", new { tripId = item.Id }, FormMethod.Post))
                         {
                             <button class="btn btn-default" type="submit"> Zobacz na mapie</button>
                         }

@@ -28,11 +28,16 @@ namespace JourneyPortal.Controllers
             userServices = new UserServices();
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int? tripId)
         {
             var model = new MapViewModel();
             model.IsProprietor = userServices.IsProprietor(User.Identity.Name);
             model.IsUser = userServices.IsUser(User.Identity.Name);
+            if (tripId != null)
+            {
+                model.DrawMap = true;
+                tripService.PrepareSavedTrip(model, tripId);
+            }
             return View("~/Views/Trip/Index.cshtml",model);
         }
 
@@ -290,7 +295,7 @@ namespace JourneyPortal.Controllers
         {
             bool isOwner = userServices.IsHotelOwner(hotelId, User.Identity.Name);
             HotelDetailViewModel model = new HotelDetailViewModel();
-            model = tripService.GetHotelDetail(hotelId, User.Identity.Name);
+            model = tripService.GetHotelDetail(hotelId);
             return View("~/Views/Trip/EditHotel.cshtml", model);
         }
         [ValidateInput(false)]
@@ -310,7 +315,7 @@ namespace JourneyPortal.Controllers
         public ActionResult GetHotelDetail(int id)
         {
             var userName = User.Identity.Name;
-            var model = tripService.GetHotelDetail(id, userName);
+            var model = tripService.GetHotelDetail(id);
             model.IsOwner = userServices.IsHotelOwner(id, User.Identity.Name);
             return View("~/Views/Trip/HotelDetail.cshtml", model);
         }
@@ -355,12 +360,6 @@ namespace JourneyPortal.Controllers
                 var result = tripService.RemoveTrip(tripId);
             }
             return RedirectToAction("GetYourTrip");
-        }
-
-        [HttpPost]
-        public ActionResult SeeTrip(int tripId)
-        {
-            return null;
         }
 
         [HttpGet]

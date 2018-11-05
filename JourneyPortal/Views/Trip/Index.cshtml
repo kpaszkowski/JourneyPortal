@@ -180,15 +180,15 @@
         }
         var routes = [];
 
-        function drawRoute(data) {
-            for (var i = 0; i < data.resourceSets[0].resources[0].routePath.line.coordinates.length - 1; i++) {
+        function drawSavedRoute(data) {
+            for (var i = 0; i < data.length; i++) {
                 var startLoc = {
-                    latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][0],
-                    longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i][1],
+                    latitude: data[i].Start.latitude,
+                    longitude: data[i].Start.longitude,
                 }
                 var endLoc = {
-                    latitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i + 1][0],
-                    longitude: data.resourceSets[0].resources[0].routePath.line.coordinates[i + 1][1],
+                    latitude: data[i].End.latitude,
+                    longitude: data[i].End.longitude,
                 }
                 var coords = [startLoc, endLoc];
 
@@ -207,6 +207,33 @@
             }
         }
 
+        function drawRoute(data) {
+            for (var i = 0; i < data.length - 1; i++) {
+                var startLoc = {
+                    latitude: data[i][0],
+                    longitude: data[i][1],
+                }
+                var endLoc = {
+                    latitude: data[i + 1][0],
+                    longitude: data[i + 1][1],
+                }
+                var coords = [startLoc, endLoc];
+
+                var line = new Microsoft.Maps.Polyline(coords, {
+                    strokeColor: 'red',
+                    strokeThickness: 3,
+                    strokeDashArray: [4, 4]
+                });
+                map.entities.push(line);
+                var path = {
+                    Start: startLoc,
+                    End: endLoc,
+                };
+                routes.push(path);
+            }
+
+        }
+
 
         function createTrip() {
             var request = '&wp.0=' + selectedHotel.x + ',' + selectedHotel.y;
@@ -214,7 +241,7 @@
                 request += '&wp.' + parseInt(i + 1) + '=' + selectedAtractions[i].x + ',' + selectedAtractions[i].y;
             }
             $.get("http://dev.virtualearth.net/REST/V1/Routes/Driving?" + request + "&optwp=true&optmz=distance&routeAttributes=routePath&key=ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT", function (data) {
-                drawRoute(data);
+                drawRoute(data.resourceSets[0].resources[0].routePath.line.coordinates);
                 tripDetail.travelDistance = data.resourceSets[0].resources[0].travelDistance;
                 tripDetail.travelDuration = data.resourceSets[0].resources[0].travelDuration;
                 tripDetail.travelDurationTraffic = data.resourceSets[0].resources[0].travelDurationTraffic;
@@ -226,12 +253,12 @@
 
         }
 
-        function getYourTrip() {
-            var url = '/Trip/GetYourTrip';
-            $.get(url, function (data) {
-                $("body").html(data);
-            });
-        }
+        //function getYourTrip() {
+        //    var url = '/Trip/GetYourTrip';
+        //    $.get(url, function (data) {
+        //        $("body").html(data);
+        //    });
+        //}
 
         function saveTripInBase() {
 
@@ -346,9 +373,6 @@
                 x.className = "show";
                 x.textContent = e.text;
                 setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
-                location = {
-
-                }
                 var location = {
                     latitude: e.x,
                     longitude: e.y,
@@ -500,7 +524,9 @@
                 $('#objectDetailModal').modal('show');
             });
         }
+        function AddDataIntoUL(atractionsList,hotel){
 
+        }
         function GetMap() {
             map = new Microsoft.Maps.Map('#myMap', {
                 credentials: 'ApWjTuEb1r0S7SgcQ4yG_QUvpOWTPwSdFm3ZrJge121zlIGx9Ep8gl_fln9VX_GT',
@@ -510,19 +536,56 @@
                 minZoom: 3,
             });
 
-            @if (true)//empty map
-            {
-                <text>
             addButtonsToMap();
             addMapEvents();
             clearMap();
-            getPins();
+
+            @if (!Model.DrawMap)//empty map
+            {
+                <text>
+                getPins();
                 </text>
             }
             else//draw created trip
             {
                 <text>
-            
+                    var hotel = @Html.Raw(Json.Encode(Model.Hotel));
+                    var location = {
+                        latitude: hotel.X,
+                        longitude: hotel.Y,
+                    }
+                    var pinIcon;
+                    if (hotel.IsActive) {
+                        pinIcon = '/Content/Map/yellow-pin.svg';
+                    }
+                    else {
+                        pinIcon = '/Content/Map/gray-pin.svg';
+                    }
+
+            var pin = CreatePin(location, pinIcon, hotel.Name);
+                    map.entities.push(pin);
+                    pin.isAtraction = false;
+                    pin.isActive = hotel.IsActive;
+                    pin.Cost = hotel.Cost;
+                    SeeObjectDetail(pin, 'click');
+                    var atractionList = @Html.Raw(Json.Encode(Model.Atractions));
+                    for (var i = 0; i < atractionList.length; i++) {
+                        var location = {
+                            latitude: atractionList[i].X,
+                            longitude: atractionList[i].Y,
+                        }
+                        pinIcon = '/Content/Map/green-pin.svg';
+                        var pushPin = CreatePin(location, pinIcon, atractionList[i].Name);
+                        map.entities.push(pushPin);
+                        pushPin.isAtraction = true;
+                        pushPin.isActive = atractionList[i].IsActive;
+                        pushPin.Cost = atractionList[i].Cost;
+                        SeeObjectDetail(pushPin, 'click');
+                    }
+                    var routesList = @Html.Raw(Json.Encode(Model.Routes));
+                    drawSavedRoute(routesList);
+                    AddDataIntoUL(atractionList, hotel);
+
                 </text>
             }
 
@@ -555,6 +618,7 @@
                     else {
                         pinIcon = '/Content/Map/gray-pin.svg';
                     }
+
                     var pin = CreatePin(location, pinIcon, data.hotels[i].Name)
                     map.entities.push(pin);
                     pin.isAtraction = false;
@@ -588,7 +652,7 @@
             else
             {
                 <text>
-                $.get("/Trip/GetAllHotels", function (data) {
+            $.get("/Trip/GetAllHotels", function (data) {
                     for (var i = 0; i < data.hotels.length; i++) {
                         var location = {
                             latitude: data.hotels[i].X,

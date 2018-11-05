@@ -45,6 +45,47 @@ namespace JourneyPortal.Services
             }
         }
 
+        internal void PrepareSavedTrip(MapViewModel model, int? tripId)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    model.Hotel = context.Trips.Where(x => x.Id == tripId).Select(x => new HotelGridViewModel
+                    {
+                        Id = x.BaseHotel.Id,
+                        Name = x.BaseHotel.Name,
+                        CostPerNight = x.BaseHotel.CostPerNight,
+                        OwnerEmail = x.BaseHotel.Owner.Email,
+                        Rate = x.BaseHotel.Rate,
+                        X = x.BaseHotel.X,
+                        Y = x.BaseHotel.Y,
+                        IsActive = x.BaseHotel.IsActive,
+                    }).FirstOrDefault();
+                    model.Atractions = PrepareAtractionListInTrip(tripId ?? default(int));
+                    model.Routes = context.Routes.Where(x => x.TripId == tripId).Select(x => new RouteViewModel
+                    {
+                        Start = new Point
+                        {
+                            latitude = x.StartX,
+                            longitude = x.StartY,
+                        },
+                        End = new Point
+                        {
+                            latitude = x.EndX,
+                            longitude = x.EndY,
+                        }
+
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         internal List<AtractionsGridViewModel> PrepareAtractionList(string name)
         {
             try
@@ -279,7 +320,7 @@ namespace JourneyPortal.Services
             }
         }
 
-        internal HotelDetailViewModel GetHotelDetail(int hotelId, string name)
+        internal HotelDetailViewModel GetHotelDetail(int hotelId)
         {
             try
             {
