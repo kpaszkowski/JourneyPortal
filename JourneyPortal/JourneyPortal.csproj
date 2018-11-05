@@ -220,6 +220,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ChatHub.cs" />
     <Compile Include="Helpers\DecimalModelBinder.cs" />
     <Compile Include="Helpers\SessionCache.cs" />
     <Compile Include="Migrations\201810031748533_InitialCreate.cs" />

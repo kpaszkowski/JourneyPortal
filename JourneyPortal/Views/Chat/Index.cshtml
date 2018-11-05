@@ -1,68 +1,126 @@
 ﻿@model JourneyPortal.ViewModels.Chat.ChatViewModel
+<script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
+<script src="/signalr/hubs"></script>
 <div class="contentBody">
     <h2>Czat publiczny</h2>
-    @foreach (var item in Model.messagesList.Select((value, index) => new { Value = value, Index = index }))
-    {
-        if (item.Index % 2 == 0)
+    @*@foreach (var item in Model.messagesList.Select((value, index) => new { Value = value, Index = index }))
         {
-            <div class="container">
-                <span>@item.Value.AuthorName</span>
-                <p>@item.Value.Text</p>
-                <span class="time-right">@item.Value.CreationDate</span>
-            </div>
+            if (item.Index % 2 == 0)
+            {
+                <div class="container">
+                    <span>@item.Value.AuthorName</span>
+                    <p>@item.Value.Text</p>
+                    <span class="time-right">@item.Value.CreationDate</span>
+                </div>
+            }
+            else
+            {
+                <div class="container darker">
+                    <span class="right">@item.Value.AuthorName</span>
+                    <p>@item.Value.Text</p>
+                    <span class="time-left">@item.Value.CreationDate</span>
+                </div>
+            }
         }
-        else
-        {
-            <div class="container darker">
-                <span class="right">@item.Value.AuthorName</span>
-                <p>@item.Value.Text</p>
-                <span class="time-left">@item.Value.CreationDate</span>
-            </div>
-        }
-    }
-    @Html.Partial("~/Views/Chat/CreateMessage.cshtml", new JourneyPortal.ViewModels.Chat.GlobalMessageViewModel())
+
+
+
+
+        @Html.Partial("~/Views/Chat/CreateMessage.cshtml", new JourneyPortal.ViewModels.Chat.GlobalMessageViewModel())*@
+    <div class="form-group col-xl-12">
+        <label class="control-label">Your connection Id</label><br />
+        <input type="text" class="col-lg-12 text-primary" id="frndConnId" placeholder="Paste your friend's connection Id" /><br /><br />
+        <label class="control-label">Your Message</label><br />
+        <textarea type="text" class="col-lg-10 text-primary" id="message"></textarea>
+
+        <input type="button" class="btn btn-primary" id="sendmessage" value="Send" /><br /><br />
+        <div class="container chatArea">
+            <input type="hidden" id="displayname" />
+            <ul id="discussion"></ul>
+        </div>
+    </div>
+    <br />
+    <input type="hidden" id="connId" />
 </div>
-<style>
-    .container {
-        border: 2px solid #dedede;
-        background-color: #f1f1f1;
-        border-radius: 5px;
-        padding: 10px;
-        margin: 10px 0;
+<script>
+    $(function () {
+        debugger;
+        var chat = $.connection.chatHub;
+
+        chat.client.addNewMessageToPage = function (name, message) {
+            $('#discussion').append('<li><strong>' + htmlEncode(name)
+                + '</strong>: ' + htmlEncode(message) + '</li>');
+        };
+        
+        
+        $('#message').focus();
+        $('#message').keypress(function (e) {
+            if (e.which == 13) {
+                $('#sendmessage').trigger('click');
+            }
+        });
+        // Start the connection.
+        $.connection.hub.start().done(function () {
+
+            $('#sendmessage').click(function () {
+                // Call the Send method on the hub.
+                chat.server.send("lol", $('#message').val());
+                // Clear text box and reset focus for next comment.
+                $('#discussion').append('<li><strong>' + htmlEncode($('#displayname').val())
+                    + '</strong>: ' + htmlEncode($('#message').val()) + '</li>');
+                $('#message').val('').focus();
+            });
+        });
+
+    });
+    // This optional function html-encodes messages for display in the page.
+    function htmlEncode(value) {
+        var encodedValue = $('<div />').text(value).html();
+        return encodedValue;
     }
 
-    .darker {
-        border-color: #ccc;
-        background-color: #ddd;
-    }
-
-    .container::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-
-    .container img {
-        float: left;
-        max-width: 60px;
-        width: 100%;
-        margin-right: 20px;
-        border-radius: 50%;
-    }
-
-        .container img.right {
-            float: right;
-            margin-left: 20px;
-            margin-right: 0;
+</script>
+@*<style>
+        .container {
+            border: 2px solid #dedede;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
         }
 
-    .time-right {
-        float: right;
-        color: #aaa;
-    }
+        .darker {
+            border-color: #ccc;
+            background-color: #ddd;
+        }
 
-    .time-left {
-        float: left;
-        color: #999;
-    }
-</style>
+        .container::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .container img {
+            float: left;
+            max-width: 60px;
+            width: 100%;
+            margin-right: 20px;
+            border-radius: 50%;
+        }
+
+            .container img.right {
+                float: right;
+                margin-left: 20px;
+                margin-right: 0;
+            }
+
+        .time-right {
+            float: right;
+            color: #aaa;
+        }
+
+        .time-left {
+            float: left;
+            color: #999;
+        }
+    </style>*@
