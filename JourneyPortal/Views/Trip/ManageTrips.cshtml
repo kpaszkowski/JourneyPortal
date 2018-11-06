@@ -33,7 +33,7 @@
                         }
                     </td>
                     <td>
-                        @using (Html.BeginForm("RemoveTrip", "Trip", new { tripId = item.Id }, FormMethod.Post))
+                        @using (Html.BeginForm("RemoveTrip", "Trip", new { tripId = item.Id ,page = Model.Page}, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
                             <button class="btn btn-danger" type="submit"> Usuń</button>

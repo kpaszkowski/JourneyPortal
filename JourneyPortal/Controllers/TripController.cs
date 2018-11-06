@@ -46,6 +46,7 @@ namespace JourneyPortal.Controllers
             var model = new ManageAtractionsViewModel();
             int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
+            model.Page = pageNumber;
             model.atractionsList = tripService.PrepareAtractionList(User.Identity.Name).ToPagedList(pageNumber, pageSize);
             return View("~/Views/Trip/ManageAtractions.cshtml",model);
         }
@@ -152,34 +153,34 @@ namespace JourneyPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult DisableAtractions(int atractionId)
+        public ActionResult DisableAtractions(int atractionId,int page)
         {
             bool isOwner = userServices.IsAtractionOwner(atractionId, User.Identity.Name);
             if (isOwner)
             {
                 var result = tripService.DisableAtractions(atractionId);
             }
-            return RedirectToAction("ManageAtractions");
+            return RedirectToAction("ManageAtractions",new { page =  page});
         }
         [HttpPost]
-        public ActionResult EnableAtractions(int atractionId)
+        public ActionResult EnableAtractions(int atractionId, int page)
         {
             bool isOwner = userServices.IsAtractionOwner(atractionId, User.Identity.Name);
             if (isOwner)
             {
                 var result = tripService.EnableAtractions(atractionId);
             }
-            return RedirectToAction("ManageAtractions");
+            return RedirectToAction("ManageAtractions", new { page = page });
         }
         [HttpPost]
-        public ActionResult RemoveAtractions(int atractionId)
+        public ActionResult RemoveAtractions(int atractionId,int page)
         {
             bool isOwner = userServices.IsAtractionOwner(atractionId, User.Identity.Name);
             if (isOwner)
             {
                 var result = tripService.RemoveAtractions(atractionId);
             }
-            return RedirectToAction("ManageAtractions");
+            return RedirectToAction("ManageAtractions", new { page = page });
         }
 
         public ActionResult ManageHotels(int? page)
@@ -187,6 +188,7 @@ namespace JourneyPortal.Controllers
             var model = new ManageHotelsViewModel();
             int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
+            model.Page = pageNumber;
             model.hotelList = tripService.PrepareHotelList(User.Identity.Name).ToPagedList(pageNumber,pageSize);
             return View("~/Views/Trip/ManageHotels.cshtml",model);
         }
@@ -321,45 +323,45 @@ namespace JourneyPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult DisableHotel(int hotelId)
+        public ActionResult DisableHotel(int hotelId, int page)
         {
             bool isOwner = userServices.IsHotelOwner(hotelId, User.Identity.Name);
             if (isOwner)
             {
                 var result = tripService.DisableHotel(hotelId);
             }
-            return RedirectToAction("ManageHotels");
+            return RedirectToAction("ManageHotels", new { page = page });
         }
         [HttpPost]
-        public ActionResult EnableHotel(int hotelId)
+        public ActionResult EnableHotel(int hotelId, int page)
         {
             bool isOwner = userServices.IsHotelOwner(hotelId, User.Identity.Name);
             if (isOwner)
             {
                 var result = tripService.EnableHotel(hotelId);
             }
-            return RedirectToAction("ManageHotels");
+            return RedirectToAction("ManageHotels", new { page = page });
         }
         [HttpPost]
-        public ActionResult RemoveHotel(int hotelId)
+        public ActionResult RemoveHotel(int hotelId, int page)
         {
             bool isOwner = userServices.IsHotelOwner(hotelId, User.Identity.Name);
             if (isOwner)
             {
                 var result = tripService.RemoveHotel(hotelId);
             }
-            return RedirectToAction("ManageHotels");
+            return RedirectToAction("ManageHotels",new { page = page });
         }
 
         [HttpPost]
-        public ActionResult RemoveTrip(int tripId)
+        public ActionResult RemoveTrip(int tripId,int page)
         {
             bool isOwner = userServices.IsTripOwner(tripId, User.Identity.Name);
             if (isOwner)
             {
                 var result = tripService.RemoveTrip(tripId);
             }
-            return RedirectToAction("GetYourTrip");
+            return RedirectToAction("GetYourTrip",new { page = page });
         }
 
         [HttpGet]
@@ -447,6 +449,7 @@ namespace JourneyPortal.Controllers
             var model = new ManageTripViewModel();
             int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
+            model.Page = pageNumber;
             model.tripList = tripService.PrepareTripList(User.Identity.Name).ToPagedList(pageNumber, pageSize);
             return View("~/Views/Trip/ManageTrips.cshtml", model);
         }

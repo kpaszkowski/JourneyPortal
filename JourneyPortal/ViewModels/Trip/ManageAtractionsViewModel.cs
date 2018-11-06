@@ -10,5 +10,6 @@ namespace JourneyPortal.ViewModels.Trip
     {
         public bool IsPreviewOnly { get; set; }
         public IPagedList<AtractionsGridViewModel> atractionsList { get; set; }
+        public int Page { get; set; }
     }
 }

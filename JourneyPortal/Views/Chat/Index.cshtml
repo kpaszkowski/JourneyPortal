@@ -3,72 +3,49 @@
 <script src="/signalr/hubs"></script>
 <div class="contentBody">
     <h2>Czat publiczny</h2>
-    @*@foreach (var item in Model.messagesList.Select((value, index) => new { Value = value, Index = index }))
-        {
-            if (item.Index % 2 == 0)
-            {
-                <div class="container">
-                    <span>@item.Value.AuthorName</span>
-                    <p>@item.Value.Text</p>
-                    <span class="time-right">@item.Value.CreationDate</span>
-                </div>
-            }
-            else
-            {
-                <div class="container darker">
-                    <span class="right">@item.Value.AuthorName</span>
-                    <p>@item.Value.Text</p>
-                    <span class="time-left">@item.Value.CreationDate</span>
-                </div>
-            }
-        }
-
-
-
-
-        @Html.Partial("~/Views/Chat/CreateMessage.cshtml", new JourneyPortal.ViewModels.Chat.GlobalMessageViewModel())*@
     <div class="form-group col-xl-12">
-        <label class="control-label">Your connection Id</label><br />
-        <input type="text" class="col-lg-12 text-primary" id="frndConnId" placeholder="Paste your friend's connection Id" /><br /><br />
-        <label class="control-label">Your Message</label><br />
-        <textarea type="text" class="col-lg-10 text-primary" id="message"></textarea>
-
+        <label class="control-label">Napisz wiadomość</label><br />
+        <textarea type="text" class="col-lg-10 text-primary" id="messageTextArea"></textarea>
+        <span class="badge" id="maxContentMessage"></span>
         <input type="button" class="btn btn-primary" id="sendmessage" value="Send" /><br /><br />
         <div class="container chatArea">
             <input type="hidden" id="displayname" />
-            <ul id="discussion"></ul>
+            <div id="discussion"></div>
         </div>
     </div>
     <br />
     <input type="hidden" id="connId" />
 </div>
 <script>
+    var leftSide = true;
     $(function () {
+        var max = 160;
+        registerSummernote('#messageTextArea', 'Dodaj post.Maksymalna długość - 160 znaków', max)
+        var string = 'Max ' + max + ' znaków'
+        $('#maxContentMessage').text(String(string));
         debugger;
+        $.get("/Chat/GetMessages", function (data) {
+            for (var i = 0; i < data.messages.length; i++) {
+                createNewMessage(data.messages[i].AuthorName, data.messages[i].Text, data.messages[i].AuthorAvatar);
+            }
+        });
         var chat = $.connection.chatHub;
-
-        chat.client.addNewMessageToPage = function (name, message) {
-            $('#discussion').append('<li><strong>' + htmlEncode(name)
-                + '</strong>: ' + htmlEncode(message) + '</li>');
+        chat.client.addNewMessageToPage = function (name, message, Avatar) {
+            createNewMessage(name, message, Avatar)
         };
         
-        
-        $('#message').focus();
-        $('#message').keypress(function (e) {
+        $('#messageTextArea').focus();
+        $('#messageTextArea').keypress(function (e) {
             if (e.which == 13) {
                 $('#sendmessage').trigger('click');
             }
         });
-        // Start the connection.
         $.connection.hub.start().done(function () {
 
-            $('#sendmessage').click(function () {
-                // Call the Send method on the hub.
-                chat.server.send("lol", $('#message').val());
-                // Clear text box and reset focus for next comment.
-                $('#discussion').append('<li><strong>' + htmlEncode($('#displayname').val())
-                    + '</strong>: ' + htmlEncode($('#message').val()) + '</li>');
-                $('#message').val('').focus();
+            $('#sendmessage').click(function () {                
+                var userName = '@User.Identity.Name';
+                chat.server.send(userName, $('#messageTextArea').val());
+                $('#messageTextArea').val('').focus();
             });
         });
 
@@ -79,14 +56,38 @@
         return encodedValue;
     }
 
+    function createNewMessage(name,message,dateTime,avatar) {
+        var div = $('#discussion');
+        if (dateTime == undefined || dateTime == null) {
+            dateTime = htmlEncode(new Date().toLocaleString());
+        }
+        htmlEncode(new Date().toLocaleString())
+        var newId = 'message-' + div.children().length
+        var divClassName = 'message-container'
+        var timeClassName = 'left';
+        var imageClassName = '';
+        if (leftSide) {
+            divClassName += ' darker';
+            timeClassName = 'right';
+            imageClassName = "class='right'";
+        }
+        leftSide = !leftSide;
+        if (avatar == '' || avatar == undefined || avatar == null) {
+            avatar = '@Url.Content("~/Content/Images/" + @Path.GetFileName("empytAvatar.png"))'
+        }
+        var html = "<div class='" + divClassName + "'><img src=" + avatar + " alt='Avatar'" + imageClassName + "><span><strong>" + name + "<strong/></span><p>" + htmlEncode(message) + "</p><span class='time-" + timeClassName + "'>" + dateTime + "</span></div>";
+        div.append(html);
+    }
+
 </script>
-@*<style>
-        .container {
+<style>
+        .message-container {
             border: 2px solid #dedede;
             background-color: #f1f1f1;
             border-radius: 5px;
             padding: 10px;
             margin: 10px 0;
+            width:100%,
         }
 
         .darker {
@@ -94,13 +95,13 @@
             background-color: #ddd;
         }
 
-        .container::after {
+        .message-container::after {
             content: "";
             clear: both;
             display: table;
         }
 
-        .container img {
+        .message-container img {
             float: left;
             max-width: 60px;
             width: 100%;
@@ -108,7 +109,7 @@
             border-radius: 50%;
         }
 
-            .container img.right {
+            .message-container img.right {
                 float: right;
                 margin-left: 20px;
                 margin-right: 0;
@@ -123,4 +124,4 @@
             float: left;
             color: #999;
         }
-    </style>*@
+    </style>

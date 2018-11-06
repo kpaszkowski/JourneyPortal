@@ -47,7 +47,7 @@
                         <td>
                             @if (item.IsActive)
                             {
-                                using (Html.BeginForm("DisableAtractions", "Trip", new { atractionId = item.Id }, FormMethod.Post))
+                                using (Html.BeginForm("DisableAtractions", "Trip", new { atractionId = item.Id ,Model.Page}, FormMethod.Post))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button class="btn btn-warning" type="submit">Wyłącz</button>
@@ -55,7 +55,7 @@
                             }
                             else
                             {
-                                using (Html.BeginForm("EnableAtractions", "Trip", new { atractionId = item.Id }, FormMethod.Post))
+                                using (Html.BeginForm("EnableAtractions", "Trip", new { atractionId = item.Id , Model.Page }, FormMethod.Post))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button class="btn btn-success" type="submit"> Aktywuj</button>
@@ -63,7 +63,7 @@
                             }
                         </td>
                         <td>
-                            @using (Html.BeginForm("EditAtraction", "Trip", new { atractionId = item.Id }, FormMethod.Post))
+                            @using (Html.BeginForm("EditAtraction", "Trip", new { atractionId = item.Id , Model.Page }, FormMethod.Post))
                             {
                                 <button class="btn btn-default" type="submit"> Edytuj</button>
                             }

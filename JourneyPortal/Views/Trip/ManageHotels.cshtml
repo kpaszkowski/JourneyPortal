@@ -27,7 +27,7 @@
                     <td>
                         @if (item.IsActive)
                         {
-                            using (Html.BeginForm("DisableHotel", "Trip", new { hotelId = item.Id }, FormMethod.Post))
+                            using (Html.BeginForm("DisableHotel", "Trip", new { hotelId = item.Id ,page = Model.Page }, FormMethod.Post))
                             {
                                 @Html.AntiForgeryToken()
                                 <button class="btn btn-warning" type="submit">Wyłącz</button>
@@ -35,7 +35,7 @@
                         }
                         else
                         {
-                            using (Html.BeginForm("EnableHotel", "Trip", new { hotelId = item.Id }, FormMethod.Post))
+                            using (Html.BeginForm("EnableHotel", "Trip", new { hotelId = item.Id, page = Model.Page }, FormMethod.Post))
                             {
                                 @Html.AntiForgeryToken()
                                 <button class="btn btn-success" type="submit"> Aktywuj</button>
@@ -49,7 +49,7 @@
                         }
                     </td>
                     <td>
-                        @using (Html.BeginForm("RemoveHotel", "Trip", new { hotelId = item.Id }, FormMethod.Post))
+                        @using (Html.BeginForm("RemoveHotel", "Trip", new { hotelId = item.Id, page = Model.Page }, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
                             <button class="btn btn-danger" type="submit"> Usuń</button>

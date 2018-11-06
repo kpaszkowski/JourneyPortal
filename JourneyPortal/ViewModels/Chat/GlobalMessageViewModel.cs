@@ -15,5 +15,8 @@ namespace JourneyPortal.ViewModels.Chat
         public DateTime CreationDate { get; set; }
         [Display(Name = "Autor")]
         public string AuthorName { get; set; }
+        [Display(Name = "Avatar")]
+        public string AuthorAvatar { get; set; }
+        public double DateTimeSeconds { get; set; }
     }
 }

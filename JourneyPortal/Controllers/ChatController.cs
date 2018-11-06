@@ -20,7 +20,6 @@ namespace JourneyPortal.Controllers
         public ActionResult Index()
         {
             var model = new ChatViewModel();
-            model.messagesList = ChatService.GetAllMessages();
             return View("~/Views/Chat/Index.cshtml",model);
         }
 
@@ -31,6 +30,20 @@ namespace JourneyPortal.Controllers
                 ChatService.CreateNewMessage(model.Text, User.Identity.Name);
             }
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult GetMessages()
+        {
+            return new JsonResult
+            {
+                Data = new
+                {
+                    messages = ChatService.GetAllMessages(),
+                    success = true,
+                },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
     }

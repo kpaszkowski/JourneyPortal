@@ -56,7 +56,7 @@
                 <div class="modal-body">
                     <p>Nazwa</p>
                     <input id="tripName" type="text" class="form-control" />
-                    <button onclick="saveTripInBase();">Zapisz wycieczkę</button>
+                    <button id="saveTripInBaseBtn" onclick="saveTripInBase();">Zapisz wycieczkę</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
@@ -261,14 +261,16 @@
         //}
 
         function saveTripInBase() {
-
             var url = '/Trip/SaveTrip';
             var atractions = JSON.stringify(selectedAtractions);
             var hotel = JSON.stringify(selectedHotel);
             var nameTrip = $('#tripName').val();
             var route = JSON.stringify(routes);
+            $('#saveTripInBaseBtn').prop("disabled", true);
             $.post(url, { route: route, travelDistance: tripDetail.travelDistance, travelDuration: tripDetail.travelDuration, travelDurationTraffic: tripDetail.travelDurationTraffic, name: nameTrip, hotel: hotel, atractions: atractions }, function (data) {
                 $('#saveTripModal').modal('hide');
+                $('#saveTripBtn').prop("disabled", true)
+                $('#saveTripInBaseBtn').prop("disabled", false);
             });
         }
 

@@ -17,13 +17,20 @@ namespace JourneyPortal.Services
             {
                 using (ApplicationDbContext context = new ApplicationDbContext())
                 {
-                    return context.GlobalMessages.Select(x => new GlobalMessageViewModel
+                    var globalMessagesList = context.GlobalMessages.Select(x => new GlobalMessageViewModel
                     {
                         Id = x.Id,
                         Text = x.Text,
-                        CreationDate = x.CreationDate,
                         AuthorName = x.Author.UserName,
+                        AuthorAvatar = x.Author.Avatar,
+                        CreationDate = x.CreationDate
                     }).ToList();
+
+                    foreach (var item in globalMessagesList)
+                    {
+                        item.DateTimeSeconds = item.CreationDate.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+                    }
+                    return globalMessagesList;
                 }
             }
             catch (Exception ex)
