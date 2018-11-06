@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using JourneyPortal.Models;
@@ -29,6 +30,10 @@ namespace JourneyPortal.Services
                     foreach (var item in globalMessagesList)
                     {
                         item.DateTimeSeconds = item.CreationDate.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+                        if (item.AuthorAvatar != null)
+                        {
+                            item.AuthorAvatar = "/Content/Images/" + Path.GetFileName(item.AuthorAvatar);
+                        }
                     }
                     return globalMessagesList;
                 }

@@ -33,7 +33,7 @@ namespace JourneyPortal.Helpers
                     {
                         avatar ="/Content/Images/" + Path.GetFileName(currentUser.Avatar);
                     }
-                    Clients.All.addNewMessageToPage(name, message,avatar);
+                    Clients.All.addNewMessageToPage(name, message,globalMessage.CreationDate.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds, avatar);
                 }
             }
             catch (Exception ex)

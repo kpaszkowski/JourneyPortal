@@ -13,25 +13,22 @@
             <div id="discussion"></div>
         </div>
     </div>
-    <br />
-    <input type="hidden" id="connId" />
 </div>
 <script>
-    var leftSide = true;
+    var leftSide = false;
     $(function () {
         var max = 160;
         registerSummernote('#messageTextArea', 'Dodaj post.Maksymalna długość - 160 znaków', max)
         var string = 'Max ' + max + ' znaków'
         $('#maxContentMessage').text(String(string));
-        debugger;
         $.get("/Chat/GetMessages", function (data) {
             for (var i = 0; i < data.messages.length; i++) {
-                createNewMessage(data.messages[i].AuthorName, data.messages[i].Text, data.messages[i].AuthorAvatar);
+                createNewMessage(data.messages[i].AuthorName, data.messages[i].Text, data.messages[i].DateTimeSeconds, data.messages[i].AuthorAvatar);
             }
         });
         var chat = $.connection.chatHub;
-        chat.client.addNewMessageToPage = function (name, message, Avatar) {
-            createNewMessage(name, message, Avatar)
+        chat.client.addNewMessageToPage = function (name, message,date, Avatar) {
+            createNewMessage(name, message,date, Avatar)
         };
         
         $('#messageTextArea').focus();
@@ -44,8 +41,11 @@
 
             $('#sendmessage').click(function () {                
                 var userName = '@User.Identity.Name';
-                chat.server.send(userName, $('#messageTextArea').val());
-                $('#messageTextArea').val('').focus();
+                var messageToSend = $('#messageTextArea').val();
+                if (messageToSend.length>0) {
+                    chat.server.send(userName, messageToSend);
+                    $('#messageTextArea').val('').focus();
+                }
             });
         });
 
@@ -61,11 +61,20 @@
         if (dateTime == undefined || dateTime == null) {
             dateTime = htmlEncode(new Date().toLocaleString());
         }
+        //var lastChildNumer = Number(div.children().length);
+        var newId = 'author-' + div.children().length;
+        dateTime = new Date(dateTime);
         htmlEncode(new Date().toLocaleString())
-        var newId = 'message-' + div.children().length
         var divClassName = 'message-container'
         var timeClassName = 'left';
         var imageClassName = '';
+
+        var prevElem = $('#author-' + Number(div.children().length-1));
+        if (prevElem.length) {
+            if (prevElem.first().text() == name) {
+                leftSide = !leftSide;
+            }
+        }
         if (leftSide) {
             divClassName += ' darker';
             timeClassName = 'right';
@@ -75,7 +84,8 @@
         if (avatar == '' || avatar == undefined || avatar == null) {
             avatar = '@Url.Content("~/Content/Images/" + @Path.GetFileName("empytAvatar.png"))'
         }
-        var html = "<div class='" + divClassName + "'><img src=" + avatar + " alt='Avatar'" + imageClassName + "><span><strong>" + name + "<strong/></span><p>" + htmlEncode(message) + "</p><span class='time-" + timeClassName + "'>" + dateTime + "</span></div>";
+        
+        var html = "<div class='" + divClassName + "'><img src=" + avatar + " alt='Avatar'" + imageClassName + "><span id='" + newId + "'><strong>" + name + "<strong/></span><p>" + unescape(message) + "</p><span class='time-" + timeClassName + "'>" + dateTime + "</span></div>";
         div.append(html);
     }
 
