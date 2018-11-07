@@ -3,12 +3,12 @@
 <script src="/signalr/hubs"></script>
 <div class="contentBody" style="width:100%">
     <h2>Czat publiczny</h2>
-    <div class="form-group col-xl-12">
+    <div class="form-group col-xl-12" style="width:100%">
         <label class="control-label">Napisz wiadomość</label><br />
         <textarea type="text" class="col-lg-10 text-primary" id="messageTextArea"></textarea>
         <span class="badge" id="maxContentMessage"></span>
         <input type="button" class="btn btn-primary" id="sendmessage" value="Send" /><br /><br />
-        <div class="container chatArea">
+        <div class="container chatArea" style="width:100%">
             <input type="hidden" id="displayname" />
             <div id="discussion" style="width:100%"></div>
         </div>
