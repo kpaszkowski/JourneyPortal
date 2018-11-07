@@ -1,7 +1,7 @@
 ﻿@model JourneyPortal.ViewModels.Chat.ChatViewModel
 <script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
 <script src="/signalr/hubs"></script>
-<div class="contentBody">
+<div class="contentBody" style="width:100%">
     <h2>Czat publiczny</h2>
     <div class="form-group col-xl-12">
         <label class="control-label">Napisz wiadomość</label><br />
@@ -10,7 +10,7 @@
         <input type="button" class="btn btn-primary" id="sendmessage" value="Send" /><br /><br />
         <div class="container chatArea">
             <input type="hidden" id="displayname" />
-            <div id="discussion"></div>
+            <div id="discussion" style="width:100%"></div>
         </div>
     </div>
 </div>
