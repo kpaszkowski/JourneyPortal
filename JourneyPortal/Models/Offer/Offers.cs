@@ -16,7 +16,8 @@ namespace JourneyPortal.Models.Offer
         public string ApplicationUserId { get; set; }
         
         public int BookingCount { get; set; }
-
+        [DefaultValue("Niezaakceptowany")]
+        public string Status { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual Offers Offers { get; set; }
 

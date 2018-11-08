@@ -199,7 +199,8 @@ namespace JourneyPortal.Controllers
                         EndDate = x.EndDate,
                         Cost = x.Cost,
                         TravelAgencyOwnerName = context.Users.FirstOrDefault(y => y.Id == x.TravelAgencyOwnerId).UserName,
-                        NuberOfBooking = context.OffersApplicationUsers.FirstOrDefault(y => y.ApplicationUserId == currentUser.Id && y.OfferId == x.Id).BookingCount
+                        NuberOfBooking = context.OffersApplicationUsers.FirstOrDefault(y => y.ApplicationUserId == currentUser.Id && y.OfferId == x.Id).BookingCount,
+                        Status = context.OffersApplicationUsers.FirstOrDefault(y => y.ApplicationUserId == currentUser.Id && y.OfferId == x.Id).Status,
                     });
 
                 ViewBag.ItemNumber = query.Count();
@@ -379,6 +380,8 @@ namespace JourneyPortal.Controllers
                     LastName = x.LastName,
                     Email = x.Email,
                     NumberOfBooking = linkedTable.FirstOrDefault(y=>y.ApplicationUserId == x.Id).BookingCount,
+                    Status = linkedTable.FirstOrDefault(y => y.ApplicationUserId == x.Id).Status,
+                    OfferId = offerId,
                 });
 
                 #region Sort Search
@@ -477,6 +480,7 @@ namespace JourneyPortal.Controllers
                     {
                         var offerApplicationUser = context.OffersApplicationUsers.FirstOrDefault(x => x.ApplicationUserId == currentUser.Id && x.OfferId == currentOffert.Id);
                         offerApplicationUser.BookingCount += bookingCount;
+                        offerApplicationUser.Status = "Niezaakceptowany";
                     }
                     //new
                     else
@@ -486,6 +490,7 @@ namespace JourneyPortal.Controllers
                             ApplicationUser = currentUser,
                             Offers = currentOffert,
                             BookingCount = bookingCount,
+                            Status = "Niezaakceptowany",
                         };
                         context.OffersApplicationUsers.Add(offerApplicationUser);
                     }
@@ -569,6 +574,22 @@ namespace JourneyPortal.Controllers
             }
             return RedirectToAction("GetYourOffers");
         }
+
+        [HttpPost]
+        public ActionResult ApproveBooking(string userName , int offerId)
+        {
+            var result = offerServices.ApproveBooking(userName, offerId);
+
+            return RedirectToAction("GetOffersDetail", new { id = offerId });
+        }
+        [HttpPost]
+        public ActionResult RejectBooking(string userName, int offerId)
+        {
+            var result = offerServices.RejectBooking(userName,offerId);
+
+            return RedirectToAction("GetOffersDetail", new { id = offerId });
+        }
+
         [HttpPost]
         public ActionResult EditOffer(int offerId)
         {

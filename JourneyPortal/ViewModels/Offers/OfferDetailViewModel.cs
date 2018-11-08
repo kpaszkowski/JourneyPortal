@@ -108,6 +108,9 @@ namespace JourneyPortal.ViewModels.Offers
         [Display(Name = "Aktualna liczba rezerwacji")]
         public int NumberOfUserCurrentBooking { get; set; }
 
+        [Display(Name = "Status")]
+        public string Status { get; set; }
+
         public List<CommentsViewModel> Comments { get; set; }
 
         public string Image { get; set; }

@@ -13,6 +13,7 @@
                 <th><a onclick="sortBy('lastName');">Nazwisko</a></th>
                 <th><a onclick="sortBy('email');">Email</a></th>
                 <th><a onclick="sortBy('booking');">Liczba miejsc</a></th>
+                <th><a onclick="sortBy('booking');">Status</a></th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +25,29 @@
                     <td>@item.LastName</td>
                     <td>@item.Email</td>
                     <td>@item.NumberOfBooking</td>
+                    <td>
+                        @if (item.Status == "Niezaakceptowany")
+                        {
+                            using (Html.BeginForm("ApproveBooking", "Offers", new { userName = item.UserName, offerId = item.OfferId }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-warning" type="submit">Zaakceptuj</button>
+                            }
+                            using (Html.BeginForm("RejectBooking", "Offers", new { userName = item.UserName , offerId = item.OfferId }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-warning" type="submit">Odrzuć</button>
+                            }
+                        }
+                        else if (item.Status == "Zaakceptowany")
+                        {
+                            using (Html.BeginForm("RejectBooking", "Offers", new { userName = item.UserName, offerId = item.OfferId }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-warning" type="submit">Odrzuć</button>
+                            }
+                        }
+                    </td>
                 </tr>
             }
         </tbody>

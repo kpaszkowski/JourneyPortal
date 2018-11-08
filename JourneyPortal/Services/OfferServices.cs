@@ -295,5 +295,48 @@ namespace JourneyPortal.Services
                 throw ex;
             }
         }
+
+        internal bool ApproveBooking(string userName, int offerId)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                    var currentUser = userManager.FindByName(userName);
+                    var currentLinkTable = context.OffersApplicationUsers.FirstOrDefault(y => y.ApplicationUserId == currentUser.Id && y.OfferId == offerId);
+                    currentLinkTable.Status = "Zaakceptowany";
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        internal bool RejectBooking(string userName, int offerId)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                    var currentUser = userManager.FindByName(userName);
+                    var currentLinkTable = context.OffersApplicationUsers.FirstOrDefault(y => y.ApplicationUserId == currentUser.Id && y.OfferId == offerId);
+                    currentLinkTable.Status = "Odrzucony";
+                    context.OffersApplicationUsers.Remove(currentLinkTable);
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

@@ -23,6 +23,7 @@
                 <th>@Html.ActionLink("Data zakończenia", "GetOffersForUser", new { sortOrder = ViewBag.DateEndSortParm })</th>
                 <th>@Html.ActionLink("Koszt całkowity", "GetOffersForUser", new { sortOrder = ViewBag.Cost })</th>
                 <th>@Html.ActionLink("Nazwa biura podróży", "GetOffersForUser", new { sortOrder = ViewBag.TravelAgencyName })</th>
+                <th>@Html.ActionLink("Status", "GetOffersForUser", new { sortOrder = ViewBag.Status })</th>
                 <th>Wypisz się</th>
             </tr>
         </thead>
@@ -37,13 +38,14 @@
                 <td>@item.EndDate</td>
                 <td>@(item.Cost * item.NuberOfBooking)</td>
                 <td>@item.TravelAgencyOwnerName</td>
+                <td>@item.Status</td>
                 <td>
-                    @using (Html.BeginForm("SignOff", "Offers", FormMethod.Post, new { id = "signOff-"+item.Id }))
+                    @using (Html.BeginForm("SignOff", "Offers", FormMethod.Post, new { id = "signOff-" + item.Id }))
                     {
                         @Html.AntiForgeryToken()
                         <a href="#" onclick="submitSignOff('@item.Id');">Wypisz się</a>
-                        @Html.Hidden("offerId",item.Id)
-                        @Html.Editor("numberOfBooking", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "1", @value = "0", @required = "required", @max = item.NuberOfBooking} })
+                        @Html.Hidden("offerId", item.Id)
+                        @Html.Editor("numberOfBooking", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "1", @value = "0", @required = "required", @max = item.NuberOfBooking } })
                         @Html.ValidationMessage("SignOffNumber", "", new { @class = "text-danger" })
                     }
                 </td>

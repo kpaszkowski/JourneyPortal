@@ -323,6 +323,10 @@
     <Compile Include="Migrations\201811051852591_createSimpleChatModel.Designer.cs">
       <DependentUpon>201811051852591_createSimpleChatModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811080802250_addStatusToOfferModel.cs" />
+    <Compile Include="Migrations\201811080802250_addStatusToOfferModel.Designer.cs">
+      <DependentUpon>201811080802250_addStatusToOfferModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -705,6 +709,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811051852591_createSimpleChatModel.resx">
       <DependentUpon>201811051852591_createSimpleChatModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811080802250_addStatusToOfferModel.resx">
+      <DependentUpon>201811080802250_addStatusToOfferModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -25,6 +25,9 @@ namespace JourneyPortal.ViewModels.Users
         [Display(Name = "Liczba zarezerwowanych miejsc")]
         public int NumberOfBooking { get; set; }
 
+        [Display(Name = "Status")]
+        public string Status { get; set; }
+
         public int OfferId { get; set; }
     }
 }
