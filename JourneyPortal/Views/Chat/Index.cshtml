@@ -10,7 +10,8 @@
             <h3>Napisz wiadomość</h3>
             <textarea type="text" class="col-lg-10 text-primary" id="messageTextArea"></textarea>
             <span class="badge" id="maxContentMessage"></span>
-            <input type="button" class="btn btn-primary" id="sendmessage" value="Send" /><br /><br />
+            <input type="button" class="btn btn-primary" id="sendmessage" value="Wyślij" />
+            <input type="button" class="btn btn-primary" onclick="goToBootom();" value="Przejdz do ostatniej wiadomości" /><br /><br />
         </div>
         <div class="container chatArea" style="width:100%">
             <input type="hidden" id="displayname" />
@@ -20,6 +21,9 @@
 </div>
 <script>
     var leftSide = false;
+    function goToBootom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
     $(function () {
         var max = 160;
         registerSummernote('#messageTextArea', 'Dodaj post.Maksymalna długość - 160 znaków', max)
@@ -35,12 +39,6 @@
             createNewMessage(name, message,date, Avatar)
         };
         
-        $('#messageTextArea').focus();
-        $('#messageTextArea').keypress(function (e) {
-            if (e.which == 13) {
-                $('#sendmessage').trigger('click');
-            }
-        });
         $.connection.hub.start().done(function () {
 
             $('#sendmessage').click(function () {                
@@ -52,7 +50,6 @@
                 }
             });
         });
-
     });
     // This optional function html-encodes messages for display in the page.
     function htmlEncode(value) {

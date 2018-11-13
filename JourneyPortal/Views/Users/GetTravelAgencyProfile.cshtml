@@ -1,12 +1,6 @@
 ﻿@model JourneyPortal.Models.TravelAgencyInfoViewModel
-
-@{
-    ViewBag.Title = "GetTravelAgencyProfile";
-}
-
 <div class="contentBody">
     <h2>Oferty biura : <u>@Model.Name</u></h2>
-
     <div class="container" style="width:100%">
         <div class="well well-sm">
             <strong>Wyświetlanie</strong>
@@ -38,16 +32,6 @@
                                 </h4>
                                 <p>@item.StartDate.ToShortDateString() - @item.EndDate.ToShortDateString()</p>
                                 <p>Dodana: @item.CreationDate.ToShortDateString()</p>
-                                <p class="group inner list-group-item-text">
-                                    @if (item.Description.Length > 80)
-                                    {
-                                        @Html.Raw(item.Description.Substring(0, 80) + "...")
-                                    }
-                                    else
-                                    {
-                                        @Html.Raw(item.Description)
-                                    }
-                                </p>
                                 <div class="row">
                                     <div class="col-xs-12 col-md-6">
                                         <p class="lead">
@@ -102,10 +86,6 @@
             background-color: #fff;
             margin-bottom: 10px;
         }
-
-            .item.list-group-item:nth-of-type(odd):hover, .item.list-group-item:hover {
-                background: #428bca;
-            }
 
             .item.list-group-item .list-group-image {
                 margin-right: 10px;
