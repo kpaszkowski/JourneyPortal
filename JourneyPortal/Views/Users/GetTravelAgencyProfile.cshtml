@@ -2,62 +2,47 @@
 <div class="contentBody">
     <h2>Oferty biura : <u>@Model.Name</u></h2>
     <div class="container" style="width:100%">
-        <div class="well well-sm">
-            <strong>Wyświetlanie</strong>
-            <div class="btn-group">
-                <a href="#" id="list" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-th-list">
-                    </span>Lista
-                </a> <a href="#" id="grid" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-th"></span>Siatka
-                </a>
-            </div>
-        </div>
-        <div id="products" style="width:100%" class="row list-group">
+        <div id="products" style="width:100%" class="wrapper">
             @foreach (var item in Model.OffersList.Where(x => x.IsActive))
             {
-                <div class="item  col-xs-4 col-lg-4">
-                    <div class="thumbnail">
-                        @if (item.Image != null)
-                        {
-                            <img style="width:auto;height:auto" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(item.Image))" class="media-object">
-                        }
-                        else
-                        {
-                            <img style="width:auto;height:auto" src="~/Content/Images/empty.jpg" class="media-object" />
-                        }
-                            <div class="caption">
-                                <h4 class="group inner list-group-item-heading">
-                                    @Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)
-                                </h4>
-                                <p>@item.StartDate.ToShortDateString() - @item.EndDate.ToShortDateString()</p>
-                                <p>Dodana: @item.CreationDate.ToShortDateString()</p>
-                                <div class="row">
-                                    <div class="col-xs-12 col-md-6">
-                                        <p class="lead">
-                                            ZŁ @item.Cost
-                                        </p>
-                                    </div>
-                                </div>
-                                <span>
-                                    @if (item.Rate > 0)
-                                    {
-                                        for (int i = 0; i < 5; i++)
-                                        {
-                                            if (i <= item.Rate)
-                                            {
-                                                <span class="fa fa-star" style=" color: orange;"></span>
-                                            }
-                                            else
-                                            {
-                                                <span class="fa fa-star"></span>
-                                            }
-                                        }
-                                    }
-                                </span>
-                            </div>
-                    </div>
+            <div class="card" style="width:100%;height:100%">
+                <div style="height:250px">
+                    @if (item.Image != null)
+                    {
+                        <img class="cardImg" style="width:100%;height:100%" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(item.Image))">
+                    }
+                    else
+                    {
+                        <img class="cardImg" style="width:100%;height:100%" src="~/Content/Images/empty.jpg" />
+                    }
                 </div>
+                <div class="card-body">
+                    <h4 class="card-title"> @Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</h4>
+                    <p class="card-text">
+
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            if (i < Math.Floor(item.Rate))
+                            {
+                                <span class="fa fa-star" style=" color: orange;"></span>
+                            }
+                            else
+                            {
+                                <span class="fa fa-star"></span>
+                            }
+                        }
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush" style="width:100%">
+                    <li class="list-group-item">
+                        <div class="wrapper">
+                            <b>Termin : </b>@item.StartDate.ToShortDateString() - @item.EndDate.ToShortDateString()
+                        </div>
+                    </li>
+                    <li class="list-group-item"><b>Dodana :</b> @item.CreationDate.ToShortDateString()</li>
+                    <li class="list-group-item"><b>Cena :</b> @item.Cost</li>
+                </ul>
+            </div>
             }
         </div>
     </div>
@@ -68,56 +53,20 @@
     });
     </script>
     <style>
-        .glyphicon {
-            margin-right: 5px;
+        .wrapper > div {
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 1em;
         }
 
-        .thumbnail {
-            margin-bottom: 20px;
-            padding: 0px;
-            -webkit-border-radius: 0px;
-            -moz-border-radius: 0px;
-            border-radius: 0px;
+        .wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-gap: 10px;
         }
 
-        .item.list-group-item {
-            float: none;
-            width: 100%;
-            background-color: #fff;
-            margin-bottom: 10px;
-        }
-
-            .item.list-group-item .list-group-image {
-                margin-right: 10px;
-            }
-
-            .item.list-group-item .thumbnail {
-                margin-bottom: 0px;
-            }
-
-            .item.list-group-item .caption {
-                padding: 9px 9px 0px 9px;
-            }
-
-            .item.list-group-item:nth-of-type(odd) {
-                background: #eeeeee;
-            }
-
-            .item.list-group-item:before, .item.list-group-item:after {
-                display: table;
-                content: " ";
-            }
-
-            .item.list-group-item img {
-                float: left;
-            }
-
-            .item.list-group-item:after {
-                clear: both;
-            }
-
-        .list-group-item-text {
-            margin: 0 0 11px;
+        .cardImg {
+            border-radius: 10px;
         }
     </style>
 </div>

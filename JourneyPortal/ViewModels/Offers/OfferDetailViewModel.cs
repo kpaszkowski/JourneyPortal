@@ -124,5 +124,6 @@ namespace JourneyPortal.ViewModels.Offers
         public bool IsActive { get; set; }
         public bool IsOwner { get; set; }
         public bool CanAddComment { get; set; }
+        public List<OfferDetailViewModel> RandomOffers { get; set; }
     }
 }

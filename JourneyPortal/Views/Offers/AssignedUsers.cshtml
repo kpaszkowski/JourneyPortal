@@ -2,18 +2,18 @@
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-<div class="container">
-    <br /><br /><br />
-    <table class="table table-striped well" style="width:auto">
+<div class="container "style="width:100%">
+    <br />
+    <table class="table table-striped" style="width:100%">
         <thead>
             <tr>
                 @*<th>@Html.ActionLink("Id", "GetAssignedUsers", new { sortOrder = ViewBag.IdSortParm })</th>*@
-                <th><a onclick="sortBy('userName');">Nazwa użytkownika</a></th>
-                <th><a onclick="sortBy('firstName');">Imię</a></th>
-                <th><a onclick="sortBy('lastName');">Nazwisko</a></th>
-                <th><a onclick="sortBy('email');">Email</a></th>
-                <th><a onclick="sortBy('booking');">Liczba miejsc</a></th>
-                <th><a onclick="sortBy('booking');">Status</a></th>
+                <th>Nazwa użytkownika</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Email</th>
+                <th>Liczba miejsc</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>

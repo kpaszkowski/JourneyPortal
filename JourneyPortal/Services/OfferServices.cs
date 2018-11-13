@@ -339,5 +339,35 @@ namespace JourneyPortal.Services
                 throw ex;
             }
         }
+
+        internal List<OfferDetailViewModel> GetRandomOffers(int id)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    Random rand = new Random();
+                    int toSkip = rand.Next(0, context.Offers.Where(x=>x.IsActive && x.Id != id).ToList().Count);
+                    var randomOffers = context.Offers.Where(x => x.IsActive && x.Id != id).Select(x=> new OfferDetailViewModel
+                    {
+                        Id = x.Id,
+                        Cost = x.Cost,
+                        Country = x.Country,
+                        CreationDate = x.CreationDate,
+                        EndDate =x.EndDate,
+                        StartDate = x.StartDate,
+                        Rate = x.Rate,
+                        Image = x.Image,
+                        Name = x.Name,
+                        TravelAgencyOwnerName = x.TravelAgencyOwner.UserName,
+                    }).ToList();
+                    return randomOffers.Skip(toSkip).Take(3).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

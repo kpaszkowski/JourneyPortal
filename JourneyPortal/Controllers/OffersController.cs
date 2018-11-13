@@ -527,6 +527,7 @@ namespace JourneyPortal.Controllers
             string userName = User.Identity.Name;
             model.IsUser = userServices.IsUser(userName);
             model.IsTravelAgency= userServices.IsTravelAgency(userName);
+            model.RandomOffers = offerServices.GetRandomOffers(id);
             if (model.IsTravelAgency)
             {
                 model.IsOwner = userServices.IsOwner(id, User.Identity.Name);

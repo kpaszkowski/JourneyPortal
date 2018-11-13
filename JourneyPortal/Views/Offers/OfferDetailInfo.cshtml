@@ -1,198 +1,246 @@
 ﻿@model JourneyPortal.ViewModels.Offers.OfferDetailViewModel
 <link href="~/Content/Offers/GridTab.css" rel="stylesheet" />
-<br />
-<div class="container" style="width:100%">
-    <div class="media">
-        <div class="media-left media-top">
-            @using (Html.BeginForm("EditImage", "Offers", new { offerId = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-            {
-                <div>
-                    @if (Model.Image != null)
-                    {
-                        <img id="offerImage" style="width:100%;max-height:500px" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(Model.Image))" class="media-object">
-                    }
-                    else
-                    {
-                        <img id="offerImage" style="width:100%;max-height:500px" src="~/Content/Images/empty.jpg" class="media-object" />
-                    }
-                </div>
-                if (Request.IsAuthenticated && Model.IsOwner)
+<div class="contentBody">
+    <div class="container" style="width:100%;height:100%">
+        <h1 class="my-4">
+            @Model.Name
+            <small>poleca - @Model.TravelAgencyOwnerName</small>
+        </h1>
+        <div class="row" style="width:100%;height:100%">
+
+            <div class="col-md-8">
+                @using (Html.BeginForm("EditImage", "Offers", new { offerId = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
                 {
-                    <div>
-                        <input type="file" title="search image" id="file" name="file" onchange="show(this)" />
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" class="btn btn-default" value="Zapisz" />
-                        </div>
-                    </div>
-                }
-            }
-        </div>
-        <div class="media-right media-top">
-            <h3 class="media-heading">@Model.Name</h3><br />
-            <div>
-                @Html.LabelFor(m => m.Rate, new { @class = "col-md-4 control-label" })
-                <div class="col-md-8 ">
-                    <div class="form-control" style="width:75%">
-                        @for (int i = 0; i < 5; i++)
+                    <div style="max-height:500px;width:auto">
+                        @if (Model.Image != null)
                         {
-                            if (i <= Model.Rate)
-                            {
-                                <span class="fa fa-star" style=" color: orange;"></span>
-                            }
-                            else
-                            {
-                                <span class="fa fa-star"></span>
-                            }
-                        }
-                    </div>
-                </div>
-                @Html.LabelFor(m => m.StartDate, new { @class = "col-md-4 control-label" })
-                <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control", disabled = "disabled" })
-                </div>
-                @Html.LabelFor(m => m.EndDate, new { @class = "col-md-4 control-label" })
-                <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control", disabled = "disabled" })
-                </div>
-                @Html.LabelFor(m => m.CreationDate, new { @class = "col-md-4 control-label" })
-                <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.CreationDate, new { @class = "form-control", disabled = "disabled" })
-                </div>
-                @Html.LabelFor(m => m.Cost, new { @class = "col-md-4 control-label" })
-                <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Cost, new { @class = "form-control", disabled = "disabled" })
-                </div>
-                @Html.LabelFor(m => m.NuberOfBooking, new { @class = "col-md-4 control-label" })
-                <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.NuberOfBooking, new { @class = "form-control", disabled = "disabled" })
-                </div>
-                @if (Model.NumberOfUserCurrentBooking != 0)
-                {
-                    @Html.LabelFor(m => m.NumberOfUserCurrentBooking, new { @class = "col-md-4 control-label" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.NumberOfUserCurrentBooking, new { @class = "form-control", disabled = "disabled" })
-                    </div>
-                }
-                @Html.Label("Nazwa biura", new { @class = "col-md-4 control-label" })
-                <div class="col-md-8">
-                    <button id="getTravelAgencyInfo" class="btn btn-info">@Html.ActionLink(Model.TravelAgencyOwnerName, "GetTravelAgencyProfile", "Users", new { userName = Model.TravelAgencyOwnerName }, null)</button>
-                </div>
-                @if (User.Identity.IsAuthenticated && Model.IsUser)
-                {
-                    using (Html.BeginForm("BookTrip", "Offers", FormMethod.Post))
-                    {
-                        @Html.Hidden("offerId", Model.Id)
-                        if (Model.NuberOfBooking == 0)
-                        {
-                            @Html.Label("Rezerwacja", new { @class = "col-md-4 control-label" })
-                            <div class="col-md-8">
-                                <button class="btn btn-success" disabled="disabled" type="submit">Zarezerwuj miejsca</button>
-                            </div>
-                            @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", style = "width:15%", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking, disabled = "disabled" } })
+                            <img class="cardImg" style="width:100%;height:100%" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(Model.Image))">
                         }
                         else
                         {
-                            <div class="col-md-8">
-                                <button class="btn btn-success" type="submit">Zarezerwuj miejsca</button>
-                                @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", style = "width:15%", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking } })
-                            </div>
-
+                            <img class="cardImg" style="width:100%;height:100%" src="~/Content/Images/empty.jpg" />
                         }
-                        @Html.ValidationMessage("bookingCount", "", new { @class = "text-danger" })
-
+                    </div>
+                    if (Request.IsAuthenticated && Model.IsOwner)
+                    {
+                        <div>
+                            <input type="file" title="search image" id="file" name="file" onchange="show(this)" />
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" class="btn btn-default" value="Zapisz" />
+                            </div>
+                        </div>
                     }
-
                 }
             </div>
+
+            <div class="col-md-4">
+                <h3 class="my-3">Podstawowe informacje</h3>
+                <ul class="list-group list-group-flush" style="width:100%">
+                    <li class="list-group-item">
+                        <div class="wrapper">
+                            <b>Termin : </b>@Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString()
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="wrapper">
+                            <b>Dodana :</b> @Model.CreationDate.ToShortDateString()
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="wrapper">
+                            <b>Cena :</b> @Model.Cost
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="wrapper">
+                            <b>Ocena : </b>
+                            <div>
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    if (i < Math.Floor(Model.Rate))
+                                    {
+                                        <span class="fa fa-star" style=" color: orange;"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="fa fa-star"></span>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="wrapper">
+                            <b>Liczba wolnych miejsc :</b> @Model.NuberOfBooking
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="wrapper">
+                            <b>Liczba rezerwacji :</b> @Model.NumberOfUserCurrentBooking
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="wrapper">
+                            @if (User.Identity.IsAuthenticated && Model.IsUser)
+                            {
+                                using (Html.BeginForm("BookTrip", "Offers", FormMethod.Post))
+                                {
+                                    @Html.Hidden("offerId", Model.Id)
+                                    if (Model.NuberOfBooking == 0)
+                                    {
+                                        <button class="btn btn-success" disabled="disabled" type="submit">Zarezerwuj miejsca</button>
+                                        @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", style = "width:auto", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking, disabled = "disabled" } })
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-success" type="submit">Zarezerwuj miejsca</button>
+                                        @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", style = "width:auto", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking } })
+
+                                    }
+                                    @Html.ValidationMessage("bookingCount", "", new { @class = "text-danger" })
+                                }
+
+                            }
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
         </div>
-        <div class="container-fluid">
-            <div class="row">
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalDescription">Zobacz opis</button>
-                <!-- Modal -->
-                <div class="modal fade" id="modalDescription" role="dialog">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Opis</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>@Html.Raw(Model.Description)</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
-                            </div>
+        <div class="row" style="padding:5px;border: 2px solid #ddd;
+            border-radius: 5px;">
+            <h2><b>Opis</b></h2>
+            <p>@Html.Raw(Model.Description)</p>
+        </div>
+        <br />
+        <div class="row" style="padding:5px;border: 2px solid #ddd;
+            border-radius: 5px;">
+            <h3><b>Opinie</b></h3>
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Dodaj opinię</button>
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="width:60%">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Dodaj opinię</h4>
+                        </div>
+                        <div class="modal-body">
+                            @Html.Partial("~/Views/Offers/CreateComment.cshtml", new JourneyPortal.ViewModels.Offers.CreateCommentToOfferViewModel { CanAddComment = Model.CanAddComment, OfferId = Model.Id, })
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Dodaj opinię</button>
+            </div>
+            @Html.Action("GetComments", new { offerId = Model.Id })
+        </div>
+        <br />
 
-                <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content" style="width:60%">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Dodaj opinię</h4>
+        <div class="row" style="padding:5px;border: 2px solid #ddd;
+            border-radius: 5px;">
+            <h3><b>Zapisani użytkownicy</b></h3>
+            @if (Model.IsTravelAgency && Model.IsOwner)
+            {
+                <div>
+                    @Html.Action("GetAssignedUsers", new { offerId = Model.Id })
+                </div>
+            }
+        </div>
+        <h3 class="my-4">Inne oferty</h3>
+
+        <div class="wrapper">
+            @foreach (var item in Model.RandomOffers)
+            {
+                <div class="card" style="width:100%;height:100%">
+                    <div style="height:250px">
+                        @if (item.Image != null)
+                        {
+                            <img class="cardImg" style="width:100%;height:100%" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(item.Image))">
+                        }
+                        else
+                        {
+                            <img class="cardImg" style="width:100%;height:100%" src="~/Content/Images/empty.jpg" />
+                        }
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"> @Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</h4>
+                        <p class="card-text">
+
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                if (i < Math.Floor(item.Rate))
+                                {
+                                    <span class="fa fa-star" style=" color: orange;"></span>
+                                }
+                                else
+                                {
+                                    <span class="fa fa-star"></span>
+                                }
+                            }
+                        </p>
+                    </div>
+                    <ul class="list-group list-group-flush" style="width:100%">
+                        <li class="list-group-item">
+                            <div class="wrapper">
+                                <b>Termin : </b>@item.StartDate.ToShortDateString() - @item.EndDate.ToShortDateString()
                             </div>
-                            <div class="modal-body">
-                                @Html.Partial("~/Views/Offers/CreateComment.cshtml", new JourneyPortal.ViewModels.Offers.CreateCommentToOfferViewModel { CanAddComment = Model.CanAddComment, OfferId = Model.Id, })
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
-                            </div>
-                        </div>
+                        </li>
+                        <li class="list-group-item"><b>Dodana :</b> @item.CreationDate.ToShortDateString()</li>
+                        <li class="list-group-item"><b>Cena :</b> @item.Cost</li>
+                    </ul>
+                    <div class="card-body">
+                        @Html.ActionLink(item.TravelAgencyOwnerName, "GetTravelAgencyProfile", "Users", new { userName = item.TravelAgencyOwnerName }, null)
                     </div>
                 </div>
-            </div>
+            }
         </div>
-        
-        <button class="tablink" onclick="openPage('commentsTab', this,'#d4d4d4')" id="defaultOpen">Opinie</button>
-        @if (Model.IsTravelAgency && Model.IsOwner)
-        {
-            <button class="tablink" onclick="openPage('usersTab', this,'#d4d4d4')">Zapisani użytkownicy</button>
-            <div id="usersTab" class="tabcontent">
-            
-                    <div id="usersGridList">
-                        @Html.Action("GetAssignedUsers", new { offerId = Model.Id })
-                    </div>
-            </div>
-        }
-
-        <div id="commentsTab" class="tabcontent">
-            <div id="commentsGridList">
-                @Html.Action("GetComments", new { offerId = Model.Id })
-            </div>
-        </div>
-        <br/>
     </div>
 </div>
 <script>
-    function show(input) {
-        if (input.files && input.files[0]) {
-            var filerdr = new FileReader();
-            filerdr.onload = function (e) {
-                $('#offerImage').attr('src', e.target.result);
-            }
-            filerdr.readAsDataURL(input.files[0]);
-        }
-    }
+    //function show(input) {
+    //    if (input.files && input.files[0]) {
+    //        var filerdr = new FileReader();
+    //        filerdr.onload = function (e) {
+    //            $('#offerImage').attr('src', e.target.result);
+    //        }
+    //        filerdr.readAsDataURL(input.files[0]);
+    //    }
+    //}
 
-    function openPage(pageName, elmnt, color) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablink");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].style.backgroundColor = "";
-        }
-        document.getElementById(pageName).style.display = "block";
-        elmnt.style.backgroundColor = color;
+    //function openPage(pageName, elmnt, color) {
+    //    var i, tabcontent, tablinks;
+    //    tabcontent = document.getElementsByClassName("tabcontent");
+    //    for (i = 0; i < tabcontent.length; i++) {
+    //        tabcontent[i].style.display = "none";
+    //    }
+    //    tablinks = document.getElementsByClassName("tablink");
+    //    for (i = 0; i < tablinks.length; i++) {
+    //        tablinks[i].style.backgroundColor = "";
+    //    }
+    //    document.getElementById(pageName).style.display = "block";
+    //    elmnt.style.backgroundColor = color;
 
-    }
-    // Get the element with id="defaultOpen" and click on it
-    document.getElementById("defaultOpen").click();
+    //}
+    //// Get the element with id="defaultOpen" and click on it
+    //document.getElementById("defaultOpen").click();
 </script>
+<style>
+    .wrapper > div {
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        padding: 1em;
+    }
+
+    .wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-gap: 10px;
+    }
+
+    .cardImg {
+        border-radius: 10px;
+    }
+</style>
