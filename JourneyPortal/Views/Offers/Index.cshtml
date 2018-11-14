@@ -2,6 +2,8 @@
 @using PagedList.Mvc;
 <link href="~/Content/flipItem.css" rel="stylesheet" />
 <div class="contentBody" id="products">
+    <h2><b>Aktualne oferty</b></h2>
+    <hr/>
         <div class="wrapper">
             @foreach (var item in Model.OffersList.OrderBy(x => x.CreationDate).Where(x => x.IsActive))
             {

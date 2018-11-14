@@ -328,7 +328,7 @@ namespace JourneyPortal.Services
                     var currentLinkTable = context.OffersApplicationUsers.FirstOrDefault(y => y.ApplicationUserId == currentUser.Id && y.OfferId == offerId);
                     currentLinkTable.Status = "Odrzucony";
                     context.OffersApplicationUsers.Remove(currentLinkTable);
-                    context.Offers.FirstOrDefault(x => x.Id == offerId).NuberOfBooking = +currentLinkTable.BookingCount;
+                    context.Offers.FirstOrDefault(x => x.Id == offerId).NuberOfBooking += currentLinkTable.BookingCount;
                     context.SaveChanges();
                     return true;
                 }

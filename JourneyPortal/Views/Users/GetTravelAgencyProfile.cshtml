@@ -1,6 +1,7 @@
 ﻿@model JourneyPortal.Models.TravelAgencyInfoViewModel
 <div class="contentBody">
-    <h2>Oferty biura : <u>@Model.Name</u></h2>
+    <h2><b>Oferty biura : </b><u>@Model.Name</u></h2>
+
     <div class="container" style="width:100%">
         <div id="products" style="width:100%" class="wrapper">
             @foreach (var item in Model.OffersList.Where(x => x.IsActive))

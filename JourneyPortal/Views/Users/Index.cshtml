@@ -4,8 +4,9 @@
     string name = Model.FirstName + " " + Model.LastName;
 }
 
-<h2>Witaj <b>@name</b></h2>
+<h2>Witaj <b>@name (@Model.Login)</b></h2>
 
+<br/>
 <div class="form-group">
     @Html.LabelFor(m => m.Login, new { @class = "col-md-2 control-label" })
     <div class="col-md-10">
@@ -42,12 +43,6 @@
         @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control datepicker", autocomplete = "off", disabled = "disabled" })
     </div>
 </div>
-
-@if (ViewBag.displayMenu == "Yes")
-{
-
-    <h4>@Html.ActionLink("Zarządaj rolami", "Index", "Role")</h4>
-}
 <h4>@Html.ActionLink("Zmień dane", "EditProfileData", "Users")</h4>
 
 @using (Html.BeginForm("EditAvatar", "Users", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))

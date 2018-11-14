@@ -6,19 +6,9 @@
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
+<hr/>
 <div>
-    <h4>Zmień dane konta</h4>
     @Html.Action("Index", "Users")
-    <hr />
-    @if (Model.IsAdmin)
-    {
-        <h4>@Html.ActionLink("Zarządzaj użytkownikami", "WebGrid", "WebGrid")</h4>
-    }
-    <hr />
-    @if (Model.IsUser)
-    {
-        <h4>@Html.ActionLink("Przeglądaj zapisane oferty", "GetOffersForUser", "Offers")</h4>
-    }
     <hr />
     @if (Model.HasPassword)
     {

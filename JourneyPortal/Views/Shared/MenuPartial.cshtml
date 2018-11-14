@@ -13,11 +13,26 @@
             @Html.ActionLink("Oferty", "Index", "Offers")
             @Html.ActionLink("Dodaj nową ofertę", "CreateNewOffert", "Offers")
             @Html.ActionLink("Twoje oferty", "GetYourOffers", "Offers")
+            @Html.ActionLink("Przeglądaj zapisane oferty", "GetOffersForUser", "Offers")
         </div>
     }
     else
     {
-        @Html.ActionLink("Oferty", "Index", "Offers")
+        if (User.Identity.IsAuthenticated)
+        {
+            <button class="dropdown-btn">
+                Oferty
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                @Html.ActionLink("Wszystkie oferty", "Index", "Offers")
+                @Html.ActionLink("Przeglądaj zapisane oferty", "GetOffersForUser", "Offers")
+            </div>
+        }
+        else
+        {
+                @Html.ActionLink("Oferty", "Index", "Offers")
+        }
     }
     @if (User.IsInRole("Proprietor") || User.IsInRole("Admin"))
     {
@@ -44,6 +59,17 @@
     }
     @Html.ActionLink("Czat", "Index", "Chat")
     @Html.ActionLink("Forum", "Index", "Forum")
+    @if (User.IsInRole("Admin"))
+    {
+        <button class="dropdown-btn">
+            Panel administracyjny
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            @Html.ActionLink("Zarządzaj użytkownikami", "WebGrid", "WebGrid")
+            @Html.ActionLink("Zarządaj rolami", "Index", "Role")
+        </div>
+    }
 </div>
 <script>
     /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
