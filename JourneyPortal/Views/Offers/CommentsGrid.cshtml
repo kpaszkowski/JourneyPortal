@@ -6,8 +6,8 @@
         border-right: 1px solid #333;
     }
 </style>
-<div class="container">
-    <br/><br /><br />
+<div class="container" style="width:100%">
+    <br/>
     <ul class="list-group">
         @foreach (var item in Model.CommentsList)
         {
@@ -20,7 +20,7 @@
                             <span>
                                 @for (int i = 0; i < 5; i++)
                                 {
-                                    if (i <= item.Rate)
+                                    if (i < Math.Floor(item.Rate))
                                     {
                                         <span class="fa fa-star" style=" color: orange;"></span>
                                     }
@@ -29,6 +29,7 @@
                                         <span class="fa fa-star"></span>
                                     }
                                 }
+
                             </span>
                         </div>
                         <div class="col-sm-8 ">@item.Text</div>

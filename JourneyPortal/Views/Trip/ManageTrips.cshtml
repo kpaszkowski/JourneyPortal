@@ -8,11 +8,11 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th><a onclick="sortBy('userName');">Nazwa wycieczki</a></th>
-                <th><a onclick="sortBy('userName');">Długość</a></th>
-                <th><a onclick="sortBy('userName');">Czas trwania</a></th>
-                <th><a onclick="sortBy('userName');">Czas trwania podczas dużego natężenia ruchu</a></th>
-                <th><a onclick="sortBy('userName');">Liczba atrakcji</a></th>
+                <th>Nazwa wycieczki</th>
+                <th>Długość (km)</th>
+                <th>Czas trwania (hh:mm:ss)</th>
+                <th>Czas trwania podczas dużego natężenia ruchu (hh:mm:ss)</th>
+                <th>Liczba atrakcji</th>
                 <th>Zobacz na mapie</th>
                 <th>Usuń</th>
             </tr>
@@ -20,11 +20,13 @@
         <tbody>
             @foreach (var item in Model.tripList)
             {
+                TimeSpan durMin = TimeSpan.FromSeconds(item.Duration);
+                TimeSpan durMax = TimeSpan.FromSeconds(item.DurationTrafiic);
                 <tr>
                     <td>@Html.ActionLink(item.Name, "GetTripDetail", "Trip", new { tripId = item.Id }, null)</td>
                     <td>@item.TotalDistance</td>
-                    <td>@item.Duration</td>
-                    <td>@item.DurationTrafiic</td>
+                    <td>@durMin.Hours:@durMin.Minutes:@durMin.Seconds</td>
+                    <td>@durMax.Hours:@durMax.Minutes:@durMax.Seconds</td>
                     <td>@item.AtractionNumber</td>
                     <td>
                         @using (Html.BeginForm("Index", "Trip", new { tripId = item.Id }, FormMethod.Post))

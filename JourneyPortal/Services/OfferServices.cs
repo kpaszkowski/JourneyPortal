@@ -347,8 +347,8 @@ namespace JourneyPortal.Services
                 using (ApplicationDbContext context = new ApplicationDbContext())
                 {
                     Random rand = new Random();
-                    int toSkip = rand.Next(0, context.Offers.Where(x=>x.IsActive && x.Id != id).ToList().Count);
-                    var randomOffers = context.Offers.Where(x => x.IsActive && x.Id != id).Select(x=> new OfferDetailViewModel
+                    var ownerName = context.Offers.Where(x => x.Id == id).Select(x => x.TravelAgencyOwner.UserName).FirstOrDefault();
+                    var randomOffers = context.Offers.Where(x => x.IsActive && x.Id != id && x.TravelAgencyOwner.UserName == ownerName).Select(x=> new OfferDetailViewModel
                     {
                         Id = x.Id,
                         Cost = x.Cost,
@@ -361,7 +361,15 @@ namespace JourneyPortal.Services
                         Name = x.Name,
                         TravelAgencyOwnerName = x.TravelAgencyOwner.UserName,
                     }).ToList();
-                    return randomOffers.Skip(toSkip).Take(3).ToList();
+                    List<OfferDetailViewModel> newList = new List<OfferDetailViewModel>();
+                    int loopConstraint = randomOffers.Count > 3 ? 3 : randomOffers.Count;
+                    for (int i = 0; i < loopConstraint; i++)
+                    {
+                        int index = rand.Next(randomOffers.Count);
+                        newList.Add(randomOffers[index]);
+                        randomOffers.RemoveAt(index);
+                    }
+                    return newList;
                 }
             }
             catch (Exception ex)

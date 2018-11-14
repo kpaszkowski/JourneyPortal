@@ -24,16 +24,9 @@
     @Html.Partial("MenuPartial")
     <div id="main" style="margin-left:250px">
         <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+            <div class="container" style="width:100%">
                     <a style="font-size:30px;cursor:pointer" class="navbar-brand" onclick="openNav()">&#9776; Menu</a>
                     @Html.ActionLink("Journey Portal", "Index", "Home" ,new { @class = "navbar-brand" })
-                </div>
                 <div class="navbar-collapse collapse">
                     @Html.Partial("_LoginPartial")
                 </div>
@@ -61,11 +54,13 @@
     function openNav() {
         if (isMenuOpen) {
             document.getElementById("mySidenav").style.width = "15%";
+            document.getElementById("mySidenav").style.minWidth = "130px";
             document.getElementById("main").style.marginLeft = "15%";
             document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
         }
         else {
             document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("mySidenav").style.minWidth = "0";
             document.getElementById("main").style.marginLeft = "0";
             document.body.style.backgroundColor = "white";
         }

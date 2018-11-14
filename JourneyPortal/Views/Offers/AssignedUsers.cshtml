@@ -64,42 +64,4 @@
     function submitSignOff(id) {
         $('#signOff-' + id).submit();
     }
-    function sortBy(kind) {
-        var sortOrderKind;
-        switch (kind) {
-            case 'userName':
-                {
-                    sortOrderKind = '@ViewBag.UserNameSortParm';
-                    break;
-                }
-            case 'firstName':
-                {
-                    sortOrderKind = '@ViewBag.FirstNameSortParm';
-                    break;
-                }
-            case 'lastName':
-                {
-                    sortOrderKind = '@ViewBag.LastNameSortParm';
-                    break;
-                }
-            case 'email':
-                {
-                    sortOrderKind = '@ViewBag.EmailSortParm';
-                    break;
-                }
-            case 'booking':
-                {
-                    sortOrderKind = '@ViewBag.BookingNumber';
-                    break;
-                }
-            default:
-                {
-                    var searchValue = $('#searchString').val();
-                    break;
-                }
-        }
-        $.get('/Offers/GetAssignedUsers', { offerId: @Model.OfferId, sortOrder: sortOrderKind, searchString: searchValue }, function (data) {
-            $('#usersGridList').html(data);
-        });
-    }
 </script>

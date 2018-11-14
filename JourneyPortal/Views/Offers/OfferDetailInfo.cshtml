@@ -3,7 +3,7 @@
 <div class="contentBody">
     <div class="container" style="width:100%;height:100%">
         <h1 class="my-4">
-            @Model.Name
+            "@Model.Name"
             <small>poleca - @Model.TravelAgencyOwnerName</small>
         </h1>
         <div class="row" style="width:100%;height:100%">
@@ -11,14 +11,14 @@
             <div class="col-md-8">
                 @using (Html.BeginForm("EditImage", "Offers", new { offerId = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
                 {
-                    <div style="max-height:500px;width:auto">
+                    <div class="imgDiv">
                         @if (Model.Image != null)
                         {
-                            <img class="cardImg" style="width:100%;height:100%" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(Model.Image))">
+                            <img id="offerImage" class="cardImg" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(Model.Image))">
                         }
                         else
                         {
-                            <img class="cardImg" style="width:100%;height:100%" src="~/Content/Images/empty.jpg" />
+                            <img id="offerImage" class="cardImg" src="~/Content/Images/empty.jpg" />
                         }
                     </div>
                     if (Request.IsAuthenticated && Model.IsOwner)
@@ -55,8 +55,12 @@
                     </li>
                     <li class="list-group-item">
                         <div class="wrapper">
+                            <b>Kraj :</b> @Model.Country
+                        </div>
+                    </li>
+                    <li class="list-group-item">
                             <b>Ocena : </b>
-                            <div>
+                            <div style="width:auto">
                                 @for (int i = 0; i < 5; i++)
                                 {
                                     if (i < Math.Floor(Model.Rate))
@@ -68,8 +72,7 @@
                                         <span class="fa fa-star"></span>
                                     }
                                 }
-                            </div>
-                        </div>
+                            </div>                        
                     </li>
                     <li class="list-group-item">
                         <div class="wrapper">
@@ -83,28 +86,33 @@
                     </li>
                     <li class="list-group-item">
                         <div class="wrapper">
-                            @if (User.Identity.IsAuthenticated && Model.IsUser)
-                            {
-                                using (Html.BeginForm("BookTrip", "Offers", FormMethod.Post))
-                                {
-                                    @Html.Hidden("offerId", Model.Id)
-                                    if (Model.NuberOfBooking == 0)
-                                    {
-                                        <button class="btn btn-success" disabled="disabled" type="submit">Zarezerwuj miejsca</button>
-                                        @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", style = "width:auto", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking, disabled = "disabled" } })
-                                    }
-                                    else
-                                    {
-                                        <button class="btn btn-success" type="submit">Zarezerwuj miejsca</button>
-                                        @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", style = "width:auto", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking } })
-
-                                    }
-                                    @Html.ValidationMessage("bookingCount", "", new { @class = "text-danger" })
-                                }
-
-                            }
+                            <b>Biuro podróży : </b> @Html.ActionLink(Model.TravelAgencyOwnerName, "GetTravelAgencyProfile", "Users", new { userName = Model.TravelAgencyOwnerName }, null)
                         </div>
                     </li>
+                    @if (User.Identity.IsAuthenticated && Model.IsUser)
+                    {
+                        <li class="list-group-item">
+                            <div class="wrapper">
+                                    @using (Html.BeginForm("BookTrip", "Offers", FormMethod.Post))
+                                    {
+                                        @Html.Hidden("offerId", Model.Id)
+                                        if (Model.NuberOfBooking == 0)
+                                        {
+                                            <button class="btn btn-success" disabled="disabled" type="submit">Zarezerwuj miejsca</button>
+                                            @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", style = "width:auto", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking, disabled = "disabled" } })
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-success" type="submit">Zarezerwuj miejsca</button>
+                                            @Html.Editor("bookingCount", new { htmlAttributes = new { @class = "form-control", style = "width:auto", @type = "number", @min = "1", @step = "1", @value = "1", @required = "required", @max = Model.NuberOfBooking } })
+
+                                        }
+                                        @Html.ValidationMessage("bookingCount", "", new { @class = "text-danger" })
+                                    }
+
+                            </div>
+                        </li>
+                    }
                 </ul>
             </div>
 
@@ -112,13 +120,20 @@
         <div class="row" style="padding:5px;border: 2px solid #ddd;
             border-radius: 5px;">
             <h2><b>Opis</b></h2>
-            <p>@Html.Raw(Model.Description)</p>
+            <hr/>
+            <div style="word-wrap:break-word">
+                @Html.Raw(Model.Description)
+            </div>
         </div>
         <br />
         <div class="row" style="padding:5px;border: 2px solid #ddd;
             border-radius: 5px;">
-            <h3><b>Opinie</b></h3>
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Dodaj opinię</button>
+            <div class="col-lg-1">                    
+                <h3><b>Opinie</b></h3>
+            </div>
+            <div class="col-lg-11">
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Dodaj opinię</button>
+            </div>
             <div class="modal fade" id="myModal" role="dialog">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content" style="width:60%">
@@ -135,34 +150,37 @@
                     </div>
                 </div>
             </div>
+            <hr/>
             @Html.Action("GetComments", new { offerId = Model.Id })
         </div>
         <br />
 
-        <div class="row" style="padding:5px;border: 2px solid #ddd;
-            border-radius: 5px;">
-            <h3><b>Zapisani użytkownicy</b></h3>
-            @if (Model.IsTravelAgency && Model.IsOwner)
-            {
-                <div>
-                    @Html.Action("GetAssignedUsers", new { offerId = Model.Id })
-                </div>
-            }
-        </div>
-        <h3 class="my-4">Inne oferty</h3>
-
+        @if (Model.IsTravelAgency && Model.IsOwner)
+        {
+            <div class="row" style="padding:5px;border: 2px solid #ddd;
+                border-radius: 5px;">
+                    <h3><b>Zapisani użytkownicy</b></h3>
+                <hr/>
+                    <div>
+                        @Html.Action("GetAssignedUsers", new { offerId = Model.Id })
+                    </div>
+            </div>
+        }
+        
+        <h3 class="my-4"><b>Inne oferty biura - </b><i>@Model.TravelAgencyOwnerName</i></h3>
+        <hr/>
         <div class="wrapper">
             @foreach (var item in Model.RandomOffers)
             {
                 <div class="card" style="width:100%;height:100%">
-                    <div style="height:250px">
+                    <div class="imgDiv">
                         @if (item.Image != null)
                         {
-                            <img class="cardImg" style="width:100%;height:100%" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(item.Image))">
+                            <img class="cardImg" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(item.Image))">
                         }
                         else
                         {
-                            <img class="cardImg" style="width:100%;height:100%" src="~/Content/Images/empty.jpg" />
+                            <img class="cardImg" src="~/Content/Images/empty.jpg" />
                         }
                     </div>
                     <div class="card-body">
@@ -191,41 +209,21 @@
                         <li class="list-group-item"><b>Dodana :</b> @item.CreationDate.ToShortDateString()</li>
                         <li class="list-group-item"><b>Cena :</b> @item.Cost</li>
                     </ul>
-                    <div class="card-body">
-                        @Html.ActionLink(item.TravelAgencyOwnerName, "GetTravelAgencyProfile", "Users", new { userName = item.TravelAgencyOwnerName }, null)
-                    </div>
                 </div>
             }
         </div>
     </div>
 </div>
 <script>
-    //function show(input) {
-    //    if (input.files && input.files[0]) {
-    //        var filerdr = new FileReader();
-    //        filerdr.onload = function (e) {
-    //            $('#offerImage').attr('src', e.target.result);
-    //        }
-    //        filerdr.readAsDataURL(input.files[0]);
-    //    }
-    //}
-
-    //function openPage(pageName, elmnt, color) {
-    //    var i, tabcontent, tablinks;
-    //    tabcontent = document.getElementsByClassName("tabcontent");
-    //    for (i = 0; i < tabcontent.length; i++) {
-    //        tabcontent[i].style.display = "none";
-    //    }
-    //    tablinks = document.getElementsByClassName("tablink");
-    //    for (i = 0; i < tablinks.length; i++) {
-    //        tablinks[i].style.backgroundColor = "";
-    //    }
-    //    document.getElementById(pageName).style.display = "block";
-    //    elmnt.style.backgroundColor = color;
-
-    //}
-    //// Get the element with id="defaultOpen" and click on it
-    //document.getElementById("defaultOpen").click();
+        function show(input) {
+            if (input.files && input.files[0]) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $('#offerImage').attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input.files[0]);
+            }
+        }
 </script>
 <style>
     .wrapper > div {
@@ -236,11 +234,16 @@
 
     .wrapper {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 400px));
         grid-gap: 10px;
     }
 
     .cardImg {
-        border-radius: 10px;
+        border-radius: 60px;
+        width: 100%;
+        height: 100%
+    }
+    .imgDiv {
+        height: 50%;
     }
 </style>

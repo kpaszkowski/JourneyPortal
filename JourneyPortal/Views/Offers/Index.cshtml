@@ -6,14 +6,14 @@
             @foreach (var item in Model.OffersList.OrderBy(x => x.CreationDate).Where(x => x.IsActive))
             {
                 <div class="card" style="width:100%;height:100%">
-                    <div style="height:250px">
+                    <div class="imgDiv">
                         @if (item.Image != null)
                         {
-                            <img class="cardImg" style="width:100%;height:100%" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(item.Image))">
+                            <img class="cardImg" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(item.Image))">
                         }
                         else
                         {
-                            <img class="cardImg" style="width:100%;height:100%"src="~/Content/Images/empty.jpg" />
+                            <img class="cardImg" src="~/Content/Images/empty.jpg" />
                         }
                     </div>
                     <div class="card-body">
@@ -41,10 +41,8 @@
                         </li>
                         <li class="list-group-item"><b>Dodana :</b> @item.CreationDate.ToShortDateString()</li>
                         <li class="list-group-item"><b>Cena :</b> @item.Cost</li>
+                        <li class="list-group-item"><b>Biuro podróży :</b> @Html.ActionLink(item.TravelAgencyOwnerName, "GetTravelAgencyProfile", "Users", new { userName = item.TravelAgencyOwnerName }, null)</li>
                     </ul>
-                    <div class="card-body">
-                        @Html.ActionLink(item.TravelAgencyOwnerName, "GetTravelAgencyProfile", "Users", new { userName = item.TravelAgencyOwnerName }, null)
-                    </div>
             </div>
 
             }
@@ -64,7 +62,12 @@
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         grid-gap: 10px;
     }
-    .cardImg{
-        border-radius:10px;
+    .cardImg {
+        border-radius: 10px;
+        width:100%;
+        height:100%
+    }
+    .imgDiv{
+        height:50%;
     }
 </style>

@@ -47,11 +47,11 @@
                 if (messageToSend.length>0) {
                     chat.server.send(userName, messageToSend);
                     $('#messageTextArea').val('').focus();
+                    $('.note-editable').text('');
                 }
             });
         });
     });
-    // This optional function html-encodes messages for display in the page.
     function htmlEncode(value) {
         var encodedValue = $('<div />').text(value).html();
         return encodedValue;
@@ -62,7 +62,6 @@
         if (dateTime == undefined || dateTime == null) {
             dateTime = htmlEncode(new Date().toLocaleString());
         }
-        //var lastChildNumer = Number(div.children().length);
         var newId = 'author-' + div.children().length;
         dateTime = new Date(dateTime);
         htmlEncode(new Date().toLocaleString())

@@ -10,7 +10,7 @@
     </div>
     @if (User.Identity.IsAuthenticated)
     {
-        @Html.ActionLink("Dodaj temat", "CreateNewTopic", "Forum", new { categoryId = Model.Id }, null)
+        @Html.ActionLink("Dodaj temat", "CreateNewTopic", "Forum", new { categoryId = Model.Id }, new { @class = "btn bg-primary" })
     }
         @foreach (var item in Model.TopicsList)
         {

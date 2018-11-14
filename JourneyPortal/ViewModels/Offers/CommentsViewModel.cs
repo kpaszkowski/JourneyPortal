@@ -21,6 +21,6 @@ namespace JourneyPortal.ViewModels.Offers
         [Display(Name = "Ocena")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Ocena jest wymagana!")]
         [Range(1,5)]
-        public int Rate { get; set; }
+        public double Rate { get; set; }
     }
 }

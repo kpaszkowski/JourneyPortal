@@ -12,7 +12,7 @@
         @if (Model.IsAdmin)
         {
 
-            <h4>@Html.ActionLink("Dodaj kategorię", "CreateNewCategory", "Forum")</h4>
+            <h4>@Html.ActionLink("Dodaj kategorię", "CreateNewCategory", "Forum",null, new { @class = "btn bg-primary" })</h4>
         }
         @foreach (var item in Model.Categories)
         {

@@ -6,19 +6,15 @@
 <div class="contentBody">
     <div class="container" style="width:100%">
         <h2>Twoje oferty</h2>
-        <p>
-            Wyszukaj: @Html.TextBox("searchString")
-            <input type="button" onclick="sortBy()" value="Wyszukaj" />
-        </p>
-        <table class="table table-striped" style="width:auto">
+        <table class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th><a onclick="sortBy('userName');">Nazwa oferty</a></th>
-                    <th><a onclick="sortBy('userName');">Data rozpoczęcia</a></th>
-                    <th><a onclick="sortBy('userName');">Data zakończenia</a></th>
-                    <th><a onclick="sortBy('userName');">Liczba biletów</a></th>
-                    <th><a onclick="sortBy('userName');">Kraj</a></th>
-                    <th><a onclick="sortBy('userName');">Koszt</a></th>
+                    <th>Nazwa oferty</th>
+                    <th>Data rozpoczęcia</th>
+                    <th>Data zakończenia</th>
+                    <th>Liczba biletów</th>
+                    <th>Kraj</th>
+                    <th>Koszt</th>
                     <th>Aktywne</th>
                     <th>Duplikuj</th>
                     <th>Edytuj</th>
@@ -86,44 +82,3 @@
                 new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     </div>
 </div>
-
-<script>
-    function sortBy(kind) {
-        var sortOrderKind;
-        switch (kind) {
-            case 'userName':
-                {
-                    sortOrderKind = '@ViewBag.UserNameSortParm';
-                    break;
-                }
-            case 'firstName':
-                {
-                    sortOrderKind = '@ViewBag.FirstNameSortParm';
-                    break;
-                }
-            case 'lastName':
-                {
-                    sortOrderKind = '@ViewBag.LastNameSortParm';
-                    break;
-                }
-            case 'email':
-                {
-                    sortOrderKind = '@ViewBag.EmailSortParm';
-                    break;
-                }
-            case 'booking':
-                {
-                    sortOrderKind = '@ViewBag.BookingNumber';
-                    break;
-                }
-            default:
-                {
-                    var searchValue = $('#searchString').val();
-                    break;
-                }
-        }
-        $.get('/Offers/GetYourOffers', { offerId: @Model.OfferId, sortOrder: sortOrderKind, searchString: searchValue }, function (data) {
-            $('#usersGridList').html(data);
-        });
-    }
-</script>

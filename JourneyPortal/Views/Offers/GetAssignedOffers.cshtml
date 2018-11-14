@@ -1,22 +1,12 @@
 ﻿@model PagedList.IPagedList<JourneyPortal.ViewModels.Offers.OfferDetailViewModel>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-@{
-
-}
-<div class="container" style="width:100%">
+<div class="contentBody">
     <h2>Zarezerwowane wycieczki</h2>
-    @using (Html.BeginForm("GetOffersForUser", "Offers", FormMethod.Get))
-    {
-        <p>
-            Wyszukaj po nazwie  oferty / biura: @Html.TextBox("searchString")
-            <input type="submit" value="Wyszukaj" />
-        </p>
-    }
-    <table class="table table-striped" style="width:auto">
+    <hr/>
+    <table class="table table-striped" style="width:100%">
         <thead>
             <tr>
-                <th>@Html.ActionLink("Id", "GetOffersForUser", new { sortOrder = ViewBag.IdSortParm })</th>
                 <th>@Html.ActionLink("Nazwa", "GetOffersForUser", new { sortOrder = ViewBag.NameSortParm })</th>
                 <th>@Html.ActionLink("Liczba miejsc", "GetOffersForUser", new { sortOrder = ViewBag.BookingNumber })</th>
                 <th>@Html.ActionLink("Data rozpoczęcia", "GetOffersForUser", new { sortOrder = ViewBag.DateStartSortParm })</th>
@@ -31,8 +21,7 @@
             @foreach (var item in Model)
             {
             <tr>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
+                <td>@Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</td>
                 <td>@item.NuberOfBooking</td>
                 <td>@item.StartDate</td>
                 <td>@item.EndDate</td>

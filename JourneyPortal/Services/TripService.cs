@@ -449,7 +449,13 @@ namespace JourneyPortal.Services
             {
                 using (ApplicationDbContext context = new ApplicationDbContext())
                 {
-                    var tripToRemove = context.Trips.FirstOrDefault(x => x.Id == tripId);
+                    var query = context.Trips.Where(x => x.Id == tripId);
+                    var tripToRemove = query.FirstOrDefault();
+                    foreach (var item in query.SelectMany(x=>x.Atractions))
+                    {
+                        item.Rate--;
+                    }
+                    context.Hotels.FirstOrDefault(x => x.Id == tripToRemove.BaseHotelId).Rate--;
                     context.Trips.Remove(tripToRemove);
                     context.SaveChanges();
                 }
@@ -537,6 +543,7 @@ namespace JourneyPortal.Services
                     foreach (var item in selectedAtractions)
                     {
                         atractions.Add(context.Atractions.FirstOrDefault(x => x.Id == item.IdDb));
+                        context.Atractions.Where(x => x.Id == item.IdDb).FirstOrDefault().Rate++;
                     }
                     foreach (var item in routes)
                     {
@@ -550,6 +557,7 @@ namespace JourneyPortal.Services
                         };
                         context.Routes.Add(route);
                     }
+                    context.Hotels.FirstOrDefault(x => x.Id == selectedHotel.IdDb).Rate++;
                     trip.Atractions = atractions;
                     trip.BaseHotel = context.Hotels.FirstOrDefault(x => x.Id == selectedHotel.IdDb);
                     trip.Name = name;

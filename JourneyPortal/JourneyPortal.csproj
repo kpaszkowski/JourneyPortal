@@ -611,7 +611,6 @@
     <Content Include="Views\Trip\HotelDetail.cshtml" />
     <Content Include="Views\Shared\MenuPartial.cshtml" />
     <Content Include="Views\Shared\LogoPartial.cshtml" />
-    <Content Include="Views\Trip\SavedTrips.cshtml" />
     <Content Include="Views\Trip\ManageTrips.cshtml" />
     <Content Include="Views\Trip\TripDetail.cshtml" />
     <Content Include="Views\Chat\CreateMessage.cshtml" />

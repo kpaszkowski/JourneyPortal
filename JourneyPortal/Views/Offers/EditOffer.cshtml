@@ -77,20 +77,10 @@
 }
 
 <script>
-    $(document).ready(function () {
-        $('#desctiptionTextBox').summernote({
-            toolbar: [
-                // [groupName, [list of button]]
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['fontsize', ['fontsize']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']]
-            ],
-            placeholder: 'Opis',
-            tabsize: 2,
-            maxHeight: 300
-        });
+    $(function () {
+        var max = 500;
+        registerSummernote('#desctiptionTextBox', 'Dodaj post.Maksymalna długość - 500 znaków', max)
+        var string = 'Max ' + max + ' znaków'
+        $('#maxContentPost').text(String(string));
     });
 </script>

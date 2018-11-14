@@ -18,11 +18,11 @@
                         {
                             <img height="100" src="~/Content/Images/empytAvatar.png" style="width:80px">
                         }
-                        <div style="float:right;margin-left:5px;background-color:rgb(221, 221, 221);word-wrap: break-word; width:100%">
-                            @Html.Raw(item.Text)
-                        </div>
                         <div>
                             <h4>@item.AuthorName</h4>
+                        </div>
+                        <div style="float:right;margin-left:5px;word-wrap: break-word; width:100%">
+                            @Html.Raw(item.Text)
                         </div>
                     </div>
                     <div>
@@ -38,27 +38,28 @@
                         }
                     </div>
                 </div>
-
-                <div class="postInfo">
-                    <div>
-                        <div class="row">
-                            @item.CreationDate
-                            @if (Request.IsAuthenticated)
-                            {
-                                using (Html.BeginForm("AddLike", "Forum", new { postId = item.Id, topicId = Model.Id, categoryId = Model.CategoryId }, FormMethod.Post, new { id = "addLike-" + item.Id }))
+                <div>
+                    <div class="postInfo" style="float:right">
+                        <div>
+                            <div class="row" style="width:100%">
+                                <p style="width:100%">@item.CreationDate</p>
+                                @if (Request.IsAuthenticated)
                                 {
-                                    @Html.AntiForgeryToken()
-                                    <a onclick="submitAddLike('@item.Id');"><img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)</a>
+                                    using (Html.BeginForm("AddLike", "Forum", new { postId = item.Id, topicId = Model.Id, categoryId = Model.CategoryId }, FormMethod.Post, new { id = "addLike-" + item.Id }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <a onclick="submitAddLike('@item.Id');"><img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)</a>
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                <div>
-                                    <img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)
-                                </div>
+                                else
+                                {
+                                    <div>
+                                        <img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)
+                                    </div>
 
-                            }
+                                }
                                 
+                            </div>
                         </div>
                     </div>
                 </div>

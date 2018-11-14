@@ -3,15 +3,15 @@
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-<div class="container">
-    @Html.ActionLink("Dodaj nowy hotel", "CreateNewHotel", "Trip", null)
+<div class="contentBody">
     <h2>Twoje hotele</h2>
-    <table class="table table-striped">
+    @Html.ActionLink("Dodaj nowy hotel", "CreateNewHotel", "Trip", null, new { @class = "btn bg-primary" })
+    <table class="table table-striped" style="width:100%">
         <thead>
             <tr>
-                <th><a onclick="sortBy('userName');">Nazwa hotelu</a></th>
-                <th><a onclick="sortBy('userName');">Popularność</a></th>
-                <th><a onclick="sortBy('userName');">Koszt</a></th>
+                <th>Nazwa hotelu</th>
+                <th>Popularność</th>
+                <th>Koszt</th>
                 <th>Aktywne</th>
                 <th>Edytuj</th>
                 <th>Usuń</th>

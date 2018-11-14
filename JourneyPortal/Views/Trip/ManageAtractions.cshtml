@@ -3,28 +3,24 @@
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-<div class="container">
+<div class="contentBody">
     @if (!Model.IsPreviewOnly)
     {
-        @Html.ActionLink("Dodaj atrakcję", "CreateNewAtraction", "Trip", null)
         <h2>Twoje atrakcje</h2>
+        @Html.ActionLink("Dodaj atrakcję", "CreateNewAtraction", "Trip", null, new { @class = "btn bg-primary" })
     }
     else
     {
         <h2>Atrakcje w wycieczce</h2>
     }
-    <p>
-        Wyszukaj: @Html.TextBox("searchString")
-        <input type="button" @*onclick="sortBy()"*@ value="Wyszukaj" />
-    </p>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th><a onclick="sortBy('userName');">Nazwa atrakcji</a></th>
-                <th><a onclick="sortBy('userName');">Popularność</a></th>
-                <th><a onclick="sortBy('userName');">Koszt</a></th>
-                <th><a onclick="sortBy('userName');">Typ</a></th>
-                <th><a onclick="sortBy('userName');">Czas zwiedzania</a></th>
+                <th>Nazwa atrakcji</th>
+                <th>Popularność</th>
+                <th>Koszt</th>
+                <th>Typ</th>
+                <th>Czas zwiedzania</th>
                 @if (!Model.IsPreviewOnly)
                 {
                     <th>Aktywne</th>
@@ -86,33 +82,3 @@
     @Html.PagedListPager(Model.atractionsList, page => Url.Action("ManageAtractions",
                         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 </div>
-@*<script>
-        function sortBy(kind) {
-            var sortOrderKind;
-            switch (kind) {
-                case 'name':
-                    {
-                        sortOrderKind = '@ViewBag.Name';
-                        break;
-                    }
-                case 'rate':
-                    {
-                        sortOrderKind = '@ViewBag.Rate';
-                        break;
-                    }
-                case 'cost':
-                    {
-                        sortOrderKind = '@ViewBag.Cost';
-                        break;
-                    }
-                default:
-                    {
-                        var searchValue = $('#searchString').val();
-                        break;
-                    }
-            }
-            $.get('/Offers/GetYourOffers', { sortOrder: sortOrderKind, searchString: searchValue }, function (data) {
-                $('#usersGridList').html(data);
-            });
-        }
-    </script>*@

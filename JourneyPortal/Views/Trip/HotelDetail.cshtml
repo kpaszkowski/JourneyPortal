@@ -1,6 +1,6 @@
 ﻿@model JourneyPortal.ViewModels.Trip.HotelDetailViewModel
 <br />
-<div class="container">
+<div class="contentBody">
     <div class="media">
         <div>
             @using (Html.BeginForm("EditHotelImage", "Trip", new { hotelId = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))

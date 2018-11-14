@@ -8,19 +8,21 @@ function registerSummernote(element, placeholder, max, callbackMax, height) {
     if (height == null || height == undefined) {
         height = 300;
     }
+    max = 10000;
     $(element).summernote({
-        toolbar: [
-            // [groupName, [list of button]]
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['font', ['strikethrough', 'superscript', 'subscript']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']]
-        ],
+        //toolbar: [
+        //    // [groupName, [list of button]]
+        //    ['style', ['bold', 'italic', 'underline', 'clear']],
+        //    ['font', ['strikethrough', 'superscript', 'subscript']],
+        //    ['fontsize', ['fontsize']],
+        //    ['color', ['color']],
+        //    ['para', ['ul', 'ol', 'paragraph']],
+        //    ['height', ['height']],
+            
+        //],
+        dialogsInBody: true,
         placeholder,
         tabsize: 2,
-        maxHeight: height,
         callbacks: {
             onKeydown: function (e) {
                 var t = e.currentTarget.innerText;
