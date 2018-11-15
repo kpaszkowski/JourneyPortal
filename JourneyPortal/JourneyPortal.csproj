@@ -327,6 +327,10 @@
     <Compile Include="Migrations\201811080802250_addStatusToOfferModel.Designer.cs">
       <DependentUpon>201811080802250_addStatusToOfferModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811151941117_cascadedelete.cs" />
+    <Compile Include="Migrations\201811151941117_cascadedelete.Designer.cs">
+      <DependentUpon>201811151941117_cascadedelete.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -711,6 +715,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811080802250_addStatusToOfferModel.resx">
       <DependentUpon>201811080802250_addStatusToOfferModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811151941117_cascadedelete.resx">
+      <DependentUpon>201811151941117_cascadedelete.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

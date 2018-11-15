@@ -494,7 +494,6 @@ namespace JourneyPortal.Controllers
                         };
                         context.OffersApplicationUsers.Add(offerApplicationUser);
                     }
-                    currentOffert.NuberOfBooking -= bookingCount;
                     context.SaveChanges();
                 }
             }

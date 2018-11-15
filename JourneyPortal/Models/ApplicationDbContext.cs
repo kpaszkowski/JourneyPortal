@@ -68,6 +68,11 @@ namespace JourneyPortal.Models
                 .HasMany(x => x.Trips)
                 .WithMany(x => x.Atractions);
 
+            modelBuilder.Entity<Offers>()
+            .HasMany<OffersComment>(s => s.OffersComments)
+            .WithOptional()
+            .WillCascadeOnDelete(true);
+
         }
     }
 }

@@ -31,7 +31,7 @@
         }
         else
         {
-                @Html.ActionLink("Oferty", "Index", "Offers")
+            @Html.ActionLink("Oferty", "Index", "Offers")
         }
     }
     @if (User.IsInRole("Proprietor") || User.IsInRole("Admin"))
@@ -48,14 +48,22 @@
     }
     else
     {
-        <button class="dropdown-btn">
-            Własna wycieczka
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-container">
+
+        if (User.Identity.IsAuthenticated)
+        {
+            <button class="dropdown-btn">
+                Własna wycieczka
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                @Html.ActionLink("Twoje wycieczki", "GetYourTrip", "Trip")
+                @Html.ActionLink("Własna wycieczka", "Index", "Trip")
+            </div>
+        }
+        else
+        {
             @Html.ActionLink("Własna wycieczka", "Index", "Trip")
-            @Html.ActionLink("Twoje wycieczki", "GetYourTrip", "Trip")
-        </div>
+        }
     }
     @Html.ActionLink("Czat", "Index", "Chat")
     @Html.ActionLink("Forum", "Index", "Forum")

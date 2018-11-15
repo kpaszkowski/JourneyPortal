@@ -146,7 +146,10 @@ namespace JourneyPortal.Services
                     n = currentLinkTable.Select(x=>x.BookingCount).FirstOrDefault();
                     if (currentLinkTable.Any())
                     {
-                        can = true;
+                        if (currentLinkTable.FirstOrDefault().Status=="Zaakceptowany" && context.Offers.FirstOrDefault(x=>x.Id == id).EndDate <= DateTime.Now)
+                        {
+                            can = true;
+                        }
                     }
                 }
                 return context.Offers.Where(x => x.Id == id).Select(x => new OfferDetailViewModel
@@ -306,6 +309,7 @@ namespace JourneyPortal.Services
                     var currentUser = userManager.FindByName(userName);
                     var currentLinkTable = context.OffersApplicationUsers.FirstOrDefault(y => y.ApplicationUserId == currentUser.Id && y.OfferId == offerId);
                     currentLinkTable.Status = "Zaakceptowany";
+                    context.Offers.FirstOrDefault(x=>x.Id == offerId).NuberOfBooking -= currentLinkTable.BookingCount;
                     context.SaveChanges();
                     return true;
                 }
@@ -326,9 +330,12 @@ namespace JourneyPortal.Services
                     var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                     var currentUser = userManager.FindByName(userName);
                     var currentLinkTable = context.OffersApplicationUsers.FirstOrDefault(y => y.ApplicationUserId == currentUser.Id && y.OfferId == offerId);
+                    if (currentLinkTable.Status == "Zaakceptowany")
+                    {
+                        context.Offers.FirstOrDefault(x => x.Id == offerId).NuberOfBooking += currentLinkTable.BookingCount;
+                    }
                     currentLinkTable.Status = "Odrzucony";
                     context.OffersApplicationUsers.Remove(currentLinkTable);
-                    context.Offers.FirstOrDefault(x => x.Id == offerId).NuberOfBooking += currentLinkTable.BookingCount;
                     context.SaveChanges();
                     return true;
                 }
