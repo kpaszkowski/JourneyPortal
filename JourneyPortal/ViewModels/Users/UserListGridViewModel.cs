@@ -6,20 +6,18 @@ using System.Web;
 
 namespace JourneyPortal.ViewModels.Users
 {
-    public class EditUserProfileViewModel
+    public class UserListGridViewModel
     {
         public string Id { get; set; }
-
         [Display(Name = "Imię")]
-        [Required(AllowEmptyStrings = false , ErrorMessage = "Imię jest wymagane!")]
         public string FirstName { get; set; }
         [Display(Name = "Nazwisko")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Nazwisko jest wymagane!")]
         public string LastName { get; set; }
+        [Display(Name = "Login")]
+        public string UserName { get; set; }
         [Display(Name = "Email")]
-        [DataType(DataType.EmailAddress)]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Email jest wymagane!")]
         public string Email { get; set; }
-
+        [Display(Name = "Rola")]
+        public string Role { get; set; }
     }
 }

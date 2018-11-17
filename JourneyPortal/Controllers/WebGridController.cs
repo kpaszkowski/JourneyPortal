@@ -44,7 +44,6 @@ namespace JourneyPortal.Controllers
                     Email = x.Email,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
-                    DateOfBirth = x.DateOfBirth,
                     Role = (from user in context.Users
                             where user.UserName == x.UserName
                             select new

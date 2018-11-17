@@ -34,8 +34,6 @@ namespace JourneyPortal.Models
         [Required]
         public string LastName { get; set; }
 
-        public DateTime? DateOfBirth { get; set; }
-
         public string Avatar { get; set; }
 
         public virtual ICollection<Trip> Trips { get; set; }

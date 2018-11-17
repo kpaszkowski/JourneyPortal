@@ -80,10 +80,6 @@ namespace JourneyPortal.Models
 
     public class RegisterViewModel
     {
-        
-        [Display(Name = "Rola użytkownika")]
-        public string UserRoles { get; set; }
-
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -111,9 +107,6 @@ namespace JourneyPortal.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Nazwisko jest wymagane!")]
         [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
-
-        [Display(Name = "Data urodzenia")]
-        public DateTime DateOfBirth { get; set; }
 
         public string Avatar { get; set; }
 
@@ -182,7 +175,6 @@ namespace JourneyPortal.Models
             Email = u.Email;
             FirstName = u.FirstName;
             LastName = u.LastName;
-            DateOfBirth = u.DateOfBirth;
             Avatar = u.Avatar;
             var userRoles = (from user in context.Users
                              where user.UserName == Login

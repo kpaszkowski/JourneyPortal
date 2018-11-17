@@ -2,11 +2,13 @@
 using JourneyPortal.ViewModels.Users;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using static JourneyPortal.Enums.Enums;
 
 
@@ -49,7 +51,7 @@ namespace JourneyPortal.Services
                                      select role.Name).ToList()
                     }).ToList().FirstOrDefault().RoleNames.FirstOrDefault();
         }
-        
+
         internal bool IsTravelAgency(string name)
         {
             if (IsAdmin(name))
@@ -62,6 +64,124 @@ namespace JourneyPortal.Services
             }
             return false;
         }
+
+        internal List<UserListGridViewModel> GetAllUsers()
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var userList = context.Users.Select(x => new UserListGridViewModel
+                    {
+                        Id = x.Id,
+                        Email = x.Email,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        UserName = x.UserName,
+                        Role = (from user in context.Users
+                                where user.UserName == x.UserName
+                                select new
+                                {
+                                    RoleNames = (from userRole in user.Roles
+                                                 join role in context.Roles on userRole.RoleId
+                                                 equals role.Id
+                                                 select role.Name).ToList()
+                                }).ToList().FirstOrDefault().RoleNames.FirstOrDefault(),
+                    }).ToList();
+                    foreach (var item in userList)
+                    {
+                        if (item.Role == "TravelAgency")
+                        {
+                            item.Role = "Biuro podróży";
+                        }
+                        else if(item.Role == "Proprietor")
+                        {
+                            item.Role = "Właściciel atrakcji";
+                        }
+                        else if (item.Role == "User")
+                        {
+                            item.Role = "Uzytkownik";
+                        }
+                        else
+                        {
+                            item.Role = "Administrator";
+                        }
+                    }
+                    return userList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        internal List<SelectListItem> GetAllRoles()
+        {
+
+            List<SelectListItem> listItems = new List<SelectListItem>();
+            listItems.Add(new SelectListItem
+            {
+                Text = "Administrator",
+                Value = "Admin"
+            });
+            listItems.Add(new SelectListItem
+            {
+                Text = "Użytkownik",
+                Value = "User",
+                Selected = true
+            });
+            listItems.Add(new SelectListItem
+            {
+                Text = "Właścieciel atrakcji",
+                Value = "Proprietor"
+            });
+            listItems.Add(new SelectListItem
+            {
+                Text = "Biuro podróży",
+                Value = "TravelAgency"
+            });
+
+            return listItems;
+        }
+
+        internal void ChangeUserRole(string userId, string newRole)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var currentUser = context.Users.FirstOrDefault(x => x.Id == userId);
+                    var currentRole = (from user in context.Users
+                                       where user.Id == userId
+                                       select new
+                                       {
+                                           RoleNames = (from userRole in user.Roles
+                                                        join role in context.Roles on userRole.RoleId
+                                                        equals role.Id
+                                                        select role.Name).ToList()
+                                       }).ToList().FirstOrDefault().RoleNames.FirstOrDefault();
+
+                    if (currentRole != null)
+                    {
+                        if (currentRole == "Admin")
+                        {
+                            if (GetAllUsers().Count(x => x.Role == "Administrator") == 1)
+                            {
+                                return;
+                            }
+                        }
+                        var result = userManager.RemoveFromRole(currentUser.Id, currentRole);
+                    }
+                    var result2 = userManager.AddToRole(currentUser.Id, newRole);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         internal bool IsAdmin(string name)
         {
             if (GetUserRole(name) == Roles.Admin.ToString())
@@ -129,7 +249,6 @@ namespace JourneyPortal.Services
                         FirstName = x.FirstName,
                         LastName = x.LastName,
                         Email = x.Email,
-                        DateOfBirth = x.DateOfBirth,
                     }).FirstOrDefault();
                 }
             }
@@ -152,7 +271,6 @@ namespace JourneyPortal.Services
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
                     user.Email = model.Email;
-                    user.DateOfBirth = model.DateOfBirth;
                     context.SaveChanges();
                     return true;
                 }

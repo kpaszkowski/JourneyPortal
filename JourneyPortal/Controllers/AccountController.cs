@@ -149,8 +149,6 @@ namespace JourneyPortal.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
-                                            .ToList(), "Name", "Name");
             return View();
         }
 
@@ -169,7 +167,6 @@ namespace JourneyPortal.Controllers
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    DateOfBirth = model.DateOfBirth
                 };
 
                 Image image = new Image();
@@ -177,25 +174,28 @@ namespace JourneyPortal.Controllers
                     ".Jpg", ".png", ".jpg", "jpeg"
                 };
 
-                image.ImageUrl = file.ToString();
-                image.Name = user.UserName + "-avatar";
-                var fileName = Path.GetFileName(file.FileName);
-                var ext = Path.GetExtension(file.FileName);  
-                if (allowedExtensions.Contains(ext))
+                if (file != null)
                 {
-                    string name = Path.GetFileNameWithoutExtension(fileName);
-                    string myfile = name + "_" + image.Name + ext; 
-                    var path = Path.Combine(Server.MapPath("~/Content/Images"), myfile);
-                    image.ImageUrl = path;
-                    context.Images.Add(image);
-                    context.SaveChanges();
-                    file.SaveAs(path);
-                    user.Avatar = image.ImageUrl;
-                }
-                else
-                {
-                    ModelState.AddModelError("Załaduj inny avatar", "");
-                    return View(model);
+                    image.ImageUrl = file.ToString();
+                    image.Name = user.UserName + "-avatar";
+                    var fileName = Path.GetFileName(file.FileName);
+                    var ext = Path.GetExtension(file.FileName);
+                    if (allowedExtensions.Contains(ext))
+                    {
+                        string name = Path.GetFileNameWithoutExtension(fileName);
+                        string myfile = name + "_" + image.Name + ext;
+                        var path = Path.Combine(Server.MapPath("~/Content/Images"), myfile);
+                        image.ImageUrl = path;
+                        context.Images.Add(image);
+                        context.SaveChanges();
+                        file.SaveAs(path);
+                        user.Avatar = image.ImageUrl;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Załaduj inny avatar", "");
+                        return View(model);
+                    }
                 }
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -204,17 +204,14 @@ namespace JourneyPortal.Controllers
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    await this.UserManager.AddToRoleAsync(user.Id, "User");
 
                     return RedirectToAction("Index", "Home");
                 }
             }
-            ViewBag.Name = new SelectList(context.Roles.Where(x => !x.Name.Contains("Admin")).ToList(), "Name", "Name");
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 

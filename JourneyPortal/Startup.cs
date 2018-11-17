@@ -42,7 +42,6 @@ namespace JourneyPortal
             user.Email = "kpaszkowski1000@gmail.com";
             user.FirstName = "Jan";
             user.LastName = "Jan";
-            user.DateOfBirth = new DateTime(1997, 2, 11);
             string userPWD = "123456";
             var chkUser = userManager.Create(user, userPWD);
             if (chkUser.Succeeded)
@@ -55,7 +54,6 @@ namespace JourneyPortal
             user.Email = "kpaszkowski1000@gmail.com";
             user.FirstName = "Franek";
             user.LastName = "Dolas";
-            user.DateOfBirth = new DateTime(1986, 4, 17);
             userPWD = "123456";
             chkUser = userManager.Create(user, userPWD);
             if (chkUser.Succeeded)
@@ -68,7 +66,6 @@ namespace JourneyPortal
             user.Email = "kpaszkowski1000@gmail.com";
             user.FirstName = "Marian";
             user.LastName = "Paździoch";
-            user.DateOfBirth = new DateTime(1969, 6, 27);
             userPWD = "123456";
             chkUser = userManager.Create(user, userPWD);
             if (chkUser.Succeeded)
@@ -278,7 +275,6 @@ namespace JourneyPortal
                 user.Email = "kpaszkowski1000@gmail.com";
                 user.FirstName = "krzycho";
                 user.LastName = "krzycho";
-                user.DateOfBirth = new DateTime(1995, 6, 1);
                 string userPWD = "123456";
                 var chkUser = userManager.Create(user, userPWD);
                 if (chkUser.Succeeded)
@@ -296,7 +292,6 @@ namespace JourneyPortal
                 user.Email = "kpaszkowski1000@gmail.com";
                 user.FirstName = "jan";
                 user.LastName = "jan";
-                user.DateOfBirth = new DateTime(1993, 4, 15);
                 string userPWD = "123456";
                 var chkUser = userManager.Create(user, userPWD);
                 if (chkUser.Succeeded)
@@ -313,8 +308,7 @@ namespace JourneyPortal
                 user.UserName = "travelagency";
                 user.Email = "kpaszkowski1000@gmail.com";
                 user.FirstName = "pjoter";
-                user.LastName = "pjoter";
-                user.DateOfBirth = new DateTime(1997, 11, 9);
+                user.LastName = "pjoter";                
                 string userPWD = "123456";
                 var chkUser = userManager.Create(user, userPWD);
                 if (chkUser.Succeeded)
@@ -332,7 +326,6 @@ namespace JourneyPortal
                 user.Email = "kpaszkowski1000@gmail.com";
                 user.FirstName = "franek";
                 user.LastName = "franek";
-                user.DateOfBirth = new DateTime(1992, 5, 26);
                 string userPWD = "123456";
                 var chkUser = userManager.Create(user, userPWD);
                 if (chkUser.Succeeded)

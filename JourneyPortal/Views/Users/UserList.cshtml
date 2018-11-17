@@ -1,0 +1,47 @@
+﻿@model JourneyPortal.ViewModels.Users.ManageUsersViewModel
+@using PagedList.Mvc;
+
+
+<div class="contentBody">
+    <div class="container" id="userList" style="width:100%">
+        <br />
+        <table class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Nazwa użytkownika</th>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Email</th>
+                    <th>Rola</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.usersList)
+                {
+                    <tr>
+                        <td>@item.UserName</td>
+                        <td>@item.FirstName</td>
+                        <td>@item.LastName</td>
+                        <td>@item.Email</td>
+                        <td>@item.Role</td>
+                        <td>
+                            @using (Html.BeginForm("ChangeUserRole", "Users", new { userId = item.Id , newRole= "newRole" }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.DropDownList("newRole",Model.RolesList)
+                                <button class="btn btn-warning" type="submit">Zmień rolę</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        @*Elementy @(ViewBag.ItemNumber != 0 ? (ViewBag.PageSize * Model.AssignedUserList.PageNumber - ViewBag.PageSize + 1) : 0) - @(Math.Min((ViewBag.PageSize * Model.AssignedUserList.PageNumber), ViewBag.ItemNumber)) z @ViewBag.ItemNumber*@
+        <br />
+        Strona @(Model.usersList.PageCount < Model.usersList.PageNumber ? 0 : Model.usersList.PageNumber) z @Model.usersList.PageCount
+
+        @Html.PagedListPager(Model.usersList, page => Url.Action("ManageUsers",
+                new { page }))
+    </div>
+</div>

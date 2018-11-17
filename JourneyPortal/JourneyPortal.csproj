@@ -331,6 +331,10 @@
     <Compile Include="Migrations\201811151941117_cascadedelete.Designer.cs">
       <DependentUpon>201811151941117_cascadedelete.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811171317166_removeDateOfBirth.cs" />
+    <Compile Include="Migrations\201811171317166_removeDateOfBirth.Designer.cs">
+      <DependentUpon>201811171317166_removeDateOfBirth.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -375,6 +379,7 @@
     <Compile Include="ViewModels\Offers\OfferDetailViewModel.cs" />
     <Compile Include="ViewModels\Offers\OffersGridViewModel.cs" />
     <Compile Include="ViewModels\Offers\OffersViewModel.cs" />
+    <Compile Include="ViewModels\Others\ManageConfigViewModel.cs" />
     <Compile Include="ViewModels\Shared\BaseFromViewModel.cs" />
     <Compile Include="ViewModels\Shared\Point.cs" />
     <Compile Include="ViewModels\Trip\AtractionDetailViewModel.cs" />
@@ -394,6 +399,8 @@
     <Compile Include="ViewModels\Users\AssignedUsersGridViewModel.cs" />
     <Compile Include="ViewModels\Users\AssignedUserViewModel.cs" />
     <Compile Include="ViewModels\Users\EditUserProfileViewModel.cs" />
+    <Compile Include="ViewModels\Users\ManageUsersViewModel.cs" />
+    <Compile Include="ViewModels\Users\UserListGridViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\baza.txt" />
@@ -618,6 +625,8 @@
     <Content Include="Views\Trip\ManageTrips.cshtml" />
     <Content Include="Views\Trip\TripDetail.cshtml" />
     <Content Include="Views\Chat\CreateMessage.cshtml" />
+    <Content Include="Views\Manage\ManageConfig.cshtml" />
+    <Content Include="Views\Users\UserList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\AtractionsImages\" />
@@ -718,6 +727,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811151941117_cascadedelete.resx">
       <DependentUpon>201811151941117_cascadedelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811171317166_removeDateOfBirth.resx">
+      <DependentUpon>201811171317166_removeDateOfBirth.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

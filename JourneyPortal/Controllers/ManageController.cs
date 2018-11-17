@@ -9,6 +9,9 @@ using Microsoft.Owin.Security;
 using JourneyPortal.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using JourneyPortal.Services;
+using JourneyPortal.ViewModels.Others;
+using System.Configuration;
+using System.Web.Configuration;
 
 namespace JourneyPortal.Controllers
 {
@@ -81,6 +84,29 @@ namespace JourneyPortal.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
+        }
+
+        public ActionResult ManageConfig()
+        {
+            var model = new ManageConfigViewModel();
+            model.IsAdmin = User.IsInRole("Admin");
+            model.ItemPerPage = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            model.KmLimit = double.Parse(ConfigurationManager.AppSettings["KmLimit"]);
+            return View("~/Views/Manage/ManageConfig.cshtml",model);
+        }
+
+        [HttpPost]
+        public ActionResult SaveConfig(ManageConfigViewModel model)
+        {
+            var config = WebConfigurationManager.OpenWebConfiguration("~");
+            var section = config.GetSection("appSettings") as AppSettingsSection;
+            section.Settings.Remove("KmLimit");
+            section.Settings.Add("KmLimit", model.KmLimit.ToString());
+            section.Settings.Remove("ItemsPerPage");
+            section.Settings.Add("ItemsPerPage", model.ItemPerPage.ToString());
+            config.Save();
+
+            return RedirectToAction("ManageConfig", "Manage",model);
         }
 
         private bool IsAdmin(string userId)

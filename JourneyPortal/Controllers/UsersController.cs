@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using JourneyPortal.ViewModels.Users;
 using JourneyPortal.Services;
 using System.IO;
+using PagedList;
+using System.Configuration;
 
 namespace JourneyPortal.Controllers
 {
@@ -50,6 +52,22 @@ namespace JourneyPortal.Controllers
                 ViewBag.Name = "Not Logged IN";
             }
             return PartialView("~/Views/Users/Index.cshtml",cachedViewModel);
+        }
+
+        public ActionResult ManageUsers(int? page)
+        {
+            var model = new ManageUsersViewModel();
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageNumber = (page ?? 1);
+            model.usersList = userServices.GetAllUsers().ToPagedList(pageNumber, pageSize);
+            model.RolesList = userServices.GetAllRoles();
+            return View("~/Views/Users/UserList.cshtml", model);
+        }
+
+        public ActionResult ChangeUserRole(string userId,string newRole)
+        {
+            userServices.ChangeUserRole(userId, newRole);
+            return RedirectToAction("ManageUsers", "Users");
         }
 
         public Boolean isAdminUser()
@@ -144,28 +162,31 @@ namespace JourneyPortal.Controllers
         [HttpPost]
         public ActionResult EditAvatar(HttpPostedFileBase file)
         {
-            
-            Image image = new Image();
-            var allowedExtensions = new[] {
+            if (file != null)
+            {
+                Image image = new Image();
+                var allowedExtensions = new[] {
                     ".Jpg", ".png", ".jpg", "jpeg",".ico"
                 };
-            var userManagers = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            ApplicationUser currentUser = userManagers.FindByName(User.Identity.Name);
-            image.ImageUrl = file.ToString();
-            image.Name = currentUser.UserName + "-avatar";
-            var fileName = Path.GetFileName(file.FileName);
-            var ext = Path.GetExtension(file.FileName);
-            if (allowedExtensions.Contains(ext))
-            {
-                string name = Path.GetFileNameWithoutExtension(fileName);
-                string myfile = name + "_" + image.Name + ext;
-                var path = Path.Combine(Server.MapPath("~/Content/Images"), myfile);
-                image.ImageUrl = path;
-                context.Images.Add(image);
-                currentUser.Avatar = image.ImageUrl;
-                context.SaveChanges();
-                file.SaveAs(path);
+                var userManagers = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                ApplicationUser currentUser = userManagers.FindByName(User.Identity.Name);
+                image.ImageUrl = file.ToString();
+                image.Name = currentUser.UserName + "-avatar";
+                var fileName = Path.GetFileName(file.FileName);
+                var ext = Path.GetExtension(file.FileName);
+                if (allowedExtensions.Contains(ext))
+                {
+                    string name = Path.GetFileNameWithoutExtension(fileName);
+                    string myfile = name + "_" + image.Name + ext;
+                    var path = Path.Combine(Server.MapPath("~/Content/Images"), myfile);
+                    image.ImageUrl = path;
+                    context.Images.Add(image);
+                    currentUser.Avatar = image.ImageUrl;
+                    context.SaveChanges();
+                    file.SaveAs(path);
+                }
             }
+            
             return RedirectToAction("Index", "Manage");
         }
 

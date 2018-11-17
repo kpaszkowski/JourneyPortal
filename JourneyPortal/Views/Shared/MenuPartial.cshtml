@@ -74,13 +74,12 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
-            @Html.ActionLink("Zarządzaj użytkownikami", "WebGrid", "WebGrid")
-            @Html.ActionLink("Zarządaj rolami", "Index", "Role")
+            @Html.ActionLink("Zarządzaj użytkownikami", "ManageUsers", "Users")
+            @Html.ActionLink("Zarządaj ustawieniami", "ManageConfig", "Manage")
         </div>
     }
 </div>
 <script>
-    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
     var dropdown = document.getElementsByClassName("dropdown-btn");
     var i;
 
