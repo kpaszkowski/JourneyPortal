@@ -1,83 +1,151 @@
 ﻿@model JourneyPortal.ViewModels.Trip.TripDetailViewModel
+@{ 
+    TimeSpan durMin = TimeSpan.FromSeconds(Model.Duration);
+    TimeSpan durMax = TimeSpan.FromSeconds(Model.DurationTrafiic);
+}
+<div class="contentBody">
+    <div class="container" style="width:100%;height:100%">
+        <h2 class="my-4">
+            Twoja wycieczka -
+            "@Model.Name"
+        </h2>
+        <hr />
+        <div class="row" style="width:100%;height:100%">
+            <div class="col-md-12">
+                <h3 class="my-3">Informacje o twojej wycieczce</h3>
+                <ul class="list-group list-group-flush" style="width:100%">
+                    <li class="list-group-item">
+                        <div class="wrapper">
+                            <b>Długość trasy : </b> @Model.TotalDistance km
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="wrapper">
+                            <b>Czas trwania : </b> @durMin.Hours:@durMin.Minutes:@durMin.Seconds
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="wrapper">
+                            <b>Czas trwania podczas dużego natężenia ruchu: </b> @durMax.Hours:@durMax.Minutes:@durMax.Seconds
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="wrapper">
+                            <b>Liczba atrakcji : </b> @Model.AtractionNumber
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <h2>Twoj hotel:</h2>
+        <div class="row" style="height:100%;width:100%">
+            <div class="card" style="width:50%;height:100%;margin:auto">
+                <div class="imgDiv">
+                    @if (Model.BaseHotel.Image != null)
+                    {
+                        <img class="cardImg" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(Model.BaseHotel.Image))">
+                    }
+                    else
+                    {
+                        <img class="cardImg" src="~/Content/Images/empty.jpg" />
+                    }
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">@Html.ActionLink(Model.BaseHotel.Name, "GetHotelDetail", "Trip", new { id = Model.BaseHotel.Id }, null)</h4>
+                    <p class="card-text">
 
-<div>
-    <h4>Twoja wycieczka</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            if (i < Math.Floor(Model.BaseHotel.Rate))
+                            {
+                                <span class="fa fa-star" style=" color: orange;"></span>
+                            }
+                            else
+                            {
+                                <span class="fa fa-star"></span>
+                            }
+                        }
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush" style="width:100%">
+                    <li class="list-group-item">
+                        <div class="wrapper">
+                            <b>Współrzędne : </b>X: @Model.BaseHotel.X  / Y: @Model.BaseHotel.X
+                        </div>
+                    </li>
+                    <li class="list-group-item"><b>Cena :</b> @Model.BaseHotel.CostPerNight</li>
+                    <li class="list-group-item"><b>Email kontaktowy :</b> @Model.BaseHotel.OwnerEmail</li>
+                </ul>
+            </div>
+        </div>
+        <h2>Atrakcje włączone w wycieczce :</h2>
+        <hr />
+        <div class="row" style="height:100%;width:100%">
+                <div class="wrapper">
+                @foreach (var item in Model.AtractionsList)
+                {
+                    <div class="card" style="width:100%;height:100%">
+                        <div class="imgDiv">
+                            @if (item.Image != null)
+                            {
+                                <img class="cardImg" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(item.Image))">
+                            }
+                            else
+                            {
+                                <img class="cardImg" src="~/Content/Images/empty.jpg" />
+                            }
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">@Html.ActionLink(item.Name, "GetAtractionDetail", "Trip", new { id = item.Id }, null)</h4>
+                            <p class="card-text">
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalDistance)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TotalDistance)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Duration)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Duration)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DurationTrafiic)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DurationTrafiic)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AtractionNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AtractionNumber)
-        </dd>
-    </dl>
-
-    <dl>
-        <dt>
-            @Html.DisplayNameFor(model => model.BaseHotel.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BaseHotel.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BaseHotel.Rate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BaseHotel.Rate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BaseHotel.X)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BaseHotel.X)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BaseHotel.Y)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BaseHotel.Y)
-        </dd>
-
-    </dl>
-    @*@Html.Partial("~/Views/Trip/ManageAtractions.cshtml", new JourneyPortal.ViewModels.Trip.ManageAtractionsViewModel { atractionsList = Model.AtractionsList ,  IsPreviewOnly = true,});*@
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    if (i < Math.Floor(item.Rate))
+                                    {
+                                        <span class="fa fa-star" style=" color: orange;"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="fa fa-star"></span>
+                                    }
+                                }
+                            </p>
+                        </div>
+                        <ul class="list-group list-group-flush" style="width:100%">
+                            <li class="list-group-item">
+                                <div class="wrapper">
+                                    <b>Współrzędne : </b>X: @item.X  / Y: @item.X
+                                </div>
+                            </li>
+                            <li class="list-group-item"><b>Cena :</b> @item.Cost</li>
+                            <li class="list-group-item"><b>Email kontaktowy :</b> @item.OwnerEmail</li>
+                        </ul>
+                    </div>
+                }
+        </div>
+    </div>
 </div>
+<style>
+    .wrapper > div {
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        padding: 1em;
+    }
+
+    .wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 400px));
+        grid-gap: 10px;
+    }
+
+    .cardImg {
+        border-radius: 60px;
+        width: 100%;
+        height: 100%
+    }
+
+    .imgDiv {
+        height: 50%;
+    }
+</style>

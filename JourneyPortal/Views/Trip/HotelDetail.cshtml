@@ -37,16 +37,15 @@
                 }
                 else
                 {
-                    <span>@Math.Round(Model.Rate, 2)</span>
                     for (int i = 0; i < 5; i++)
                     {
-                        if (i <= Model.Rate)
+                        if (i < Math.Floor(Model.Rate))
                         {
-                            <img width="16" height="16" src="~/Content/Images/star.ico" />
+                            <span class="fa fa-star" style=" color: orange;"></span>
                         }
                         else
                         {
-                            <img width="16" height="16" src="~/Content/Images/star_empty.png" />
+                            <span class="fa fa-star"></span>
                         }
                     }
                 }

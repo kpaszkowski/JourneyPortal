@@ -20,7 +20,7 @@ namespace JourneyPortal.ViewModels.Trip
         public int DurationTrafiic { get; set; }
         [Display(Name = "Liczba atrakcji")]
         public int AtractionNumber { get; set; }
-        public HotelGridViewModel BaseHotel { get; set; }
-        public IPagedList<AtractionsGridViewModel> AtractionsList { get; set; }
+        public HotelDetailViewModel BaseHotel { get; set; }
+        public IPagedList<AtractionDetailViewModel> AtractionsList { get; set; }
     }
 }
