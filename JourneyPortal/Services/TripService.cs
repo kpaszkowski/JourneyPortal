@@ -604,6 +604,34 @@ namespace JourneyPortal.Services
                 throw ex;
             }
         }
+        internal List<AtractionDetailViewModel> PrepareAtractionListInTripInfo(int tripId)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    var atraction = context.Trips.Where(x => x.Id == tripId).SelectMany(x => x.Atractions).ToList();
+                    return atraction.Select(x => new AtractionDetailViewModel
+                    {
+                        Id = x.Id,
+                        X = x.X,
+                        Y = x.Y,
+                        Cost = x.Cost,
+                        Name = x.Name,
+                        IsActive = x.IsActive,
+                        Rate = x.Rate,
+                        TimeOfSightseeing = x.TimeOfSightseeing,
+                        Type = x.Type,
+                        Image = x.Image,
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
 
         internal TripDetailViewModel PrepareTripDetail(int tripId)
         {
@@ -616,7 +644,7 @@ namespace JourneyPortal.Services
                         Id = x.Id,
                         Name = x.Name,
                         AtractionNumber = x.Atractions.Count(),
-                        BaseHotel = new HotelGridViewModel {
+                        BaseHotel = new HotelDetailViewModel {
                             Id = x.BaseHotel.Id,
                             Name = x.BaseHotel.Name,
                             CostPerNight = x.BaseHotel.CostPerNight,
@@ -625,6 +653,7 @@ namespace JourneyPortal.Services
                             X = x.BaseHotel.X,
                             Y = x.BaseHotel.Y,
                             IsActive = x.BaseHotel.IsActive,
+                            Image = x.BaseHotel.Image
                         },
                         Duration = x.Duration,
                         DurationTrafiic = x.DurationTraffic,
