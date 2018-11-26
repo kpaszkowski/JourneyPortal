@@ -48,6 +48,7 @@ namespace JourneyPortal
             {
                 var result1 = userManager.AddToRole(user.Id, "User");
             }
+            
 
             user = new ApplicationUser();
             user.UserName = "user2";
@@ -275,6 +276,7 @@ namespace JourneyPortal
                 user.Email = "kpaszkowski1000@gmail.com";
                 user.FirstName = "krzycho";
                 user.LastName = "krzycho";
+                user.EmailConfirmed = true;
                 string userPWD = "123456";
                 var chkUser = userManager.Create(user, userPWD);
                 if (chkUser.Succeeded)
@@ -292,6 +294,7 @@ namespace JourneyPortal
                 user.Email = "kpaszkowski1000@gmail.com";
                 user.FirstName = "jan";
                 user.LastName = "jan";
+                user.EmailConfirmed = true;
                 string userPWD = "123456";
                 var chkUser = userManager.Create(user, userPWD);
                 if (chkUser.Succeeded)
@@ -308,7 +311,8 @@ namespace JourneyPortal
                 user.UserName = "travelagency";
                 user.Email = "kpaszkowski1000@gmail.com";
                 user.FirstName = "pjoter";
-                user.LastName = "pjoter";                
+                user.LastName = "pjoter";
+                user.EmailConfirmed = true;
                 string userPWD = "123456";
                 var chkUser = userManager.Create(user, userPWD);
                 if (chkUser.Succeeded)
@@ -326,6 +330,7 @@ namespace JourneyPortal
                 user.Email = "kpaszkowski1000@gmail.com";
                 user.FirstName = "franek";
                 user.LastName = "franek";
+                user.EmailConfirmed = true;
                 string userPWD = "123456";
                 var chkUser = userManager.Create(user, userPWD);
                 if (chkUser.Succeeded)

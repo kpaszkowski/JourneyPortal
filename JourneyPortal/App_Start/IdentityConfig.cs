@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using JourneyPortal.Models;
+using System.Net.Mail;
+using System.Net;
 
 namespace JourneyPortal
 {
@@ -19,6 +21,28 @@ namespace JourneyPortal
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
+            var fromEmail = new MailAddress("krzysztof.paszkowski1000@gmail.com", "Krzycho");
+            var toEmail = new MailAddress(message.Destination);
+
+            var fromEmailPassword = "kp1995kp";
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
+            };
+
+            using (var messageToSend = new MailMessage(fromEmail, toEmail)
+            {
+                Subject = message.Subject,
+                Body = message.Body,
+                IsBodyHtml = true,
+            })
+            smtp.Send(messageToSend);
+
             return Task.FromResult(0);
         }
     }

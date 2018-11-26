@@ -115,9 +115,8 @@ namespace JourneyPortal.Models
     public class ResetPasswordViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Login")]
+        public string UserName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "{0} musi zawierać minimum {2} znaki", MinimumLength = 3)]
@@ -139,6 +138,11 @@ namespace JourneyPortal.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Nazwa użytkownika")]
+        public string UserName { get; set; }
+
     }
     public class TravelAgencyInfoViewModel : BaseFormViewModel
     {

@@ -627,6 +627,7 @@
     <Content Include="Views\Chat\CreateMessage.cshtml" />
     <Content Include="Views\Manage\ManageConfig.cshtml" />
     <Content Include="Views\Users\UserList.cshtml" />
+    <Content Include="Views\Shared\Info.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\AtractionsImages\" />
