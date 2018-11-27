@@ -1,57 +1,74 @@
 ﻿@model JourneyPortal.Models.TravelAgencyInfoViewModel
 <div class="contentBody">
     <h2><b>Oferty biura : </b><u>@Model.Name</u></h2>
-
+    <input type="text" id="myInput" style="max-width:100%" onkeyup="myFunction()" placeholder="Wyszukaj oferty po nazwie" title="Wyszukaj oferty" />
     <div class="container" style="width:100%">
         <div id="products" style="width:100%" class="wrapper">
             @foreach (var item in Model.OffersList.Where(x => x.IsActive))
             {
-            <div class="card" style="width:100%;height:100%">
-                <div style="height:250px">
-                    @if (item.Image != null)
-                    {
-                        <img class="cardImg" style="width:100%;height:100%" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(item.Image))">
-                    }
-                    else
-                    {
-                        <img class="cardImg" style="width:100%;height:100%" src="~/Content/Images/empty.jpg" />
-                    }
-                </div>
-                <div class="card-body">
-                    <h4 class="card-title"> @Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</h4>
-                    <p class="card-text">
-
-                        @for (int i = 0; i < 5; i++)
+                <div class="card" style="width:100%;height:100%">
+                    <div style="height:250px">
+                        @if (item.Image != null)
                         {
-                            if (i < Math.Floor(item.Rate))
-                            {
-                                <span class="fa fa-star" style=" color: orange;"></span>
-                            }
-                            else
-                            {
-                                <span class="fa fa-star"></span>
-                            }
+                            <img class="cardImg" style="width:100%;height:100%" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(item.Image))">
                         }
-                    </p>
+                        else
+                        {
+                            <img class="cardImg" style="width:100%;height:100%" src="~/Content/Images/empty.jpg" />
+                        }
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            @Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)
+                            @if (item.IsFinished)
+                            {
+                                <span> - </span><span style="color:red">Oferta zakończona</span>
+                            }
+                        </h4>
+                        <p class="card-text">
+
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                if (i < Math.Floor(item.Rate))
+                                {
+                                    <span class="fa fa-star" style=" color: orange;"></span>
+                                }
+                                else
+                                {
+                                    <span class="fa fa-star"></span>
+                                }
+                            }
+                        </p>
+                    </div>
+                    <ul class="list-group list-group-flush" style="width:100%">
+                        <li class="list-group-item">
+                            <div class="wrapper">
+                                <b>Termin : </b>@item.StartDate.ToShortDateString() - @item.EndDate.ToShortDateString()
+                            </div>
+                        </li>
+                        <li class="list-group-item"><b>Dodana :</b> @item.CreationDate.ToShortDateString()</li>
+                        <li class="list-group-item"><b>Cena :</b> @item.Cost</li>
+                    </ul>
                 </div>
-                <ul class="list-group list-group-flush" style="width:100%">
-                    <li class="list-group-item">
-                        <div class="wrapper">
-                            <b>Termin : </b>@item.StartDate.ToShortDateString() - @item.EndDate.ToShortDateString()
-                        </div>
-                    </li>
-                    <li class="list-group-item"><b>Dodana :</b> @item.CreationDate.ToShortDateString()</li>
-                    <li class="list-group-item"><b>Cena :</b> @item.Cost</li>
-                </ul>
-            </div>
             }
         </div>
     </div>
     <script>
-        $(document).ready(function() {
-        $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
-        $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
-    });
+        function myFunction() {
+            var input, i, filter;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            card = $('.card');
+            for (var i = 0; i < card.length; i++) {
+                var item = card[i];
+                if (item.children[1].children[0].children[0].innerText.toUpperCase().indexOf(filter) > -1) {
+                    item.style.display = "";
+                }
+                else {
+                    item.style.display = "none";
+                }
+            }
+        }
     </script>
     <style>
         .wrapper > div {
@@ -74,6 +91,15 @@
 
         .imgDiv {
             height: 50%;
+        }
+        #myInput {
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 12px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
         }
     </style>
 </div>

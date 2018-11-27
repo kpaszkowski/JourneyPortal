@@ -1,0 +1,31 @@
+﻿@model PagedList.IPagedList<JourneyPortal.ViewModels.Trip.AtractionDetailViewModel>
+@using PagedList.Mvc
+
+<table class="table table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Nazwa atrakcji</th>
+            <th>Popularność</th>
+            <th>Koszt</th>
+            <th>Typ</th>
+            <th>Czas zwiedzania</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(item.Name, "GetAtractionDetail", "Trip", new { id = item.Id }, null)</td>
+                <td>@item.Rate</td>
+                <td>@item.Cost</td>
+                <td>@item.Type</td>
+                <td>@item.TimeOfSightseeing</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+    Strona @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("GetAtractionForTripDetail",
+                        new { page, tripId = ViewBag.tripId , sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "attractionsList" }))

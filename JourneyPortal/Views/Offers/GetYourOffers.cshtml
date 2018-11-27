@@ -2,10 +2,11 @@
 @using PagedList.Mvc;
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-
 <div class="contentBody">
     <div class="container" style="width:100%">
         <h2>Twoje oferty</h2>
+        <input type="text" id="myInput" style="max-width:100%" onkeyup="myFunction()" placeholder="Wyszukaj oferty po nazwie" title="Wyszukaj oferty" />
+        <hr/>
         <table class="table table-striped" style="width:100%">
             <thead>
                 <tr>
@@ -82,3 +83,22 @@
                 new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     </div>
 </div>
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementsByClassName("table table-striped");
+        tr = table[0].getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

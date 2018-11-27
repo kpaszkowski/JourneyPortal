@@ -25,6 +25,7 @@ namespace JourneyPortal.ViewModels.Offers
 
         [Display(Name = "Liczba miejsc")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać liczbę miejsc.")]
+        [Range(1, 999)]
         public int NuberOfBooking { get; set; }
 
         [Display(Name = "Data rozpoczęcia")]
@@ -43,15 +44,16 @@ namespace JourneyPortal.ViewModels.Offers
         public DateTime CreationDate { get; set; }
 
         [Display(Name = "Koszt")]
+        [Range(0.0, Double.MaxValue)]
         [DataType(DataType.Currency)]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać koszt za osobę.")]
-
         [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
         public decimal Cost { get; set; }
 
         public byte[] Avatar { get; set; }
 
         [Display(Name = "Kraj")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Należy podać kraj")]
         public string Country { get; set; }
 
         [Display(Name = "Biuro podróży")]
@@ -120,6 +122,8 @@ namespace JourneyPortal.ViewModels.Offers
 
         public bool IsUser { get; set; }
         public bool IsTravelAgency { get; set; }
+
+        public bool IsFinished { get; set; }
 
         public bool IsActive { get; set; }
         public bool IsOwner { get; set; }

@@ -3,7 +3,8 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <div class="contentBody">
     <h2>Zarezerwowane wycieczki</h2>
-    <hr/>
+    <input type="text" id="myInput" style="max-width:100%" onkeyup="myFunction()" placeholder="Wyszukaj wycieczki po nazwie" title="Wyszukaj wycieczki" />
+    <hr />
     <table class="table table-striped" style="width:100%">
         <thead>
             <tr>
@@ -20,32 +21,32 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>@Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</td>
-                <td>@item.NuberOfBooking</td>
-                <td>@item.StartDate</td>
-                <td>@item.EndDate</td>
-                <td>@(item.Cost * item.NuberOfBooking)</td>
-                <td>@item.TravelAgencyOwnerName</td>
-                <td>@item.Status</td>
-                <td>
-                    @if (item.Status != "Zaakceptowany")
-                    {
-                        using (Html.BeginForm("SignOff", "Offers", FormMethod.Post, new { id = "signOff-" + item.Id }))
+                <tr>
+                    <td>@Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</td>
+                    <td>@item.NuberOfBooking</td>
+                    <td>@item.StartDate</td>
+                    <td>@item.EndDate</td>
+                    <td>@(item.Cost * item.NuberOfBooking)</td>
+                    <td>@item.TravelAgencyOwnerName</td>
+                    <td>@item.Status</td>
+                    <td>
+                        @if (item.Status != "Zaakceptowany")
                         {
-                            @Html.AntiForgeryToken()
-                            <a href="#" onclick="submitSignOff('@item.Id');">Wypisz się</a>
-                            @Html.Hidden("offerId", item.Id)
-                            @Html.Editor("numberOfBooking", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "1", @value = "0", @required = "required", @max = item.NuberOfBooking } })
-                            @Html.ValidationMessage("SignOffNumber", "", new { @class = "text-danger" })
+                            using (Html.BeginForm("SignOff", "Offers", FormMethod.Post, new { id = "signOff-" + item.Id }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <a href="#" onclick="submitSignOff('@item.Id');">Wypisz się</a>
+                                @Html.Hidden("offerId", item.Id)
+                                @Html.Editor("numberOfBooking", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "1", @value = "0", @required = "required", @max = item.NuberOfBooking } })
+                                @Html.ValidationMessage("SignOffNumber", "", new { @class = "text-danger" })
+                            }
                         }
-                    }
-                    else
-                    {
-                        <p>Nie możesz się wypisać</p>
-                    }
-                </td>
-            </tr>
+                        else
+                        {
+                            <p>Nie możesz się wypisać</p>
+                        }
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -61,4 +62,22 @@
     function submitSignOff(id) {
         $('#signOff-' + id).submit();
     }
+    function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementsByClassName("table table-striped");
+        tr = table[0].getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    
 </script>

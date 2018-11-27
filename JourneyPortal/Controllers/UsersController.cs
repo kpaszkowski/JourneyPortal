@@ -117,8 +117,9 @@ namespace JourneyPortal.Controllers
                         NuberOfBooking = y.NuberOfBooking,
                         IsActive = y.IsActive,
                         Image = y.Image,
-                        Rate = y.Rate
-                    }).ToList()
+                        Rate = y.Rate,
+                        IsFinished = DateTime.Now > y.StartDate
+                    }).OrderBy(y => y.IsFinished).ToList()
                 }).FirstOrDefault();
 
             }

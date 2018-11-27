@@ -43,7 +43,7 @@
                 <div class="imgDiv">
                     @if (Model.BaseHotel.Image != null)
                     {
-                        <img class="cardImg" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(Model.BaseHotel.Image))">
+                        <img class="cardImg" src="@Url.Content("~/Content/HotelsImages/" + @Path.GetFileName(Model.BaseHotel.Image))">
                     }
                     else
                     {
@@ -68,63 +68,17 @@
                     </p>
                 </div>
                 <ul class="list-group list-group-flush" style="width:100%">
-                    <li class="list-group-item">
-                        <div class="wrapper">
-                            <b>Współrzędne : </b>X: @Model.BaseHotel.X  / Y: @Model.BaseHotel.X
-                        </div>
-                    </li>
                     <li class="list-group-item"><b>Cena :</b> @Model.BaseHotel.CostPerNight</li>
                     <li class="list-group-item"><b>Email kontaktowy :</b> @Model.BaseHotel.OwnerEmail</li>
                 </ul>
             </div>
         </div>
-        <h2>Atrakcje włączone w wycieczce :</h2>
+        <h2>Atrakcje do zwiedzenia :</h2>
         <hr />
-        <div class="row" style="height:100%;width:100%">
-                <div class="wrapper">
-                @foreach (var item in Model.AtractionsList)
-                {
-                    <div class="card" style="width:100%;height:100%">
-                        <div class="imgDiv">
-                            @if (item.Image != null)
-                            {
-                                <img class="cardImg" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(item.Image))">
-                            }
-                            else
-                            {
-                                <img class="cardImg" src="~/Content/Images/empty.jpg" />
-                            }
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">@Html.ActionLink(item.Name, "GetAtractionDetail", "Trip", new { id = item.Id }, null)</h4>
-                            <p class="card-text">
-
-                                @for (int i = 0; i < 5; i++)
-                                {
-                                    if (i < Math.Floor(item.Rate))
-                                    {
-                                        <span class="fa fa-star" style=" color: orange;"></span>
-                                    }
-                                    else
-                                    {
-                                        <span class="fa fa-star"></span>
-                                    }
-                                }
-                            </p>
-                        </div>
-                        <ul class="list-group list-group-flush" style="width:100%">
-                            <li class="list-group-item">
-                                <div class="wrapper">
-                                    <b>Współrzędne : </b>X: @item.X  / Y: @item.X
-                                </div>
-                            </li>
-                            <li class="list-group-item"><b>Cena :</b> @item.Cost</li>
-                            <li class="list-group-item"><b>Email kontaktowy :</b> @item.OwnerEmail</li>
-                        </ul>
-                    </div>
-                }
+        <div id="attractionsList">
+            @Html.Action("GetAtractionForTripDetail",new { tripId = Model.Id })
         </div>
-    </div>
+</div>
 </div>
 <style>
     .wrapper > div {
@@ -135,7 +89,7 @@
 
     .wrapper {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 400px));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 300px));
         grid-gap: 10px;
     }
 

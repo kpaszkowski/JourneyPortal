@@ -8,8 +8,9 @@
 <p class="text-success">@ViewBag.StatusMessage</p>
 <hr/>
 <div>
+
     @Html.Action("Index", "Users")
-    <hr />
+    
     @if (Model.HasPassword)
     {
         <h4>@Html.ActionLink("Zmień hasło", "ChangePassword")</h4>

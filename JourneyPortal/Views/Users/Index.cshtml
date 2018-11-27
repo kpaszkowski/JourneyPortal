@@ -5,8 +5,6 @@
 }
 
 <h2>Witaj <b>@name (@Model.Login)</b></h2>
-
-<br/>
 <div class="form-group">
     @Html.LabelFor(m => m.Login, new { @class = "col-md-2 control-label" })
     <div class="col-md-10">
@@ -38,7 +36,7 @@
     </div>
 </div>
 <h4>@Html.ActionLink("Zmień dane", "EditProfileData", "Users")</h4>
-
+<hr/>
 @using (Html.BeginForm("EditAvatar", "Users", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
     <div>

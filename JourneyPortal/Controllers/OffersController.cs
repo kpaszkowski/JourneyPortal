@@ -531,6 +531,7 @@ namespace JourneyPortal.Controllers
             {
                 model.IsOwner = userServices.IsOwner(id, User.Identity.Name);
             }
+            model.IsFinished = DateTime.Now > model.StartDate;
             return View("~/Views/Offers/OfferDetailInfo.cshtml", model);
         }
 

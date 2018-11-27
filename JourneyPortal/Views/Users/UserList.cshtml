@@ -1,10 +1,11 @@
 ﻿@model JourneyPortal.ViewModels.Users.ManageUsersViewModel
 @using PagedList.Mvc;
 
-
 <div class="contentBody">
+    <h2>Zarejestrowani użytkownicy</h2>
+    <input type="text" id="myInput" style="max-width:100%" onkeyup="myFunction()" placeholder="Wyszukaj użytkowników po nazwie" title="Wyszukaj użytkowników" />
+    <hr />
     <div class="container" id="userList" style="width:100%">
-        <br />
         <table class="table table-striped" style="width:100%">
             <thead>
                 <tr>
@@ -25,10 +26,10 @@
                         <td>@item.Email</td>
                         <td>@item.Role</td>
                         <td>
-                            @using (Html.BeginForm("ChangeUserRole", "Users", new { userId = item.Id , newRole= "newRole" }, FormMethod.Post))
+                            @using (Html.BeginForm("ChangeUserRole", "Users", new { userId = item.Id, newRole = "newRole" }, FormMethod.Post))
                             {
                                 @Html.AntiForgeryToken()
-                                @Html.DropDownList("newRole",Model.RolesList)
+                                @Html.DropDownList("newRole", Model.RolesList)
                                 <button class="btn btn-warning" type="submit">Zmień rolę</button>
                             }
                         </td>
@@ -45,3 +46,22 @@
                 new { page }))
     </div>
 </div>
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementsByClassName("table table-striped");
+        tr = table[0].getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

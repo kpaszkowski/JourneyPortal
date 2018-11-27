@@ -36,7 +36,6 @@ namespace JourneyPortal.Services
                     {
                         connectingTable.BookingCount -= numberOfBooking ?? 0;
                     }
-                    currentOffer.NuberOfBooking += numberOfBooking ?? 0;
                     context.SaveChanges();
                     return true;
                 }
@@ -69,7 +68,8 @@ namespace JourneyPortal.Services
                         Rate = x.Rate,
                         IsActive = x.IsActive,
                         Image = x.Image,
-                    }).ToList();
+                        IsFinished = (DateTime.Now > x.StartDate)
+                    }).OrderBy(x => x.IsFinished).ToList();
                 }
             }
             catch (Exception ex)
@@ -167,7 +167,8 @@ namespace JourneyPortal.Services
                     Rate = x.Rate,
                     Image = x.Image,
                     NumberOfUserCurrentBooking = n,
-                    CanAddComment = can
+                    CanAddComment = can,
+                    IsActive = x.IsActive
                 }).FirstOrDefault();
             }
         }
@@ -367,6 +368,7 @@ namespace JourneyPortal.Services
                         Image = x.Image,
                         Name = x.Name,
                         TravelAgencyOwnerName = x.TravelAgencyOwner.UserName,
+                        IsFinished = (DateTime.Now > x.StartDate)
                     }).ToList();
                     List<OfferDetailViewModel> newList = new List<OfferDetailViewModel>();
                     int loopConstraint = randomOffers.Count > 3 ? 3 : randomOffers.Count;

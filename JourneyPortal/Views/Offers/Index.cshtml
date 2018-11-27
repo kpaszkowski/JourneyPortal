@@ -3,9 +3,10 @@
 <link href="~/Content/flipItem.css" rel="stylesheet" />
 <div class="contentBody" id="products">
     <h2><b>Aktualne oferty</b></h2>
+    <input type="text" id="myInput" style="max-width:100%" onkeyup="myFunction()" placeholder="Wyszukaj oferty po nazwie" title="Wyszukaj oferty" />
     <hr/>
         <div class="wrapper">
-            @foreach (var item in Model.OffersList.OrderBy(x => x.CreationDate).Where(x => x.IsActive))
+            @foreach (var item in Model.OffersList.Where(x => x.IsActive))
             {
                 <div class="card" style="width:100%;height:100%">
                     <div class="imgDiv">
@@ -19,7 +20,13 @@
                         }
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title"> @Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)</h4>
+                        <h4 class="card-title">
+                            @Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, new { @class = "offerName" })
+                            @if (item.IsFinished)
+                            {
+                                <span> - </span><span style="color:red">Oferta zakończona</span>
+                            }
+                        </h4>
                         <p class="card-text">
 
                                 @for (int i = 0; i < 5; i++)
@@ -72,4 +79,31 @@
     .imgDiv{
         height:50%;
     }
+    #myInput {
+        background-position: 10px 10px;
+        background-repeat: no-repeat;
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 12px 12px 40px;
+        border: 1px solid #ddd;
+        margin-bottom: 12px;
+    }
 </style>
+<script>
+
+    function myFunction() {
+        var input, i ,filter;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        card = $('.card');
+        for (var i = 0; i < card.length; i++) {
+            var item = card[i];
+            if (item.children[1].children[0].children[0].innerText.toUpperCase().indexOf(filter) > -1) {
+                item.style.display = "";
+            }
+            else {
+                item.style.display = "none";
+            }
+        }
+    }
+</script>

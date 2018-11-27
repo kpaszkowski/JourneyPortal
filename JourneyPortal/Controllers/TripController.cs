@@ -461,8 +461,17 @@ namespace JourneyPortal.Controllers
             int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             model = tripService.PrepareTripDetail(tripId);
-            model.AtractionsList = tripService.PrepareAtractionListInTripInfo(tripId).ToPagedList(pageNumber, pageSize);
             return View("~/Views/Trip/TripDetail.cshtml", model);
+        }
+
+        [HttpGet]
+        public ActionResult GetAtractionForTripDetail(int tripId,int? page)
+        {
+            ViewBag.tripId = tripId;
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageNumber = (page ?? 1);
+            var model = tripService.PrepareAtractionListInTripInfo(tripId).ToPagedList(pageNumber, pageSize);
+            return PartialView("~/Views/Trip/AttractionListPartial.cshtml", model);
         }
 
     }

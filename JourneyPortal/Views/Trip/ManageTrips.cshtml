@@ -5,6 +5,8 @@
 
 <div class="contentBody">
     <h2>Twoje wycieczki</h2>
+    <input type="text" id="myInput" style="max-width:100%" onkeyup="myFunction()" placeholder="Wyszukaj wycieczki po nazwie" title="Wyszukaj wycieczki" />
+    <hr/>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -35,7 +37,7 @@
                         }
                     </td>
                     <td>
-                        @using (Html.BeginForm("RemoveTrip", "Trip", new { tripId = item.Id ,page = Model.Page}, FormMethod.Post))
+                        @using (Html.BeginForm("RemoveTrip", "Trip", new { tripId = item.Id, page = Model.Page }, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
                             <button class="btn btn-danger" type="submit"> Usuń</button>
@@ -50,8 +52,23 @@
 
     @Html.PagedListPager(Model.tripList, page => Url.Action("GetYourTrip",
                         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-
-    <div>
-    </div>
-
 </div>
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementsByClassName("table table-striped");
+        tr = table[0].getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

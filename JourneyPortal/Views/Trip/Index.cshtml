@@ -133,27 +133,19 @@
                     <h4 class="modal-title">Szczegóły obiektu turystycznego</h4>
                 </div>
                 <div class="modal-body">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label id="objectDetailXCoords"></label>
+                    <div class="container-fluid">
+                        <ul class="list-group list-group-flush" style="width:100%">
+                            <li class="list-group-item">
+                                <b>Współrzędne : </b><span id="objectDetailName"></span>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="wrapper">
+                                    <b>Współrzędne : </b>X: <span id="objectDetailXCoords"></span>  / Y: <span id="objectDetailYCoords"></span>
                                 </div>
-                                <div class="col-lg-6">
-                                    <label id="objectDetailYCoords"></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label id="objectDetailName"></label>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label id="objectDetailCost"></label>
-                                </div>    
-                                <div class="col-lg-3">
-                                    <label id="objectDetailRate"></label>
-                                </div>
-                            </div>
-                        </div>
+                            </li>
+                            <li class="list-group-item"><b>Cena :</b> <span id="objectDetailCost"></span></li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
@@ -794,8 +786,8 @@
                             x: f.target.geometry.y,
                             y: f.target.geometry.x,
                         }
-                        //newElement(point)
                         selectedAtractions.push(point);
+                        newElement(point, true)
                         $("#createTripBtn").prop("disabled", false);
                         f.target.setOptions({ icon: "/Content/Map/green-pin.svg" });
                         Microsoft.Maps.Events.removeHandler(f.target.handlerId);

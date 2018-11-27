@@ -98,15 +98,22 @@ namespace JourneyPortal.Controllers
         [HttpPost]
         public ActionResult SaveConfig(ManageConfigViewModel model)
         {
-            var config = WebConfigurationManager.OpenWebConfiguration("~");
-            var section = config.GetSection("appSettings") as AppSettingsSection;
-            section.Settings.Remove("KmLimit");
-            section.Settings.Add("KmLimit", model.KmLimit.ToString());
-            section.Settings.Remove("ItemsPerPage");
-            section.Settings.Add("ItemsPerPage", model.ItemPerPage.ToString());
-            config.Save();
+            if (ModelState.IsValid)
+            {
+                var config = WebConfigurationManager.OpenWebConfiguration("~");
+                var section = config.GetSection("appSettings") as AppSettingsSection;
+                section.Settings.Remove("KmLimit");
+                section.Settings.Add("KmLimit", model.KmLimit.ToString());
+                section.Settings.Remove("ItemsPerPage");
+                section.Settings.Add("ItemsPerPage", model.ItemPerPage.ToString());
+                config.Save();
 
-            return RedirectToAction("ManageConfig", "Manage",model);
+                return RedirectToAction("ManageConfig", "Manage",model);
+            }
+            else
+            {
+                return View("~/Views/Manage/ManageConfig.cshtml", model);
+            }
         }
 
         private bool IsAdmin(string userId)

@@ -1,43 +1,40 @@
 ﻿@model JourneyPortal.ViewModels.Trip.HotelDetailViewModel
-<br />
 <div class="contentBody">
-    <div class="media">
-        <div>
-            @using (Html.BeginForm("EditHotelImage", "Trip", new { hotelId = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-            {
-                <div>
-                    @if (Model.Image != null)
+
+    <div class="row" style="height:100%;width:100%">
+        <h2 class="my-4">
+            Wybrany Hotel -
+            "@Model.Name"
+        </h2>
+        <div class="card" style="width:50%;height:100%;margin:auto">
+            <div class="imgDiv">
+                @using (Html.BeginForm("EditHotelImage", "Trip", new { hotelId = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                {
+                    if (Model.Image != null)
                     {
-                        <img id="hotelImage" style="min-height:370px;min-width:350px;max-height:700px;" src="@Url.Content("~/Content/HotelsImages/" + @Path.GetFileName(Model.Image))" class="media-object">
+                        <img id="hotelImage" class="cardImg" src="@Url.Content("~/Content/HotelsImages/" + @Path.GetFileName(Model.Image))">
                     }
                     else
                     {
-                        <img id="hotelImage" style="min-height:370px;min-width:350px" src="~/Content/Images/empty.jpg" class="media-object" />
+                        <img id="hotelImage" class="cardImg" src="~/Content/Images/empty.jpg" />
                     }
-                </div>
-                if (Request.IsAuthenticated && Model.IsOwner)
-                {
-                    <div>
-                        <input type="file" title="search image" id="file" name="file" onchange="show(this)" />
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" class="btn btn-default" value="Zapisz" />
+                    if (Request.IsAuthenticated && Model.IsOwner)
+                    {
+                        <div>
+                            <input type="file" title="search image" id="file" name="file" onchange="show(this)" />
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" class="btn btn-default" value="Zapisz" />
+                            </div>
+                        </div>
+                    }
                 }
-            }
-        </div>
-        <div class="media-right media-top">
-            <h3 class="media-heading">@Model.Name</h3><br />
-            <div>
-                @if (Model.Rate == 0)
-                {
-                    <span>Brak ocen</span>
-                }
-                else
-                {
-                    for (int i = 0; i < 5; i++)
+            </div>
+            <br />
+            <ul class="list-group list-group-flush" style="width:100%">
+                <li class="list-group-item">
+                    @for (int i = 0; i < 5; i++)
                     {
                         if (i < Math.Floor(Model.Rate))
                         {
@@ -48,37 +45,44 @@
                             <span class="fa fa-star"></span>
                         }
                     }
-                }
-            </div>
-            @Html.LabelFor(m => m.CostPerNight, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.CostPerNight, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.LabelFor(m => m.OwnerEmail, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.OwnerEmail, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.LabelFor(m => m.OwnerName, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.OwnerName, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.LabelFor(m => m.X, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.X, new { @class = "form-control", disabled = "disabled" })
-            </div>
-            @Html.LabelFor(m => m.Y, new { @class = "col-md-4 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.Y, new { @class = "form-control", disabled = "disabled" })
-            </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="wrapper">
+                        <b>Współrzędne : </b>X: @Model.X  / Y: @Model.X
+                    </div>
+                </li>
+                <li class="list-group-item"><b>Cena :</b> @Model.CostPerNight</li>
+                <li class="list-group-item"><b>Nazwa właściciela :</b> @Model.OwnerName</li>
+                <li class="list-group-item"><b>Email kontaktowy :</b> @Model.OwnerEmail</li>
+            </ul>
+            <h2>Opis</h2>
+            <p>@Html.Raw(Model.Description)</p>
         </div>
     </div>
-    <h2>Opis</h2>
-    <p>@Html.Raw(Model.Description)</p>
-    @* @Html.Partial("~/Views/Offers/CreateComment.cshtml", new JourneyPortal.ViewModels.Offers.CreateCommentToOfferViewModel { OfferId = Model.Id, })
-        <div id="commentsGridList">
-            @Html.Action("GetComments", new { offerId = Model.Id })
-        </div>*@
 </div>
+<style>
+    .wrapper > div {
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        padding: 1em;
+    }
+
+    .wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 300px));
+        grid-gap: 10px;
+    }
+
+    .cardImg {
+        border-radius: 60px;
+        width: 100%;
+        height: 100%
+    }
+
+    .imgDiv {
+        height: 50%;
+    }
+</style>
 <script>
     function show(input) {
         if (input.files && input.files[0]) {
