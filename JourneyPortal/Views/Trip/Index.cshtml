@@ -130,13 +130,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Szczegóły obiektu turystycznego</h4>
+                    <h4 class="modal-title">Szczegóły <span id="objectDetailWindowName"></span></h4>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
                         <ul class="list-group list-group-flush" style="width:100%">
                             <li class="list-group-item">
-                                <b>Współrzędne : </b><span id="objectDetailName"></span>
+                                <b>Nazwa : </b><span id="objectDetailName"></span>
                             </li>
                             <li class="list-group-item">
                                 <div class="wrapper">
@@ -516,6 +516,12 @@
                 $('#objectDetailYCoords').text(e.target.geometry.x);
                 $('#objectDetailName').text(e.target.entity.title);
                 $('#objectDetailCost').text(e.target.Cost);
+                if (pin.isAtraction) {
+                    $('#objectDetailWindowName').text('atrakcji');
+                }
+                else {
+                    $('#objectDetailWindowName').text('hotelu');
+                }
                 $('#objectDetailModal').modal('show');
             });
         }
