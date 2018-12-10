@@ -16,7 +16,7 @@
                         }
                         else
                         {
-                            <img height="100" src="~/Content/Images/empytAvatar.png" style="width:80px">
+                            <img height="100" src="~/Content/Images/empytAvatar.svg" style="width:80px">
                         }
                         <div>
                             <h4>@item.AuthorName</h4>
@@ -48,13 +48,13 @@
                                     using (Html.BeginForm("AddLike", "Forum", new { postId = item.Id, topicId = Model.Id, categoryId = Model.CategoryId }, FormMethod.Post, new { id = "addLike-" + item.Id }))
                                     {
                                         @Html.AntiForgeryToken()
-                                        <a onclick="submitAddLike('@item.Id');"><img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)</a>
+                                        <a onclick="submitAddLike('@item.Id');"><img src="~/Content/Images/like.svg" width="42" height="42" /> (@item.Likes)</a>
                                     }
                                 }
                                 else
                                 {
                                     <div>
-                                        <img src="~/Content/Images/like.png" width="16" height="16" /> (@item.Likes)
+                                        <img src="~/Content/Images/like.svg" width="42" height="42" /> (@item.Likes)
                                     </div>
 
                                 }

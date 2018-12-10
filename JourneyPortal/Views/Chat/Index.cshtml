@@ -82,7 +82,7 @@
         }
         leftSide = !leftSide;
         if (avatar == '' || avatar == undefined || avatar == null) {
-            avatar = '@Url.Content("~/Content/Images/" + @Path.GetFileName("empytAvatar.png"))'
+            avatar = '@Url.Content("~/Content/Images/" + @Path.GetFileName("empytAvatar.svg"))'
         }
         
         var html = "<div class='" + divClassName + "'><img src=" + avatar + " alt='Avatar'" + imageClassName + "><span id='" + newId + "'><strong>" + name + "<strong/></span><p>" + unescape(message) + "</p><span class='time-" + timeClassName + "'>" + dateTime + "</span></div>";
