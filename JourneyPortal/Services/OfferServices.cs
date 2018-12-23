@@ -101,25 +101,28 @@ namespace JourneyPortal.Services
                         TravelAgencyOwner = userManager.FindByName(userName),
                     };
 
-                    Image image = new Image();
-                    var allowedExtensions = new[] {
-                    ".Jpg", ".png", ".jpg", "jpeg",".ico"
-                    };
-                    Guid id = Guid.NewGuid();
-                    image.ImageUrl = file.ToString();
-                    image.Name = newOffert.Name + id + "-image";
-                    var fileName = Path.GetFileName(file.FileName);
-                    var ext = Path.GetExtension(file.FileName);
-                    if (allowedExtensions.Contains(ext))
+                    if (file != null)
                     {
-                        string name = Path.GetFileNameWithoutExtension(fileName);
-                        string myfile = name + "_" + image.Name + ext;
-                        var path = Path.Combine(offersController.Server.MapPath("~/Content/OffersImages"), myfile);
-                        image.ImageUrl = path;
-                        context.Images.Add(image);
-                        file.SaveAs(path);
+                        Image image = new Image();
+                        var allowedExtensions = new[] {
+                        ".Jpg", ".png", ".jpg", "jpeg",".ico"
+                        };
+                        Guid id = Guid.NewGuid();
+                        image.ImageUrl = file.ToString();
+                        image.Name = newOffert.Name + id + "-image";
+                        var fileName = Path.GetFileName(file.FileName);
+                        var ext = Path.GetExtension(file.FileName);
+                        if (allowedExtensions.Contains(ext))
+                        {
+                            string name = Path.GetFileNameWithoutExtension(fileName);
+                            string myfile = name + "_" + image.Name + ext;
+                            var path = Path.Combine(offersController.Server.MapPath("~/Content/OffersImages"), myfile);
+                            image.ImageUrl = path;
+                            context.Images.Add(image);
+                            file.SaveAs(path);
+                        }
+                        newOffert.Image = image.ImageUrl;
                     }
-                    newOffert.Image = image.ImageUrl;
                     context.Offers.Add(newOffert);
                     context.SaveChanges();
                     return true;

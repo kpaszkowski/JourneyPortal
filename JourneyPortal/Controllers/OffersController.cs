@@ -63,6 +63,10 @@ namespace JourneyPortal.Controllers
         [ValidateInput(false)]
         public ActionResult CreateNewOffert(CreateOfferDetailViewModel model, HttpPostedFileBase file)
         {
+            if (model.StartDate > model.EndDate || model.StartDate <= DateTime.Now)
+            {
+                ModelState.AddModelError(string.Empty, "Wprowadź odpowiednią datę");
+            }
             if (ModelState.IsValid)
             {
                 bool success = offerServices.CreateNewOffert(model,User.Identity.Name,file,this);
