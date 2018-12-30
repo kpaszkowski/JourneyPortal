@@ -1,27 +1,127 @@
-﻿@*<div class="logoText">NATURE</div>*@
+﻿<style>
+    * {box-sizing: border-box}
+
+/* Full-width input fields */
+  input, input {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input:focus, input:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.signupbtn {
+  width: 100%;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@@media screen and (max-width: 300px) {
+  .cancelbtn, .signupbtn {
+    width: 100%;
+  }
+}
+</style>
+<div class="contentBody" style="width:100%">
+    <div>
+        @using (Html.BeginForm("SearchOffert", "Home", FormMethod.Get))
+        {
+            @Html.AntiForgeryToken()
+        <div class="container" style="width:100%;">
+            <h1>Co Cię interesuje ?</h1>
+            <p>
+                Witamy na portalu - JourneyPortal. Pomożemy ci zorganizować twoją wycieczkę marzeń i zaplanujemy cały wyjazd.
+                Na poniższym formularzu wybierz co Cię najbardziej interesuje i wyszukaj gotowe oferty lub obiekty turystyczne.
+            </p>
+            <hr>
+            <div class="row">
+                <div class="col-lg-6">
+                    <label for="startDate"><b>Data rozpoczęcia</b></label><br />
+                    <input type="date" style="max-width:100%" placeholder="Wprowadz datę rozpoczęcia" name="startDate">
+                </div>
+                <div class="col-lg-6">
+                    <label for="endDate"><b>Data zakończenia</b></label><br />
+                    <input type="date" style="max-width:100%" placeholder="Wprowadz datę zakończenia" name="endDate">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <label for="minPrice"><b>Cena od</b></label><br />
+                    <input type="number" style="max-width:100%" name="minPrice" min="0">
+                </div>
+                <div class="col-lg-6">
+                    <label for="maxPrice"><b>Cena do</b></label><br />
+                    <input type="number" style="max-width:100%" name="maxPrice" min="0">
+                </div>
+            </div>
+            <div class="row">
+                <label for="country"><b>Kraj</b></label><br />
+                <input style="max-width:100%" type="text" placeholder="Wprowadz nazwę kraju" name="country">
+            </div>
+            <div class="row">
+                <label for="bookingNumber"><b>Liczba miejsc od : </b></label><br />
+                <input style="max-width:100%" type="number" min="0" placeholder="Wprowadz liczbę miejsc" name="bookingNumber">
+            </div>
+            <div class="row">
+                <label>
+                    Tylko aktywne oferty
+                </label><input type="checkbox" checked="checked" name="activeOffert" style="margin-bottom:15px">
+            </div>
+            <div class="clearfix">
+                <button type="submit" class="signupbtn">Wyszukaj</button>
+            </div>
+        </div>
+        }
+    </div>
+
+</div>
+
 <script>
     $(function () {
         //document.getElementById("mySidenav").style.width = "0";
         //document.getElementById("main").style.marginLeft = "0";
         //isMenuOpen = !isMenuOpen;
-        document.body.style.backgroundColor = "white";
-        $("#renderBody").removeClass("panel panel-default")
+        //document.body.style.backgroundColor = "white";
+        //$("#renderBody").removeClass("panel panel-default")
     });
 </script>
-
-@*<style>
-    .logoText {
-        color: black;
-        font-size: 10vw; /* Responsive font size */
-        font-weight: bold;
-        margin: 0 auto; /* Center the text container */
-        padding: 10px;
-        width: 50%;
-        text-align: center; /* Center text */
-        position: absolute; /* Position text */
-        top: 50%; /* Position text in the middle */
-        left: 50%; /* Position text in the middle */
-        transform: translate(-50%, -50%); /* Position text in the middle */
-        mix-blend-mode: screen; /* This makes the cutout text possible */
-    }
-</style>*@

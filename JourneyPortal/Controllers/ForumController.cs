@@ -31,7 +31,7 @@ namespace JourneyPortal.Controllers
             {
                 model.IsAdmin = true;
             }
-            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             model.Categories = forumService.GetAllCategories().ToPagedList(pageNumber,pageSize);
 
@@ -72,7 +72,7 @@ namespace JourneyPortal.Controllers
         public ActionResult GetTopics(int categoryId , int? page)
         {
             var model = new CategoryDetailsViewModel();
-            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             forumService.PrepareCategoriesDetailsViewModel(model,categoryId);
             model.TopicsList = forumService.GetTopicsFor(categoryId).ToPagedList(pageNumber,pageSize);
@@ -94,7 +94,7 @@ namespace JourneyPortal.Controllers
             var model = new TopicDetailsViewModel();
             forumService.PrepareTopicsDetailsViewModel(model, topicId ,categoryId);
             model.isAdmin = userServices.IsAdmin(User.Identity.Name);
-            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             model.PostsList = forumService.GetPostsFor(topicId).ToPagedList(pageNumber, pageSize);
             return View("~/Views/Forum/TopicDetails.cshtml", model);

@@ -36,7 +36,7 @@ namespace JourneyPortal.Controllers
             cachedViewModel.IsTravelAgency = userServices.IsTravelAgency(currentUserName);
             cachedViewModel.IsAdmin= userServices.IsAdmin(currentUserName);
             cachedViewModel.IsUser = userServices.IsUser(currentUserName);
-            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = 1;
             cachedViewModel.OffersList =  offerServices.GetAllOffers().ToPagedList(pageNumber,pageSize);
             return View("~/Views/Offers/Index.cshtml", cachedViewModel);
@@ -46,7 +46,7 @@ namespace JourneyPortal.Controllers
         public ActionResult IndexGetAllOffers(int? page)
         {
             var cachedViewModel = new OffersViewModel();
-            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             cachedViewModel.OffersList = offerServices.GetAllOffers().ToPagedList(pageNumber, pageSize);
             return PartialView("~/Views/Offers/Index.cshtml", cachedViewModel);
@@ -173,7 +173,7 @@ namespace JourneyPortal.Controllers
 
                 #endregion Sort Search
 
-                int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+                int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
                 int pageNumber = (page ?? 1);
                 ViewBag.PageSize = pageSize;
                 var tempList = query.ToList();
@@ -287,7 +287,7 @@ namespace JourneyPortal.Controllers
 
             }
 
-            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             ViewBag.PageSize = pageSize;
             return View("~/Views/Offers/GetAssignedOffers.cshtml", cachedViewModel.ToPagedList(pageNumber,pageSize));
@@ -354,7 +354,7 @@ namespace JourneyPortal.Controllers
                     Rate = x.Rate
                 });
                 ViewBag.ItemNumber = query.Count();
-                int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+                int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
                 int pageNumber = (page ?? 1);
                 ViewBag.PageSize = pageSize;
                 var tempList = query.ToList();
@@ -453,8 +453,7 @@ namespace JourneyPortal.Controllers
                 }
 
                 #endregion Sort Search
-
-                int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+                int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
                 int pageNumber = (page ?? 1);
                 ViewBag.PageSize = pageSize;
                 var tempList = query.ToList();

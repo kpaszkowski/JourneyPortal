@@ -44,7 +44,7 @@ namespace JourneyPortal.Controllers
         public ActionResult ManageAtractions(int? page)
         {
             var model = new ManageAtractionsViewModel();
-            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             model.Page = pageNumber;
             model.atractionsList = tripService.PrepareAtractionList(User.Identity.Name).ToPagedList(pageNumber, pageSize);
@@ -186,7 +186,7 @@ namespace JourneyPortal.Controllers
         public ActionResult ManageHotels(int? page)
         {
             var model = new ManageHotelsViewModel();
-            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             model.Page = pageNumber;
             model.hotelList = tripService.PrepareHotelList(User.Identity.Name).ToPagedList(pageNumber,pageSize);
@@ -447,7 +447,7 @@ namespace JourneyPortal.Controllers
         public ActionResult GetYourTrip(int? page)
         {
             var model = new ManageTripViewModel();
-            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             model.Page = pageNumber;
             model.tripList = tripService.PrepareTripList(User.Identity.Name).ToPagedList(pageNumber, pageSize);
@@ -458,7 +458,7 @@ namespace JourneyPortal.Controllers
         public ActionResult GetTripDetail(int tripId,int? page)
         {
             var model = new TripDetailViewModel();
-            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             model = tripService.PrepareTripDetail(tripId);
             return View("~/Views/Trip/TripDetail.cshtml", model);
@@ -468,7 +468,7 @@ namespace JourneyPortal.Controllers
         public ActionResult GetAtractionForTripDetail(int tripId,int? page)
         {
             ViewBag.tripId = tripId;
-            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             var model = tripService.PrepareAtractionListInTripInfo(tripId).ToPagedList(pageNumber, pageSize);
             return PartialView("~/Views/Trip/AttractionListPartial.cshtml", model);

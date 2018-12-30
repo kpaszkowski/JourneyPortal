@@ -16,40 +16,30 @@ namespace JourneyPortal.Services
 {
     public class UserServices
     {
-        ApplicationDbContext context;
-        UserManager<ApplicationUser> userManager;
-        public UserServices()
-        {
-            context = new ApplicationDbContext();
-            userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-        }
-
-        internal ApplicationUser GetUserByName(string name)
-        {
-
-            return userManager.FindByName(name);
-        }
-
         internal string GetUserRole(string name)
         {
-            if (string.IsNullOrEmpty(name))
+            using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                return string.Empty;
+                if (string.IsNullOrEmpty(name))
+                {
+                    return string.Empty;
+                }
+                bool isExists = context.Users.Where(x => x.UserName == name).Any();
+                if (!isExists)
+                {
+                    return string.Empty;
+                }
+                return (from user in context.Users
+                        where user.UserName == name
+                        select new
+                        {
+                            RoleNames = (from userRole in user.Roles
+                                         join role in context.Roles on userRole.RoleId
+                                         equals role.Id
+                                         select role.Name).ToList()
+                        }).ToList().FirstOrDefault().RoleNames.FirstOrDefault();
             }
-            bool isExists = context.Users.Where(x => x.UserName == name).Any();
-            if (!isExists)
-            {
-                return string.Empty;
-            }
-            return (from user in context.Users
-                    where user.UserName == name
-                    select new
-                    {
-                        RoleNames = (from userRole in user.Roles
-                                     join role in context.Roles on userRole.RoleId
-                                     equals role.Id
-                                     select role.Name).ToList()
-                    }).ToList().FirstOrDefault().RoleNames.FirstOrDefault();
+
         }
 
         internal bool IsTravelAgency(string name)
@@ -151,6 +141,7 @@ namespace JourneyPortal.Services
             {
                 using (ApplicationDbContext context = new ApplicationDbContext())
                 {
+                    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                     var currentUser = context.Users.FirstOrDefault(x => x.Id == userId);
                     var currentRole = (from user in context.Users
                                        where user.Id == userId
@@ -205,14 +196,22 @@ namespace JourneyPortal.Services
 
         internal bool IsAtractionOwner(int id, string name)
         {
-            var currentUser = userManager.FindByName(name);
-            return context.Atractions.Where(x => x.Id == id && x.OwnerId == currentUser.Id).Any();
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var currentUser = userManager.FindByName(name);
+                return context.Atractions.Where(x => x.Id == id && x.OwnerId == currentUser.Id).Any();
+            }
         }
 
         internal bool IsHotelOwner(int id, string name)
         {
-            var currentUser = userManager.FindByName(name);
-            return context.Hotels.Where(x => x.Id == id && x.OwnerId == currentUser.Id).Any();
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var currentUser = userManager.FindByName(name);
+                return context.Hotels.Where(x => x.Id == id && x.OwnerId == currentUser.Id).Any();
+            }
         }
 
         internal bool IsProprietor(string name)
@@ -230,8 +229,17 @@ namespace JourneyPortal.Services
 
         internal bool IsOwner(int offerId, string name)
         {
-            var currentUser = userManager.FindByName(name);
-            return context.Offers.Where(x => x.Id == offerId && x.TravelAgencyOwnerId == currentUser.Id).Any();
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var currentUser = userManager.FindByName(name);
+                if (currentUser == null)
+                {
+                    currentUser = new ApplicationUser();
+                    currentUser.Id = "-1";
+                }
+                return context.Offers.Where(x => x.Id == offerId && x.TravelAgencyOwnerId == currentUser.Id).Any();
+            }
         }
 
         internal EditUserProfileViewModel PrepareEditUserProfile(string userName)
@@ -284,8 +292,12 @@ namespace JourneyPortal.Services
 
         internal bool IsTripOwner(int tripId, string name)
         {
-            var currentUser = userManager.FindByName(name);
-            return context.Trips.Where(x => x.Id == tripId && x.CreatedById == currentUser.Id).Any();
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var currentUser = userManager.FindByName(name);
+                return context.Trips.Where(x => x.Id == tripId && x.CreatedById == currentUser.Id).Any();
+            }
         }
     }
 }

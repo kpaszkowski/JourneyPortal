@@ -57,7 +57,7 @@ namespace JourneyPortal.Controllers
         public ActionResult ManageUsers(int? page)
         {
             var model = new ManageUsersViewModel();
-            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
             int pageNumber = (page ?? 1);
             model.usersList = userServices.GetAllUsers().ToPagedList(pageNumber, pageSize);
             model.RolesList = userServices.GetAllRoles();

@@ -48,6 +48,62 @@ namespace JourneyPortal.Services
 
         }
 
+        internal List<OfferDetailViewModel> SearchOffers(DateTime? startDate, DateTime? endDate, int? minPrice, int? maxPrice, string country, int? bookingNumber, string activeOffert)
+        {
+            try
+            {
+                using (ApplicationDbContext context = new ApplicationDbContext())
+                {
+                    bool active = activeOffert == null ? false:true;
+                    if (startDate == null)
+                    {
+                        startDate = DateTime.MinValue;
+                    }
+                    if (endDate == null)
+                    {
+                        endDate = DateTime.MaxValue;
+                    } 
+                    if (minPrice == null)
+                    {
+                        minPrice = Int32.MinValue;
+                    }
+                    if (maxPrice == null)
+                    {
+                        maxPrice = Int32.MaxValue;
+                    }
+                    if (bookingNumber == null)
+                    {
+                        bookingNumber = 0;
+                    }
+                    if (country == null)
+                    {
+                        country = string.Empty;
+                    }
+                    return context.Offers.Where(x => x.Country.Contains(country) && (x.Cost >= minPrice && x.Cost <= maxPrice)
+                            && (x.EndDate <= endDate && x.StartDate >= startDate )&& x.NuberOfBooking >= bookingNumber && (active == true ? DateTime.Now <= x.StartDate: true)).Select(x => new OfferDetailViewModel
+                            {
+                                Id = x.Id,
+                                Name = x.Name,
+                                StartDate = x.StartDate,
+                                EndDate = x.EndDate,
+                                Cost = x.Cost,
+                                Rate = x.Rate,
+                                Country = x.Country,
+                                NuberOfBooking = x.NuberOfBooking,
+                                IsActive = x.IsActive,
+                                Image = x.Image,
+                                CreationDate = x.CreationDate,
+                                IsFinished = (DateTime.Now > x.StartDate),
+                            }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         internal List<OfferDetailViewModel> GetAllOffers()
         {
             try

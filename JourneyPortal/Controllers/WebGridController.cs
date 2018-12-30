@@ -29,7 +29,7 @@ namespace JourneyPortal.Controllers
 
             WebGridViewModel model = new WebGridViewModel();
             model.GetRoles(context);
-            model.PageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"]);
+            int pageSize = Int32.Parse(ConfigurationManager.AppSettings["ItemsPerPage"] == null ? "9" : ConfigurationManager.AppSettings["ItemsPerPage"]);
 
             ViewBag.dropdown = new SelectList(context.Roles.ToList(), "Name", "Name");
             var users = context.Users.ToList();

@@ -1,0 +1,88 @@
+﻿@model List<JourneyPortal.ViewModels.Offers.OfferDetailViewModel>
+<div class="contentBody">
+    <h2><b>Wyniki wyszukiwania : </b></h2>
+    <div class="container" style="width:100%">
+        <div id="products" style="width:100%" class="wrapper">
+            @foreach (var item in Model.Where(x => x.IsActive))
+            {
+                <div class="card" style="width:100%;height:100%">
+                    <div style="height:250px">
+                        @if (item.Image != null)
+                        {
+                            <img class="cardImg" style="width:100%;height:100%" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(item.Image))">
+                        }
+                        else
+                        {
+                            <img class="cardImg" style="width:100%;height:100%" src="~/Content/Images/empty.svg" />
+                        }
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            @Html.ActionLink(item.Name, "GetOffersDetail", "Offers", new { id = item.Id }, null)
+                            @if (item.IsFinished)
+                            {
+                                <span> - </span><span style="color:red">Oferta zakończona</span>
+                            }
+                        </h4>
+                        <p class="card-text">
+
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                if (i < Math.Floor(item.Rate))
+                                {
+                                    <span class="fa fa-star" style=" color: orange;"></span>
+                                }
+                                else
+                                {
+                                    <span class="fa fa-star"></span>
+                                }
+                            }
+                        </p>
+                    </div>
+                    <ul class="list-group list-group-flush" style="width:100%">
+                        <li class="list-group-item">
+                            <div class="wrapper">
+                                <b>Termin : </b>@item.StartDate.ToShortDateString() - @item.EndDate.ToShortDateString()
+                            </div>
+                        </li>
+                        <li class="list-group-item"><b>Dodana :</b> @item.CreationDate.ToShortDateString()</li>
+                        <li class="list-group-item"><b>Cena :</b> @item.Cost</li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+    <style>
+        .wrapper > div {
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 1em;
+        }
+
+        .wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-gap: 10px;
+        }
+
+        .cardImg {
+            border-radius: 10px;
+            width: 100%;
+            height: 100%
+        }
+
+        .imgDiv {
+            height: 50%;
+        }
+
+        #myInput {
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 12px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+    </style>
+</div>
