@@ -169,7 +169,7 @@ namespace JourneyPortal.Models
         [Display(Name = "Rola")]
         public string Role { get; set; }
 
-        public string Avatar { get; set; }
+        public byte[] Avatar { get; set; }
         internal void UpdateFromModel(ApplicationUser u)
         {
             ApplicationDbContext context = new ApplicationDbContext();
@@ -179,7 +179,7 @@ namespace JourneyPortal.Models
             Email = u.Email;
             FirstName = u.FirstName;
             LastName = u.LastName;
-            Avatar = u.Avatar;
+            Avatar = u.Image?.Binary;
             var userRoles = (from user in context.Users
                              where user.UserName == Login
                              select new

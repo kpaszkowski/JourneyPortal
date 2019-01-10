@@ -1,4 +1,5 @@
 ﻿using JourneyPortal.Controllers;
+using JourneyPortal.Helpers;
 using JourneyPortal.Models;
 using JourneyPortal.Models.Offer;
 using JourneyPortal.ViewModels.Offers;
@@ -91,7 +92,7 @@ namespace JourneyPortal.Services
                                 Country = x.Country,
                                 NuberOfBooking = x.NuberOfBooking,
                                 IsActive = x.IsActive,
-                                Image = x.Image,
+                                Image = x.Image != null ? x.Image.Binary : null,
                                 CreationDate = x.CreationDate,
                                 IsFinished = (DateTime.Now > x.StartDate),
                             }).ToList();
@@ -123,7 +124,7 @@ namespace JourneyPortal.Services
                         TravelAgencyOwnerName = x.TravelAgencyOwner.UserName,
                         Rate = x.Rate,
                         IsActive = x.IsActive,
-                        Image = x.Image,
+                        Image = x.Image != null ? x.Image.Binary : null,
                         IsFinished = (DateTime.Now > x.StartDate)
                     }).OrderBy(x => x.IsFinished).ToList();
                 }
@@ -159,25 +160,9 @@ namespace JourneyPortal.Services
 
                     if (file != null)
                     {
-                        Image image = new Image();
-                        var allowedExtensions = new[] {
-                        ".Jpg", ".png", ".jpg", "jpeg",".ico"
-                        };
-                        Guid id = Guid.NewGuid();
-                        image.ImageUrl = file.ToString();
-                        image.Name = newOffert.Name + id + "-image";
-                        var fileName = Path.GetFileName(file.FileName);
-                        var ext = Path.GetExtension(file.FileName);
-                        if (allowedExtensions.Contains(ext))
-                        {
-                            string name = Path.GetFileNameWithoutExtension(fileName);
-                            string myfile = name + "_" + image.Name + ext;
-                            var path = Path.Combine(offersController.Server.MapPath("~/Content/OffersImages"), myfile);
-                            image.ImageUrl = path;
-                            context.Images.Add(image);
-                            file.SaveAs(path);
-                        }
-                        newOffert.Image = image.ImageUrl;
+                        var image = ImageHelper.PrepareImage(file);
+                        context.Images.Add(image);
+                        newOffert.Image = image;
                     }
                     context.Offers.Add(newOffert);
                     context.SaveChanges();
@@ -224,7 +209,7 @@ namespace JourneyPortal.Services
                     Cost = x.Cost,
                     Country = x.Country,
                     Rate = x.Rate,
-                    Image = x.Image,
+                    Image = x.Image != null ? x.Image.Binary : null,
                     NumberOfUserCurrentBooking = n,
                     CanAddComment = can,
                     IsActive = x.IsActive
@@ -424,7 +409,7 @@ namespace JourneyPortal.Services
                         EndDate =x.EndDate,
                         StartDate = x.StartDate,
                         Rate = x.Rate,
-                        Image = x.Image,
+                        Image = x.Image != null ? x.Image.Binary : null,
                         Name = x.Name,
                         TravelAgencyOwnerName = x.TravelAgencyOwner.UserName,
                         IsFinished = (DateTime.Now > x.StartDate)

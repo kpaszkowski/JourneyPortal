@@ -300,33 +300,19 @@ namespace JourneyPortal.Controllers
             {
                 var currentOffer = context.Offers.FirstOrDefault(x => x.Id == offerId);
 
-                Guid id = Guid.NewGuid();
                 if (file != null)
                 {
-                    Image image = new Image();
-                    var allowedExtensions = new[] {
-                    ".Jpg", ".png", ".jpg", "jpeg",".ico"
-                    };
-                    image.ImageUrl = file.ToString();
-                    image.Name = currentOffer.Name + id + "-image";
-                    var fileName = Path.GetFileName(file.FileName);
-                    var ext = Path.GetExtension(file.FileName);
-                    if (allowedExtensions.Contains(ext))
-                    {
-                        string name = Path.GetFileNameWithoutExtension(fileName);
-                        string myfile = name + "_" + image.Name + ext;
-                        var path = Path.Combine("~/Content/OffersImages", myfile);
-                        image.ImageUrl = path;
-                        context.Images.Add(image);
-                        file.SaveAs(Server.MapPath(path));
-                    }
-                    currentOffer.Image = image.ImageUrl;
+                    var image = ImageHelper.PrepareImage(file);
+                    context.Images.Add(image);
+                    currentOffer.Image = image;
                 }
                 else
                 {
-                    var image = context.Images.FirstOrDefault(x => x.ImageUrl == currentOffer.Image);
-                    context.Images.Remove(image);
-                    currentOffer.Image = null;
+                    if (currentOffer.Image != null)
+                    {
+                        context.Images.Remove(currentOffer.Image);
+                        currentOffer.Image = null;
+                    }
                 }
                 context.SaveChanges();
             }
@@ -344,12 +330,12 @@ namespace JourneyPortal.Controllers
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
 
-                var query = context.OffersComments.Where(x => x.Offers.Id == offerId).Select(x=> new CommentsViewModel
+                var query = context.OffersComments.Where(x => x.Offers.Id == offerId).Select(x => new CommentsViewModel
                 {
                     Id = x.Id,
                     Text = x.Text,
                     AuthorName = x.Author.UserName,
-                    AuthorAvatar = x.Author.Avatar,
+                    AuthorAvatar = x.Author.Image != null ? x.Author.Image.Binary : null,
                     CreationDate = x.CreationDate,
                     Rate = x.Rate
                 });

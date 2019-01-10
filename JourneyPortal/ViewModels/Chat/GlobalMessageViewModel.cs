@@ -16,7 +16,8 @@ namespace JourneyPortal.ViewModels.Chat
         [Display(Name = "Autor")]
         public string AuthorName { get; set; }
         [Display(Name = "Avatar")]
-        public string AuthorAvatar { get; set; }
+        public byte[] AuthorAvatar { get; set; }
+        public string AuthorAvatarJson { get; set; }
         public double DateTimeSeconds { get; set; }
     }
 }

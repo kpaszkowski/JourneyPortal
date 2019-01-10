@@ -54,7 +54,7 @@ namespace JourneyPortal.Models.Offer
 
         public bool IsActive { get; set; }
 
-        public string Image { get; set; }
+        public virtual Image Image { get; set; }
 
         public string TravelAgencyOwnerId { get; set; }
 

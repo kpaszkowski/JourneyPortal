@@ -7,12 +7,13 @@ using JourneyPortal.Models;
 using JourneyPortal.ViewModels.Chat;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Newtonsoft.Json;
 
 namespace JourneyPortal.Services
 {
     public class ChatService
     {
-        internal List<GlobalMessageViewModel> GetAllMessages()
+        internal dynamic GetAllMessages()
         {
             try
             {
@@ -23,17 +24,18 @@ namespace JourneyPortal.Services
                         Id = x.Id,
                         Text = x.Text,
                         AuthorName = x.Author.UserName,
-                        AuthorAvatar = x.Author.Avatar,
+                        AuthorAvatar = x.Author.Image != null ? x.Author.Image.Binary : null,
                         CreationDate = x.CreationDate
                     }).ToList();
 
                     foreach (var item in globalMessagesList)
                     {
-                        item.DateTimeSeconds = item.CreationDate.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
                         if (item.AuthorAvatar != null)
                         {
-                            item.AuthorAvatar = "/Content/Images/" + Path.GetFileName(item.AuthorAvatar);
+                            item.AuthorAvatarJson = JsonConvert.SerializeObject(Convert.ToBase64String(item.AuthorAvatar));
+                            item.AuthorAvatar = null;
                         }
+                        item.DateTimeSeconds = item.CreationDate.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
                     }
                     return globalMessagesList;
                 }

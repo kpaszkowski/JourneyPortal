@@ -1,4 +1,5 @@
-﻿using JourneyPortal.Models;
+﻿using JourneyPortal.Helpers;
+using JourneyPortal.Models;
 using JourneyPortal.Services;
 using JourneyPortal.ViewModels.Shared;
 using JourneyPortal.ViewModels.Trip;
@@ -219,33 +220,19 @@ namespace JourneyPortal.Controllers
             {
                 var currentAtraction = context.Atractions.FirstOrDefault(x => x.Id == atractionId);
 
-                Guid id = Guid.NewGuid();
                 if (file != null)
                 {
-                    Image image = new Image();
-                    var allowedExtensions = new[] {
-                    ".Jpg", ".png", ".jpg", "jpeg",".ico"
-                    };
-                    image.ImageUrl = file.ToString();
-                    image.Name = currentAtraction.Name + id + "-image";
-                    var fileName = Path.GetFileName(file.FileName);
-                    var ext = Path.GetExtension(file.FileName);
-                    if (allowedExtensions.Contains(ext))
-                    {
-                        string name = Path.GetFileNameWithoutExtension(fileName);
-                        string myfile = name + "_" + image.Name + ext;
-                        var path = Path.Combine("~/Content/AtractionsImages", myfile);
-                        image.ImageUrl = path;
-                        context.Images.Add(image);
-                        file.SaveAs(Server.MapPath(path));
-                    }
-                    currentAtraction.Image = image.ImageUrl;
+                    var image = ImageHelper.PrepareImage(file);
+                    context.Images.Add(image);
+                    currentAtraction.Image = image;
                 }
                 else
                 {
-                    var image = context.Images.FirstOrDefault(x => x.ImageUrl == currentAtraction.Image);
-                    context.Images.Remove(image);
-                    currentAtraction.Image = null;
+                    if (currentAtraction.Image != null)
+                    {
+                        context.Images.Remove(currentAtraction.Image);
+                        currentAtraction.Image = null;
+                    }
                 }
                 context.SaveChanges();
             }
@@ -259,33 +246,19 @@ namespace JourneyPortal.Controllers
             {
                 var currentHotel = context.Hotels.FirstOrDefault(x => x.Id == hotelId);
 
-                Guid id = Guid.NewGuid();
                 if (file != null)
                 {
-                    Image image = new Image();
-                    var allowedExtensions = new[] {
-                    ".Jpg", ".png", ".jpg", "jpeg",".ico"
-                    };
-                    image.ImageUrl = file.ToString();
-                    image.Name = currentHotel.Name + id + "-image";
-                    var fileName = Path.GetFileName(file.FileName);
-                    var ext = Path.GetExtension(file.FileName);
-                    if (allowedExtensions.Contains(ext))
-                    {
-                        string name = Path.GetFileNameWithoutExtension(fileName);
-                        string myfile = name + "_" + image.Name + ext;
-                        var path = Path.Combine("~/Content/HotelsImages", myfile);
-                        image.ImageUrl = path;
-                        context.Images.Add(image);
-                        file.SaveAs(Server.MapPath(path));
-                    }
-                    currentHotel.Image = image.ImageUrl;
+                    var image = ImageHelper.PrepareImage(file);
+                    context.Images.Add(image);
+                    currentHotel.Image = image;
                 }
                 else
                 {
-                    var image = context.Images.FirstOrDefault(x => x.ImageUrl == currentHotel.Image);
-                    context.Images.Remove(image);
-                    currentHotel.Image = null;
+                    if (currentHotel.Image != null)
+                    {
+                        context.Images.Remove(currentHotel.Image);
+                        currentHotel.Image = null;
+                    }
                 }
                 context.SaveChanges();
             }

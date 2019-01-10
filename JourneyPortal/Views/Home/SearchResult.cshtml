@@ -9,7 +9,7 @@
                     <div style="height:250px">
                         @if (item.Image != null)
                         {
-                            <img class="cardImg" style="width:100%;height:100%" src="@Url.Content("~/Content/OffersImages/" + @Path.GetFileName(item.Image))">
+                            <img class="cardImg" style="width:100%;height:100%" src="data:image;base64,@System.Convert.ToBase64String(item.Image)">
                         }
                         else
                         {

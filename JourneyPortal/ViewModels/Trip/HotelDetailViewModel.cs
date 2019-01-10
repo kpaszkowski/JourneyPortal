@@ -27,7 +27,7 @@ namespace JourneyPortal.ViewModels.Trip
         [Display(Name = "Nazwa właściciela")]
         public string OwnerName { get; set; }
         [Display(Name = "Zdjęcie")]
-        public string Image { get; set; }
+        public byte[] Image { get; set; }
         public bool IsOwner { get; set; }
     }
 }

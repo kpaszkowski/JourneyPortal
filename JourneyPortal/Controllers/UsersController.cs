@@ -116,7 +116,7 @@ namespace JourneyPortal.Controllers
                         Cost = y.Cost,
                         NuberOfBooking = y.NuberOfBooking,
                         IsActive = y.IsActive,
-                        Image = y.Image,
+                        Image = y.Image.Binary != null ? y.Image.Binary: null,
                         Rate = y.Rate,
                         IsFinished = DateTime.Now > y.StartDate
                     }).OrderBy(y => y.IsFinished).ToList()
@@ -163,31 +163,24 @@ namespace JourneyPortal.Controllers
         [HttpPost]
         public ActionResult EditAvatar(HttpPostedFileBase file)
         {
+            var userManagers = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            ApplicationUser currentUser = userManagers.FindByName(User.Identity.Name);
+
             if (file != null)
             {
-                Image image = new Image();
-                var allowedExtensions = new[] {
-                    ".Jpg", ".png", ".jpg", "jpeg",".ico"
-                };
-                var userManagers = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                ApplicationUser currentUser = userManagers.FindByName(User.Identity.Name);
-                image.ImageUrl = file.ToString();
-                image.Name = currentUser.UserName + "-avatar";
-                var fileName = Path.GetFileName(file.FileName);
-                var ext = Path.GetExtension(file.FileName);
-                if (allowedExtensions.Contains(ext))
+                var image = ImageHelper.PrepareImage(file);
+                context.Images.Add(image);
+                currentUser.Image = image;
+            }
+            else
+            {
+                if (currentUser.Image != null)
                 {
-                    string name = Path.GetFileNameWithoutExtension(fileName);
-                    string myfile = name + "_" + image.Name + ext;
-                    var path = Path.Combine(Server.MapPath("~/Content/Images"), myfile);
-                    image.ImageUrl = path;
-                    context.Images.Add(image);
-                    currentUser.Avatar = image.ImageUrl;
-                    context.SaveChanges();
-                    file.SaveAs(path);
+                    context.Images.Remove(currentUser.Image);
+                    currentUser.Image = null;
                 }
             }
-            
+            context.SaveChanges();
             return RedirectToAction("Index", "Manage");
         }
 

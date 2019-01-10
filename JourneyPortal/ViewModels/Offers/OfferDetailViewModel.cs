@@ -115,7 +115,7 @@ namespace JourneyPortal.ViewModels.Offers
 
         public List<CommentsViewModel> Comments { get; set; }
 
-        public string Image { get; set; }
+        public byte[] Image { get; set; }
 
         [Display(Name = "Biuro podróży")]
         public string TravelAgencyOwnerName { get; set; }

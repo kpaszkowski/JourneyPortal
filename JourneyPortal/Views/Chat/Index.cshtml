@@ -31,17 +31,17 @@
         $('#maxContentMessage').text(String(string));
         $.get("/Chat/GetMessages", function (data) {
             for (var i = 0; i < data.messages.length; i++) {
-                createNewMessage(data.messages[i].AuthorName, data.messages[i].Text, data.messages[i].DateTimeSeconds, data.messages[i].AuthorAvatar);
+                createNewMessage(data.messages[i].AuthorName, data.messages[i].Text, data.messages[i].DateTimeSeconds, JSON.parse(data.messages[i].AuthorAvatarJson));
             }
         });
         var chat = $.connection.chatHub;
         chat.client.addNewMessageToPage = function (name, message,date, Avatar) {
             createNewMessage(name, message,date, Avatar)
         };
-        
+
         $.connection.hub.start().done(function () {
 
-            $('#sendmessage').click(function () {                
+            $('#sendmessage').click(function () {
                 var userName = '@User.Identity.Name';
                 var messageToSend = $('#messageTextArea').val();
                 if (messageToSend.length>0) {
@@ -82,9 +82,13 @@
         }
         leftSide = !leftSide;
         if (avatar == '' || avatar == undefined || avatar == null) {
-            avatar = '@Url.Content("~/Content/Images/" + @Path.GetFileName("empytAvatar.svg"))'
+            avatar = '"/Content/Images/empytAvatar.svg"';
         }
-        
+        else {
+            var src = 'data:image;base64,';
+            avatar = src + avatar;
+        }
+
         var html = "<div class='" + divClassName + "'><img src=" + avatar + " alt='Avatar'" + imageClassName + "><span id='" + newId + "'><strong>" + name + "<strong/></span><p>" + unescape(message) + "</p><span class='time-" + timeClassName + "'>" + dateTime + "</span></div>";
         div.append(html);
     }

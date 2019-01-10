@@ -222,6 +222,7 @@
     </Compile>
     <Compile Include="Helpers\ChatHub.cs" />
     <Compile Include="Helpers\DecimalModelBinder.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\SessionCache.cs" />
     <Compile Include="Migrations\201810031748533_InitialCreate.cs" />
     <Compile Include="Migrations\201810031748533_InitialCreate.Designer.cs">
@@ -334,6 +335,10 @@
     <Compile Include="Migrations\201811171317166_removeDateOfBirth.cs" />
     <Compile Include="Migrations\201811171317166_removeDateOfBirth.Designer.cs">
       <DependentUpon>201811171317166_removeDateOfBirth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901101327467_changeImageStorage.cs" />
+    <Compile Include="Migrations\201901101327467_changeImageStorage.Designer.cs">
+      <DependentUpon>201901101327467_changeImageStorage.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -730,6 +735,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811171317166_removeDateOfBirth.resx">
       <DependentUpon>201811171317166_removeDateOfBirth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901101327467_changeImageStorage.resx">
+      <DependentUpon>201901101327467_changeImageStorage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

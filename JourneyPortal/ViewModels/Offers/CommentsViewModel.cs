@@ -17,7 +17,7 @@ namespace JourneyPortal.ViewModels.Offers
         public DateTime CreationDate { get; set; }
         [Display(Name = "Autor")]
         public string AuthorName { get; set; }
-        public string AuthorAvatar { get; set; }
+        public byte[] AuthorAvatar { get; set; }
         [Display(Name = "Ocena")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Ocena jest wymagana!")]
         [Range(1,5)]

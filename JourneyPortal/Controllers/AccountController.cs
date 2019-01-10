@@ -12,7 +12,7 @@ using JourneyPortal.Models;
 using JourneyPortal.Services;
 using System.IO;
 using System.Diagnostics;
-
+using JourneyPortal.Helpers;
 
 namespace JourneyPortal.Controllers
 {
@@ -178,33 +178,12 @@ namespace JourneyPortal.Controllers
                     LastName = model.LastName,
                 };
 
-                Image image = new Image();
-                var allowedExtensions = new[] {
-                    ".Jpg", ".png", ".jpg", "jpeg"
-                };
-
                 if (file != null)
                 {
-                    image.ImageUrl = file.ToString();
-                    image.Name = user.UserName + "-avatar";
-                    var fileName = Path.GetFileName(file.FileName);
-                    var ext = Path.GetExtension(file.FileName);
-                    if (allowedExtensions.Contains(ext))
-                    {
-                        string name = Path.GetFileNameWithoutExtension(fileName);
-                        string myfile = name + "_" + image.Name + ext;
-                        var path = Path.Combine(Server.MapPath("~/Content/Images"), myfile);
-                        image.ImageUrl = path;
-                        context.Images.Add(image);
-                        context.SaveChanges();
-                        file.SaveAs(path);
-                        user.Avatar = image.ImageUrl;
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("Załaduj inny avatar", "");
-                        return View(model);
-                    }
+                    var image = ImageHelper.PrepareImage(file);
+                    context.Images.Add(image);
+                    user.Image = image;
+                    context.SaveChanges();
                 }
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

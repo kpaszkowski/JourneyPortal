@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using JourneyPortal.Controllers;
+using JourneyPortal.Helpers;
 using JourneyPortal.Models;
 using JourneyPortal.Models.Trips;
 using JourneyPortal.ViewModels.Shared;
@@ -158,9 +159,9 @@ namespace JourneyPortal.Services
                         Rate = x.Rate,
                         TimeOfSightseeing = x.TimeOfSightseeing,
                         Type = x.Type,
-                        X = x .X,
+                        X = x.X,
                         Y = x.Y,
-                        Image = x.Image
+                        Image = x.Image != null ? x.Image.Binary : null,
                     }).FirstOrDefault();
                 }
             }
@@ -211,25 +212,9 @@ namespace JourneyPortal.Services
                     };
                     if (file != null)
                     {
-                        Image image = new Image();
-                        var allowedExtensions = new[] {
-                    ".Jpg", ".png", ".jpg", "jpeg",".ico"
-                    };
-                        Guid id = Guid.NewGuid();
-                        image.ImageUrl = file.ToString();
-                        image.Name = newHotel.Name + id + "-image";
-                        var fileName = Path.GetFileName(file.FileName);
-                        var ext = Path.GetExtension(file.FileName);
-                        if (allowedExtensions.Contains(ext))
-                        {
-                            string name = Path.GetFileNameWithoutExtension(fileName);
-                            string myfile = name + "_" + image.Name + ext;
-                            var path = Path.Combine(tripController.Server.MapPath("~/Content/HotelsImages"), myfile);
-                            image.ImageUrl = path;
-                            context.Images.Add(image);
-                            file.SaveAs(path);
-                        }
-                        newHotel.Image = image.ImageUrl;
+                        var image = ImageHelper.PrepareImage(file);
+                        context.Images.Add(image);
+                        newHotel.Image = image;
                     }
                     context.Hotels.Add(newHotel);
                     context.SaveChanges();
@@ -338,7 +323,7 @@ namespace JourneyPortal.Services
                         Rate = x.Rate,
                         X = x.X,
                         Y = x.Y,
-                        Image = x.Image,
+                        Image = x.Image != null ? x.Image.Binary : null,
                     }).FirstOrDefault();
                 }
             }
@@ -622,7 +607,7 @@ namespace JourneyPortal.Services
                         Rate = x.Rate,
                         TimeOfSightseeing = x.TimeOfSightseeing,
                         Type = x.Type,
-                        Image = x.Image,
+                        Image = x.Image != null ? x.Image.Binary : null,
                     }).ToList();
                 }
             }
@@ -653,7 +638,7 @@ namespace JourneyPortal.Services
                             X = x.BaseHotel.X,
                             Y = x.BaseHotel.Y,
                             IsActive = x.BaseHotel.IsActive,
-                            Image = x.BaseHotel.Image
+                            Image = x.BaseHotel.Image != null ? x.BaseHotel.Image.Binary : null,
                         },
                         Duration = x.Duration,
                         DurationTrafiic = x.DurationTraffic,
@@ -742,25 +727,9 @@ namespace JourneyPortal.Services
                     };
                     if (file !=null)
                     {
-                        Image image = new Image();
-                        var allowedExtensions = new[] {
-                    ".Jpg", ".png", ".jpg", "jpeg",".ico"
-                    };
-                        Guid id = Guid.NewGuid();
-                        image.ImageUrl = file.ToString();
-                        image.Name = newAtraction.Name + id + "-image";
-                        var fileName = Path.GetFileName(file.FileName);
-                        var ext = Path.GetExtension(file.FileName);
-                        if (allowedExtensions.Contains(ext))
-                        {
-                            string name = Path.GetFileNameWithoutExtension(fileName);
-                            string myfile = name + "_" + image.Name + ext;
-                            var path = Path.Combine(tripController.Server.MapPath("~/Content/AtractionsImages"), myfile);
-                            image.ImageUrl = path;
-                            context.Images.Add(image);
-                            file.SaveAs(path);
-                        }
-                        newAtraction.Image = image.ImageUrl;
+                        var image = ImageHelper.PrepareImage(file);
+                        context.Images.Add(image);
+                        newAtraction.Image = image;
                     }
                     context.Atractions.Add(newAtraction);
                     context.SaveChanges();

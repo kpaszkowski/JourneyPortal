@@ -42,7 +42,7 @@
     <div>
         @if (Model.Avatar != null)
             {
-                <img id="user_img" width="128" height="128" src="@Url.Content("~/Content/Images/" + @Path.GetFileName(Model.Avatar))" class="media-object" style="width:80px">
+                <img id="user_img" width="128" height="128" src="data:image;base64,@System.Convert.ToBase64String(Model.Avatar)" class="media-object" style="width:80px">
             }
             else
             {

@@ -1,5 +1,6 @@
 ﻿using JourneyPortal.Services;
 using JourneyPortal.ViewModels.Chat;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace JourneyPortal.Controllers
         [HttpGet]
         public ActionResult GetMessages()
         {
+
             return new JsonResult
             {
                 Data = new

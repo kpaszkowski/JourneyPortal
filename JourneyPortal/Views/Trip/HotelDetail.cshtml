@@ -12,7 +12,7 @@
                 {
                     if (Model.Image != null)
                     {
-                        <img id="hotelImage" class="cardImg" src="@Url.Content("~/Content/HotelsImages/" + @Path.GetFileName(Model.Image))">
+                        <img id="hotelImage" class="cardImg" src="data:image;base64,@System.Convert.ToBase64String(Model.Image)">
                     }
                     else
                     {

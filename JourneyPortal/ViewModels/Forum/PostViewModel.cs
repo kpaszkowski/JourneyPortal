@@ -19,6 +19,6 @@ namespace JourneyPortal.ViewModels.Forum
         [Display(Name = "Autor")]
         public string AuthorName { get; set; }
         [Display(Name = "Avatar")]
-        public string AuthorAvatar { get; set; }
+        public byte[] AuthorAvatar { get; set; }
     }
 }

@@ -12,7 +12,7 @@
                     <div style="justify-content:flex-start">
                         @if (item.AuthorAvatar != null)
                         {
-                            <img height="100" src="@Url.Content("~/Content/Images/" + @Path.GetFileName(item.AuthorAvatar))" style="width:80px">
+                            <img height="100" src="data:image;base64,@System.Convert.ToBase64String(item.AuthorAvatar)" style="width:80px">
                         }
                         else
                         {

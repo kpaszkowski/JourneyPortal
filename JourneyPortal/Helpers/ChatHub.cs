@@ -29,9 +29,9 @@ namespace JourneyPortal.Helpers
                     context.GlobalMessages.Add(globalMessage);
                     context.SaveChanges();
                     string avatar = string.Empty;
-                    if (currentUser.Avatar != null)
+                    if (currentUser.Image != null)
                     {
-                        avatar ="/Content/Images/" + Path.GetFileName(currentUser.Avatar);
+                        avatar = Convert.ToBase64String(currentUser.Image?.Binary);
                     }
                     Clients.All.addNewMessageToPage(name, message,globalMessage.CreationDate.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds, avatar);
                 }
