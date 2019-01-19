@@ -244,8 +244,11 @@ namespace JourneyPortal.Controllers
                 else
                 {
                     var image = context.Images.FirstOrDefault(x => x.ImageUrl == currentAtraction.Image);
-                    context.Images.Remove(image);
-                    currentAtraction.Image = null;
+                    if (image != null)
+                    {
+                        context.Images.Remove(image);
+                        currentAtraction.Image = null;
+                    }
                 }
                 context.SaveChanges();
             }
@@ -284,8 +287,11 @@ namespace JourneyPortal.Controllers
                 else
                 {
                     var image = context.Images.FirstOrDefault(x => x.ImageUrl == currentHotel.Image);
-                    context.Images.Remove(image);
-                    currentHotel.Image = null;
+                    if (image != null)
+                    {
+                        context.Images.Remove(image);
+                        currentHotel.Image = null;
+                    }
                 }
                 context.SaveChanges();
             }

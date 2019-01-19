@@ -163,14 +163,15 @@ namespace JourneyPortal.Controllers
         [HttpPost]
         public ActionResult EditAvatar(HttpPostedFileBase file)
         {
+            var userManagers = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            ApplicationUser currentUser = userManagers.FindByName(User.Identity.Name);
             if (file != null)
             {
                 Image image = new Image();
                 var allowedExtensions = new[] {
                     ".Jpg", ".png", ".jpg", "jpeg",".ico"
                 };
-                var userManagers = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                ApplicationUser currentUser = userManagers.FindByName(User.Identity.Name);
+                
                 image.ImageUrl = file.ToString();
                 image.Name = currentUser.UserName + "-avatar";
                 var fileName = Path.GetFileName(file.FileName);
@@ -183,11 +184,20 @@ namespace JourneyPortal.Controllers
                     image.ImageUrl = path;
                     context.Images.Add(image);
                     currentUser.Avatar = image.ImageUrl;
-                    context.SaveChanges();
+                    
                     file.SaveAs(path);
                 }
             }
-            
+            else
+            {
+                var image = context.Images.FirstOrDefault(x => x.ImageUrl == currentUser.Avatar);
+                if (image != null)
+                {
+                    context.Images.Remove(image);
+                    currentUser.Avatar = null;
+                }
+            }
+            context.SaveChanges();
             return RedirectToAction("Index", "Manage");
         }
 

@@ -325,8 +325,11 @@ namespace JourneyPortal.Controllers
                 else
                 {
                     var image = context.Images.FirstOrDefault(x => x.ImageUrl == currentOffer.Image);
-                    context.Images.Remove(image);
-                    currentOffer.Image = null;
+                    if (image != null)
+                    {
+                        context.Images.Remove(image);
+                        currentOffer.Image = null;
+                    }
                 }
                 context.SaveChanges();
             }
